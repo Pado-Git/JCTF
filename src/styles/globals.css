@@ -161,9 +161,11 @@
   --shadow-1: 6px 0px 16px 0px rgba(0, 0, 0, 0.2);
   --shadow-2: 4px 4px 12px 0px rgba(0, 0, 0, 0.4);
 
-  /* Gradient System - Primary Color Gradients */
-  --gradient-1: linear-gradient(135deg, #6366F1 0%, #1E1B4B 100%);
-  --gradient-2: linear-gradient(135deg, #3730A3 0%, #1E1B4B 100%);
+  /* Gradient System - Figma Design */
+  --gradient-1: linear-gradient(135deg, #6366F1 2%, #1E1B4B 100%);
+  --gradient-2: linear-gradient(135deg, #3730A3 2%, #1E1B4B 100%);
+  --gradient-3: linear-gradient(135deg, #1E1B4B 2%, #0A0A0C 100%);
+  --gradient-neutral: linear-gradient(90deg, #0A0A0C 0%, #1F1F26 100%);
 }
 
 @layer base {
@@ -172,7 +174,7 @@
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-neutral-900 text-foreground antialiased;
     font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   }
 
@@ -394,12 +396,20 @@ html {
     box-shadow: var(--shadow-2);
   }
 
-  /* Gradient Utility Classes - Primary Color Gradients */
+  /* Gradient Utility Classes - Figma Design System */
   .gradient-1 {
     background: var(--gradient-1);
   }
   
   .gradient-2 {
     background: var(--gradient-2);
+  }
+  
+  .gradient-3 {
+    background: var(--gradient-3);
+  }
+  
+  .gradient-neutral {
+    background: var(--gradient-neutral);
   }
 }
