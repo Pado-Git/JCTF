@@ -156,6 +156,14 @@
   --color-sidebar-accent-foreground: #F5F5F7;
   --color-sidebar-border: rgba(99, 102, 241, 0.2);
   --color-sidebar-ring: #6366F1;
+
+  /* Shadow System - Figma Design */
+  --shadow-1: 6px 0px 16px 0px rgba(0, 0, 0, 0.2);
+  --shadow-2: 4px 4px 12px 0px rgba(0, 0, 0, 0.4);
+
+  /* Gradient System - Primary Color Gradients */
+  --gradient-1: linear-gradient(135deg, #6366F1 0%, #1E1B4B 100%);
+  --gradient-2: linear-gradient(135deg, #3730A3 0%, #1E1B4B 100%);
 }
 
 @layer base {
@@ -375,5 +383,23 @@ html {
     font-weight: var(--text-body-xsmall-weight);
     line-height: var(--text-body-xsmall-height);
     letter-spacing: var(--text-body-xsmall-spacing);
+  }
+
+  /* Shadow Utility Classes - Figma Design System */
+  .shadow-1 {
+    box-shadow: var(--shadow-1);
+  }
+  
+  .shadow-2 {
+    box-shadow: var(--shadow-2);
+  }
+
+  /* Gradient Utility Classes - Primary Color Gradients */
+  .gradient-1 {
+    background: var(--gradient-1);
+  }
+  
+  .gradient-2 {
+    background: var(--gradient-2);
   }
 }
