@@ -1,0 +1,10 @@
+# .prettierignore
+**/.github/**
+**/dist/**
+**/build/**
+**/coverage/**
+**/public/**
+**/.storybook-static/**
+
+pnpm-lock.yaml
+pnpm-workspace.yaml

@@ -1,0 +1,40 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Editor directories and files (custom)
+!.vscode/settings.json
+
+# local env files
+.env*.local
+
+# Panda CSS
+.panda-style
+.panda-style-studio
+
+# storybook
+*storybook.log
+
+# prisma (data-types)
+.prisma-types
