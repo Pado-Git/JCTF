@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Button } from '../components/ui/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/data-display/card';
-import { Badge } from '../components/ui/feedback/badge';
+import { Button } from '@/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
+import { Badge } from '@/components/feedback/badge';
 import { Clock, Users, Trophy, Shield, Zap, Target } from 'lucide-react';
-import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import Galaxy from '@/components/background/Galaxy/Galaxy';
 
 interface Competition {
   id: string;
@@ -186,9 +186,24 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center cyber-grid">
-        <div className="absolute inset-0 matrix-bg opacity-90"></div>
-        <div className="relative z-10 text-center px-6">
+      <section className="relative min-h-screen flex items-center justify-center">
+        <div className="absolute inset-0">
+          <Galaxy 
+            density={0.5}
+            starSpeed={0.3}
+            hueShift={240}
+            glowIntensity={0.2}
+            twinkleIntensity={0.2}
+            rotationSpeed={0.05}
+            mouseInteraction={false}
+            mouseRepulsion={true}
+            repulsionStrength={1.5}
+            transparent={true}
+            saturation={0.2}
+            speed={0.6}
+          />
+        </div>
+        <div className="relative z-20 text-center px-6">
           <div className="mb-8">
             <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
               Capture The Flag!
@@ -216,17 +231,6 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
               <Target className="mr-2 h-5 w-5" />
               View Leaderboard
             </Button>
-          </div>
-          
-          {/* Floating elements */}
-          <div className="hidden md:block absolute top-1/4 left-1/4 animate-pulse">
-            <div className="w-2 h-2 bg-primary rounded-full"></div>
-          </div>
-          <div className="hidden md:block absolute top-1/3 right-1/4 animate-pulse delay-500">
-            <div className="w-2 h-2 bg-accent rounded-full"></div>
-          </div>
-          <div className="hidden md:block absolute bottom-1/4 left-1/3 animate-pulse delay-1000">
-            <div className="w-2 h-2 bg-warning rounded-full"></div>
           </div>
         </div>
       </section>
@@ -367,45 +371,104 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              How It Works
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Three simple steps to start hacking
-            </p>
+      <section className="py-32 px-6 bg-gradient-to-br from-primary-900/20 to-background">
+        <div className="container mx-auto max-w-7xl">
+          {/* Header */}
+          <div className="flex items-center gap-14 mb-12">
+            <div className="flex-1 max-w-[350px]">
+              <h2 className="text-heading-large text-primary-200 mb-4">
+                How It Works
+              </h2>
+              <p className="text-body-medium text-primary-50">
+                Three simple steps to start hacking
+              </p>
+            </div>
           </div>
           
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 neon-border border-primary">
-                <span className="text-3xl font-bold text-primary">1</span>
+          {/* Step 1 */}
+          <div className="flex items-center gap-20 mb-12">
+            <div className="w-[250px] h-[220px] bg-gradient-to-br from-primary-500/20 to-primary-700/30 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-heading-large text-primary-foreground">1</span>
+                </div>
+                <p className="text-body-medium text-primary-foreground">Join</p>
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-4">Join</h3>
-              <p className="text-muted-foreground">
-                Register for competitions and form teams with other hackers
+            </div>
+            
+            <div className="flex-1 space-y-4">
+              <div className="flex items-center gap-6">
+                <span className="text-heading-large text-primary">1</span>
+                <h3 className="text-heading-large text-primary-50">Join</h3>
+              </div>
+              <h4 className="text-body-large text-primary-50 font-bold">
+                Register, connect, and build your team
+              </h4>
+              <p className="text-body-medium text-primary-100">
+                Create your hacker profile and explore upcoming competitions.<br />
+                Meet players from around the world and start your journey together.
+              </p>
+            </div>
+          </div>
+          
+          {/* Divider */}
+          <div className="flex justify-end mb-12">
+            <div className="w-[1114px] h-px border-t border-dashed border-primary-800"></div>
+          </div>
+          
+          {/* Step 2 */}
+          <div className="flex items-center gap-20 mb-12 justify-end">
+            <div className="flex-1 space-y-4 text-right">
+              <div className="flex items-center gap-6 justify-end">
+                <h3 className="text-heading-large text-primary-50">Solve</h3>
+                <span className="text-heading-large text-primary">2</span>
+              </div>
+              <h4 className="text-body-large text-primary-50 font-bold">
+                Tackle challenges, learn, and grow your skills
+              </h4>
+              <p className="text-body-medium text-primary-100">
+                Face real-world problems across web, crypto, pwn, and reverse.<br />
+                Sharpen your creativity and technical expertise with every solve.
               </p>
             </div>
             
-            <div className="text-center">
-              <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-6 neon-border border-accent">
-                <span className="text-3xl font-bold text-accent">2</span>
+            <div className="w-[250px] h-[220px] bg-gradient-to-br from-accent/20 to-accent/30 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-heading-large text-accent-foreground">2</span>
+                </div>
+                <p className="text-body-medium text-accent-foreground">Solve</p>
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-4">Solve</h3>
-              <p className="text-muted-foreground">
-                Tackle challenges in web, crypto, pwn, reverse, and more
-              </p>
+            </div>
+          </div>
+          
+          {/* Divider */}
+          <div className="flex justify-end mb-12">
+            <div className="w-[1114px] h-px border-t border-dashed border-primary-800"></div>
+          </div>
+          
+          {/* Step 3 */}
+          <div className="flex items-center gap-20">
+            <div className="w-[250px] h-[220px] bg-gradient-to-br from-first-blood/20 to-first-blood/30 rounded-lg flex items-center justify-center">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-first-blood rounded-full flex items-center justify-center mx-auto mb-4">
+                  <span className="text-heading-large text-first-blood-foreground">3</span>
+                </div>
+                <p className="text-body-medium text-first-blood-foreground">Win</p>
+              </div>
             </div>
             
-            <div className="text-center">
-              <div className="w-20 h-20 bg-first-blood/20 rounded-full flex items-center justify-center mx-auto mb-6 neon-border border-first-blood">
-                <span className="text-3xl font-bold text-first-blood">3</span>
+            <div className="flex-1 space-y-4">
+              <div className="flex items-center gap-6">
+                <span className="text-heading-large text-primary">3</span>
+                <h3 className="text-heading-large text-primary-50">Win</h3>
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-4">Win</h3>
-              <p className="text-muted-foreground">
-                Climb the leaderboard and claim victory in epic competitions
+              <h4 className="text-body-large text-primary-50 font-bold">
+                Capture flags, climb the leaderboard, and celebrate victory
+              </h4>
+              <p className="text-body-medium text-primary-100">
+                Showcase your talent against global competitors under pressure.<br />
+                Earn recognition, grow with your team, and enjoy the thrill of success.
               </p>
             </div>
           </div>
@@ -416,10 +479,9 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
       <footer className="py-12 px-6 bg-card/50 border-t border-border">
         <div className="container mx-auto text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
-            <Shield className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold text-primary">JCTF</span>
           </div>
-          <p className="text-muted-foreground mb-4">
+          <p className="text-primary mb-4">
             The ultimate platform for cybersecurity competitions
           </p>
           <p className="text-sm text-muted-foreground">

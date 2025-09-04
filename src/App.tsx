@@ -8,7 +8,7 @@ import { ChallengesPage } from '@/pages/ChallengesPage';
 import { LeaderboardPage } from '@/pages/LeaderboardPage';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { TeamsPage } from '@/pages/TeamsPage';
-import { Toaster } from '@/components/ui/feedback/sonner';
+import { Toaster } from '@/components/feedback/sonner';
 
 type Page = 'home' | 'login' | 'register' | 'dashboard' | 'competitions' | 'challenges' | 'leaderboard' | 'profile' | 'teams';
 

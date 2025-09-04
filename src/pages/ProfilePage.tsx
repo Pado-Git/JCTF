@@ -1,18 +1,15 @@
 import { useState } from 'react';
-import { Button } from '../components/ui/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/data-display/card';
-import { Input } from '../components/ui/form/input';
-import { Label } from '../components/ui/form/label';
-import { Textarea } from '../components/ui/form/textarea';
-import { Badge } from '../components/ui/feedback/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/data-display/tabs';
-import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/data-display/avatar';
-import { Progress } from '../components/ui/feedback/progress';
+import { Button } from '@/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
+import { Input } from '@/components/form/input';
+import { Label } from '@/components/form/label';
+import { Textarea } from '@/components/form/textarea';
+import { Badge } from '@/components/feedback/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/data-display/avatar';
+import { Progress } from '@/components/feedback/progress';
 import { 
   Shield, 
-  User, 
-  Mail, 
-  Calendar,
   Trophy,
   Target,
   Zap,
@@ -25,7 +22,6 @@ import {
   Settings,
   Bell,
   Eye,
-  EyeOff,
   Key
 } from 'lucide-react';
 import { toast } from 'sonner';

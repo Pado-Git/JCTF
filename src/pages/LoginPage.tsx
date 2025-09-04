@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Button } from '../components/ui/form/button';
-import { Input } from '../components/ui/form/input';
-import { Label } from '../components/ui/form/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/data-display/card';
-import { Checkbox } from '../components/ui/form/checkbox';
+import { Button } from '@/components/form/button';
+import { Input } from '@/components/form/input';
+import { Label } from '@/components/form/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
+import { Checkbox } from '@/components/form/checkbox';
 import { Shield, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 
 interface MatrixRainProps {

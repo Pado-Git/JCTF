@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Button } from '../components/ui/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/data-display/card';
-import { Badge } from '../components/ui/feedback/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/data-display/tabs';
-import { Switch } from '../components/ui/form/switch';
-import { Label } from '../components/ui/form/label';
+import { Button } from '@/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
+import { Badge } from '@/components/feedback/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
+import { Switch } from '@/components/form/switch';
+import { Label } from '@/components/form/label';
 import { 
   Shield, 
   Trophy, 
@@ -14,12 +14,9 @@ import {
   TrendingDown,
   Minus,
   Users, 
-  Target, 
-  Clock, 
+  Target,
   RefreshCw,
   ArrowLeft,
-  Zap,
-  Activity
 } from 'lucide-react';
 
 interface LeaderboardPageProps {

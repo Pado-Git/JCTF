@@ -1,28 +1,22 @@
 import { useState } from 'react';
-import { Button } from '../components/ui/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/data-display/card';
-import { Input } from '../components/ui/form/input';
-import { Label } from '../components/ui/form/label';
-import { Textarea } from '../components/ui/form/textarea';
-import { Badge } from '../components/ui/feedback/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/data-display/tabs';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/overlay/dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/data-display/avatar';
+import { Button } from '@/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
+import { Input } from '@/components/form/input';
+import { Label } from '@/components/form/label';
+import { Textarea } from '@/components/form/textarea';
+import { Badge } from '@/components/feedback/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/overlay/dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/data-display/avatar';
 import { 
   Shield, 
   Users, 
   Plus,
   Search,
   Crown,
-  Star,
-  Trophy,
-  Target,
-  Zap,
   Mail,
-  Calendar,
   ArrowLeft,
   UserPlus,
-  Settings,
   Edit3,
   Trash2,
   LogOut,
