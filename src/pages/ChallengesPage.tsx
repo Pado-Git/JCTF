@@ -1,16 +1,14 @@
 import { useState, useEffect } from 'react';
-import { Button } from '../components/ui/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/data-display/card';
-import { Badge } from '../components/ui/feedback/badge';
-import { Input } from '../components/ui/form/input';
-import { Label } from '../components/ui/form/label';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/data-display/tabs';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/overlay/dialog';
-import { Progress } from '../components/ui/feedback/progress';
+import { Button } from '@/components/form/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/data-display/card';
+import { Badge } from '@/components/feedback/badge';
+import { Input } from '@/components/form/input';
+import { Label } from '@/components/form/label';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/overlay/dialog';
+import { Progress } from '@/components/feedback/progress';
 import { 
   Shield, 
-  Target, 
-  Clock, 
+  Target,  
   Users, 
   Trophy,
   Download,
@@ -18,9 +16,7 @@ import {
   Lightbulb,
   Send,
   Check,
-  X,
   ArrowLeft,
-  Filter,
   Crown,
   Zap
 } from 'lucide-react';

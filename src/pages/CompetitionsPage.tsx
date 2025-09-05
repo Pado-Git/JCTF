@@ -1,12 +1,11 @@
 import { useState } from 'react';
-import { Button } from '../components/ui/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../components/ui/data-display/card';
-import { Badge } from '../components/ui/feedback/badge';
-import { Progress } from '../components/ui/feedback/progress';
+import { Button } from '@/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
+import { Badge } from '@/components/feedback/badge';
+import { Progress } from '@/components/feedback/progress';
 import { 
   Trophy, 
   Users, 
-  Clock, 
   Calendar,
   ArrowLeft,
   Target,
