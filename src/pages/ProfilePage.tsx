@@ -212,7 +212,7 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
-                variant="ghost"
+                variant="text"
                 onClick={onBack || (() => onNavigate?.('dashboard'))}
                 className="text-muted-foreground hover:text-primary"
               >
@@ -227,7 +227,7 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
             
             <div className="flex items-center space-x-4">
               <Button
-                variant="ghost"
+                variant="text"
                 onClick={() => setShowSettings(!showSettings)}
                 className="text-muted-foreground hover:text-primary"
               >

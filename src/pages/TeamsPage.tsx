@@ -341,7 +341,7 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
-                variant="ghost"
+                variant="text"
                 onClick={onBack || (() => onNavigate?.('dashboard'))}
                 className="text-muted-foreground hover:text-primary"
               >

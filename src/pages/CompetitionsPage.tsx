@@ -152,7 +152,7 @@ export function CompetitionsPage({ user, onNavigate, onBack }: CompetitionsPageP
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Button
-                variant="ghost"
+                variant="text"
                 size="sm"
                 onClick={onBack}
                 className="text-muted-foreground hover:text-foreground"

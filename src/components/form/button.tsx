@@ -17,17 +17,6 @@ const buttonVariants = cva(
         "secondary-gray": "border border-primary-200 bg-transparent text-primary-200 hover:border-neutral-300 hover:text-neutral-300 active:border-neutral-400 active:text-neutral-400 disabled:border-neutral-600 disabled:text-neutral-400",
         // Text - Figma Design System
         text: "bg-transparent text-primary hover:text-primary-600 active:text-primary-700 disabled:text-neutral-400",
-        // Legacy variants for compatibility
-        default: "bg-primary text-primary-50 hover:bg-primary-600 active:bg-primary-700 disabled:bg-neutral-600 disabled:text-neutral-400",
-        destructive:
-          "bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline:
-          "border border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-50",
-        secondary_legacy:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost:
-          "hover:bg-primary hover:text-primary-foreground dark:hover:bg-primary/50",
-        link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
         // Figma Design System Sizes
@@ -35,11 +24,6 @@ const buttonVariants = cva(
         small: "h-10 px-4 text-body-medium gap-2 [&_svg]:size-4", 
         medium: "h-12 px-6 text-body-large gap-2 [&_svg]:size-5",
         large: "h-14 px-6 text-heading-small gap-2 [&_svg]:size-6",
-        // Legacy sizes for compatibility
-        default: "h-10 px-4 text-body-medium gap-2 [&_svg]:size-4",
-        sm: "h-8 px-2 text-body-small gap-1 [&_svg]:size-4",
-        lg: "h-12 px-6 text-body-large gap-2 [&_svg]:size-5",
-        icon: "size-10 rounded-lg",
       },
     },
     defaultVariants: {

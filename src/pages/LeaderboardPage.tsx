@@ -305,7 +305,7 @@ export function LeaderboardPage({ user, onNavigate, onBack }: LeaderboardPagePro
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
-                variant="ghost"
+                variant="text"
                 onClick={onBack || (() => onNavigate?.('home'))}
                 className="text-muted-foreground hover:text-primary"
               >

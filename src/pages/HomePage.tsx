@@ -264,7 +264,7 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
                     Dashboard
                   </Button>
                   <Button 
-                    variant="outline" 
+                    variant="secondary" 
                     onClick={onLogout}
                     className="neon-border border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
                   >
@@ -282,7 +282,7 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
                     Login
                   </Button>
                   <Button 
-                    variant="outline"
+                    variant="secondary"
                     onClick={() => onNavigate?.('register')}
                     className="border border-primary text-primary"
                   >
@@ -427,7 +427,7 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
 
             ))}
           </div>
-          <Button variant="outline" className="w-fit h-12 px-6 text-primary mt-14">
+          <Button variant="secondary" className="w-fit h-12 px-6 text-primary mt-14">
             View All Competitions
             <IcoArrowRightSLined />
           </Button>

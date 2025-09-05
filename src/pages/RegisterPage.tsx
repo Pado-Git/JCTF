@@ -117,7 +117,7 @@ export function RegisterPage({ onRegister, onBack, onSwitchToLogin }: RegisterPa
       {/* Back Button */}
       {onBack && (
         <Button
-          variant="ghost"
+          variant="text"
           className="absolute top-6 left-6 text-muted-foreground hover:text-primary transition-colors z-20"
           onClick={onBack}
         >
@@ -174,7 +174,7 @@ export function RegisterPage({ onRegister, onBack, onSwitchToLogin }: RegisterPa
                 />
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="text"
                   size="sm"
                   className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 text-muted-foreground hover:text-accent"
                   onClick={() => setShowPassword(!showPassword)}
@@ -263,7 +263,7 @@ export function RegisterPage({ onRegister, onBack, onSwitchToLogin }: RegisterPa
                 />
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="text"
                   size="sm"
                   className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 text-muted-foreground hover:text-accent"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
