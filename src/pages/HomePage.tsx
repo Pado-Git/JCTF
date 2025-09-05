@@ -1,13 +1,19 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/form/button';
 import { Card, CardContent, } from '@/components/data-display/card';
-import { Clock, Users, Trophy, Shield, Zap, Target } from 'lucide-react';
+import { Trophy, Shield } from 'lucide-react';
 import Galaxy from '@/components/background/Galaxy/Galaxy';
-import { IcoArrowRightSLined, IcoChallengeFilled, IcoChart, IcoLightFilled, IcoLogin, IcoTeamFilled, IcoTrophyFilled } from '@/assets/icons';
+import { IcoArrowRightSLined, IcoChallengeFilled, IcoLightFilled, IcoLogin, IcoTeamFilled, IcoTrophyFilled } from '@/assets/icons';
 import { ImageJoin, ImageSolve, ImageWin } from '@/assets/images';
 import MaxWidthContainer from '@/components/layout/MaxWidthContainer';
 import Footer from '@/components/layout/Footer';
 import FaultyTerminal from '../components/background/FaultyTerminal/FaultyTerminal';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Pagination } from 'swiper/modules';
+
+import 'swiper/css';
+import 'swiper/css/free-mode';
+import 'swiper/css/pagination';
 
 interface Competition {
   id: string;
@@ -418,6 +424,7 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
                   </Button>
                 </div>
               </Card>
+
             ))}
           </div>
           <Button variant="outline" className="w-fit h-12 px-6 text-primary mt-14">
