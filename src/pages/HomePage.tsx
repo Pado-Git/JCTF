@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Badge } from '@/components/feedback/badge';
+import { Card, CardContent, } from '@/components/data-display/card';
 import { Clock, Users, Trophy, Shield, Zap, Target } from 'lucide-react';
 import Galaxy from '@/components/background/Galaxy/Galaxy';
+import { IcoArrowRightSLined, IcoChallengeFilled, IcoChart, IcoLightFilled, IcoLogin, IcoTeamFilled, IcoTrophyFilled } from '@/assets/icons';
+import { ImageJoin, ImageSolve, ImageWin } from '@/assets/images';
+import MaxWidthContainer from '@/components/layout/MaxWidthContainer';
+import Footer from '@/components/layout/Footer';
+import FaultyTerminal from '../components/background/FaultyTerminal/FaultyTerminal';
 
 interface Competition {
   id: string;
@@ -23,6 +27,96 @@ interface Stats {
   totalChallenges: number;
   activeCompetitions: number;
 }
+
+interface StatCard {
+  id: string;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+  value: number;
+  label: string;
+}
+
+interface Step {
+  id: string;
+  number: number;
+  title: string;
+  subtitle: string;
+  description: string;
+  gradientFrom: string;
+  gradientTo: string;
+  circleBg: string;
+  circleText: string;
+  cardText: string;
+  image: React.ComponentType<React.SVGProps<SVGSVGElement>>;
+}
+
+const steps: Step[] = [
+  {
+    id: 'step-1',
+    number: 1,
+    title: 'Join',
+    subtitle: 'Register, connect, and build your team',
+    description: 'Create your hacker profile and explore upcoming competitions.\nMeet players from around the world and start your journey together.',
+    gradientFrom: 'from-primary-500/20',
+    gradientTo: 'to-primary-700/30',
+    circleBg: 'bg-primary',
+    circleText: 'text-primary-foreground',
+    cardText: 'text-primary-foreground',
+    image: ImageJoin
+  },
+  {
+    id: 'step-2',
+    number: 2,
+    title: 'Solve',
+    subtitle: 'Tackle challenges, learn, and grow your skills',
+    description: 'Face real-world problems across web, crypto, pwn, and reverse.\nSharpen your creativity and technical expertise with every solve.',
+    gradientFrom: 'from-accent/20',
+    gradientTo: 'to-accent/30',
+    circleBg: 'bg-accent',
+    circleText: 'text-accent-foreground',
+    cardText: 'text-accent-foreground',
+    image: ImageSolve
+  },
+  {
+    id: 'step-3',
+    number: 3,
+    title: 'Win',
+    subtitle: 'Capture flags, climb the leaderboard, and celebrate victory',
+    description: 'Showcase your talent against global competitors under pressure.\nEarn recognition, grow with your team, and enjoy the thrill of success.',
+    gradientFrom: 'from-first-blood/20',
+    gradientTo: 'to-first-blood/30',
+    circleBg: 'bg-first-blood',
+    circleText: 'text-first-blood-foreground',
+    cardText: 'text-first-blood-foreground',
+    image: ImageWin
+  }
+];
+
+const statCards: StatCard[] = [
+  {
+    id: 'stat-1',
+    icon: IcoTrophyFilled,
+    value: 0, // Will be updated with mockStats.totalCompetitions
+    label: 'Total Competitions',
+  },
+  {
+    id: 'stat-2',
+    icon: IcoTeamFilled,
+    value: 0, // Will be updated with mockStats.totalParticipants
+    label: 'Participants',
+  },
+  {
+    id: 'stat-3',
+    icon: IcoChallengeFilled,
+    value: 0, // Will be updated with mockStats.totalChallenges
+    label: 'Challenges Solved',
+  },
+  {
+    id: 'stat-4',
+    icon: IcoLightFilled,
+    value: 0, // Will be updated with mockStats.activeCompetitions
+    label: 'Active Now',
+  }
+];
 
 const mockCompetitions: Competition[] = [
   {
@@ -115,6 +209,25 @@ function TimeRemaining({ endTime }: { endTime: string }) {
   return <span>{timeLeft}</span>;
 }
 
+function getContestStatusMessage(comp: Competition) {
+  const now = new Date().getTime();
+  const start = new Date(comp.startTime).getTime();
+  const end = new Date(comp.endTime).getTime();
+  
+  if (now < start) {
+    // 시작 전
+    const hoursUntilStart = Math.ceil((start - now) / (1000 * 60 * 60));
+    return `Starts in ${hoursUntilStart} hours`;
+  } else if (now >= start && now < end) {
+    // 진행 중
+    const hoursUntilEnd = Math.ceil((end - now) / (1000 * 60 * 60));
+    return `Ends in ${hoursUntilEnd} hours`;
+  } else {
+    // 종료됨
+    return 'The contest has ended';
+  }
+}
+
 interface HomePageProps {
   onNavigate?: (page: string) => void;
   user?: { email: string; nickname?: string } | null;
@@ -131,17 +244,6 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
             <div className="flex items-center space-x-2">
               <Shield className="h-8 w-8 text-primary" />
               <span className="text-2xl font-bold text-primary">JCTF</span>
-            </div>
-            <div className="hidden md:flex items-center space-x-6">
-              <a href="#competitions" className="text-muted-foreground hover:text-primary transition-colors">
-                Competitions
-              </a>
-              <a href="#leaderboard" className="text-muted-foreground hover:text-primary transition-colors">
-                Leaderboard
-              </a>
-              <a href="#about" className="text-muted-foreground hover:text-primary transition-colors">
-                About
-              </a>
             </div>
             <div className="flex items-center space-x-4">
               {user ? (
@@ -166,15 +268,17 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
               ) : (
                 <>
                   <Button 
-                    variant="outline" 
+                    variant="link" 
                     onClick={() => onNavigate?.('login')}
-                    className="neon-border border-primary text-primary hover:bg-primary hover:text-primary-foreground"
+                    className="text-primary hover:text-primary/80"
                   >
+                    <IcoLogin />
                     Login
                   </Button>
                   <Button 
+                    variant="outline"
                     onClick={() => onNavigate?.('register')}
-                    className="border border-primary"
+                    className="border border-primary text-primary"
                   >
                     Register
                   </Button>
@@ -186,195 +290,205 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center">
+      <section className="relative min-h-screen flex items-center justify-center bg-neutral-900">
         <div className="absolute inset-0">
           <Galaxy 
-            density={0.5}
-            starSpeed={0.3}
-            hueShift={240}
-            glowIntensity={0.2}
-            twinkleIntensity={0.2}
-            rotationSpeed={0.05}
             mouseInteraction={false}
             mouseRepulsion={true}
-            repulsionStrength={1.5}
-            transparent={true}
+            density={0.5}
+            glowIntensity={0.1}
             saturation={0.2}
+            hueShift={250}
+            twinkleIntensity={0.2}
+            rotationSpeed={0.05}
+            repulsionStrength={1.5}
+            autoCenterRepulsion={0}
+            starSpeed={0.3}
             speed={0.6}
+            transparent={false}
           />
         </div>
-        <div className="relative z-20 text-center px-6">
+        <MaxWidthContainer className="relative z-20 text-center">
           <div className="mb-8">
-            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">
+            <h2 className="text-[80px] font-bold mb-4" style={{
+              background: 'linear-gradient(180deg, #6366F1 2%, #1E1B4B 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              textShadow: '0px 0px 24px rgba(30, 27, 75, 1)',
+              lineHeight: '1.3em'
+            }}>
               Capture The Flag!
             </h2>
-            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-[24px] font-bold text-primary-50 mb-8 max-w-2xl mx-auto" style={{
+              lineHeight: '1.5em'
+            }}>
               Test Your Hacking Skills<br />in the Ultimate Cybersecurity Challenge
             </p>
           </div>
           
-          <div className="flex flex-col md:flex-row gap-4 justify-center items-center mb-12">
+          <div className="flex flex-col md:flex-row gap-6 justify-center items-center mb-12">
             <Button 
               size="lg" 
               onClick={() => onNavigate?.(user ? 'competitions' : 'login')}
-              className="bg-primary hover:bg-primary/80 text-primary-foreground px-8 py-4 text-lg"
+              className="bg-primary hover:bg-primary/80 text-primary-foreground px-6 py-3 text-[17px] font-bold h-12"
+              style={{
+                boxShadow: '0px 0px 16px rgba(99, 102, 241, 1)',
+                lineHeight: '1.3em'
+              }}
             >
-              <Trophy className="mr-2 h-5 w-5" />
+              <Trophy className="mr-2 h-6 w-6" fill="currentColor" />
               {user ? 'My Competitions' : 'Join Competition'}
             </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              onClick={() => onNavigate?.('leaderboard')}
-              className="neon-border color-primary hover:text-primary-foreground px-8 py-4 text-lg"
-            >
-              <Target className="mr-2 h-5 w-5" />
-              View Leaderboard
-            </Button>
           </div>
-        </div>
+        </MaxWidthContainer>
       </section>
 
       {/* Current Competitions */}
-      <section className="py-20 px-6">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
+      <section className="py-20">
+        <MaxWidthContainer>
+          <div className="mb-12">
+            <h2 className="text-heading-large text-primary-200 mb-4">
               Current Competitions
             </h2>
-            <p className="text-xl text-muted-foreground">
+            <p className="text-body-medium text-primary-50">
               Join ongoing competitions and test your skills
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="flex gap-8">
             {mockCompetitions.slice(0, 3).map((comp) => (
-              <Card key={comp.id} className="bg-card/50 backdrop-blur-sm neon-border border-primary/30 hover:border-accent transition-all duration-300 group">
-                <CardHeader>
-                  <div className="flex justify-between items-start mb-2">
-                    <CardTitle className="text-xl font-bold text-foreground group-hover:text-accent transition-colors">
+              <Card key={comp.id} className="w-[430px] h-[480px] bg-primary-900/70 border border-primary-800 rounded-3xl p-8 flex flex-col justify-between group hover:border-primary-500 transition-all duration-300">
+                {/* Header Section */}
+                <div className="flex flex-col gap-8">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="text-heading-medium text-primary-100">
                       {comp.name}
-                    </CardTitle>
-                    <Badge 
-                      variant={comp.status === 'running' ? 'default' : 'secondary'}
-                      className={
-                        comp.status === 'running' 
-                          ? 'bg-accent text-accent-foreground' 
-                          : 'bg-warning text-warning-foreground'
-                      }
-                    >
-                      {comp.status === 'running' ? 'LIVE' : 'UPCOMING'}
-                    </Badge>
+                    </h3>
+                    <div className={`px-2 py-1 rounded-xs text-body-xsmall font-bold w-fit ${
+                      comp.status === 'running' 
+                        ? 'bg-accent text-accent-foreground' 
+                        : 'bg-warning text-warning-foreground'
+                    }`}>
+                      {comp.status === 'running' ? 'Live' : 'Upcoming'}
+                    </div>
+                    <p className="text-body-medium text-primary-50 mt-4 h-12 flex items-start">
+                      {comp.description}
+                    </p>
                   </div>
-                  <CardDescription className="text-muted-foreground">
-                    {comp.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center text-muted-foreground">
-                        <Clock className="mr-2 h-4 w-4" />
-                        {comp.status === 'running' ? 'Ends in' : 'Starts in'}
+                  
+                  {/* Stats Section */}
+                  <div className="flex gap-6">
+                    <div className="flex items-center gap-4 flex-1">
+                      <IcoTeamFilled />
+                      <div className="flex flex-col">
+                        <span className="text-body-large font-bold text-primary-50">
+                          {comp.participants}
+                        </span>
+                        <span className="text-body-xsmall text-primary-100">
+                          Participants
+                        </span>
                       </div>
-                      <span className="text-accent font-semibold">
-                        <TimeRemaining endTime={comp.status === 'running' ? comp.endTime : comp.startTime} />
-                      </span>
                     </div>
                     
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center text-muted-foreground">
-                        <Users className="mr-2 h-4 w-4" />
-                        Participants
+                    <div className="flex items-center gap-4 flex-1">
+                      <IcoChallengeFilled />
+                      <div className="flex flex-col">
+                        <span className="text-body-large font-bold text-primary-50">
+                          {comp.challenges}
+                        </span>
+                        <span className="text-body-xsmall text-primary-100">
+                          Challenges
+                        </span>
                       </div>
-                      <span className="text-primary font-semibold">{comp.participants}</span>
-                    </div>
-                    
-                    <div className="flex items-center justify-between text-sm">
-                      <div className="flex items-center text-muted-foreground">
-                        <Target className="mr-2 h-4 w-4" />
-                        Challenges
-                      </div>
-                      <span className="text-primary font-semibold">{comp.challenges}</span>
-                    </div>
-                    
-                    <div className="pt-4">
-                      <Button 
-                        onClick={() => onNavigate?.(user ? 'competitions' : 'login')}
-                        className="w-full bg-primary hover:bg-primary/80 text-primary-foreground"
-                      >
-                        {comp.status === 'running' ? 'Join Now' : 'Register'}
-                      </Button>
                     </div>
                   </div>
-                </CardContent>
+                </div>
+                
+                {/* Footer Section */}
+                <div className="flex flex-col gap-4">
+                  <p className="text-body-small text-primary-200">
+                    {getContestStatusMessage(comp)}
+                  </p>
+                  <Button 
+                    onClick={() => onNavigate?.(user ? 'competitions' : 'login')}
+                    className="w-full bg-primary hover:bg-primary/80 text-primary-foreground h-10 text-[15px]"
+                  >
+                    {comp.status === 'running' ? 'Join now' : 'Register'}
+                  </Button>
+                </div>
               </Card>
             ))}
           </div>
-        </div>
+          <Button variant="outline" className="w-fit h-12 px-6 text-primary mt-14">
+            View All Competitions
+            <IcoArrowRightSLined />
+          </Button>
+        </MaxWidthContainer>
       </section>
 
       {/* Statistics */}
-      <section className="py-20 px-6 bg-card/20">
-        <div className="container mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-foreground mb-4">
-              Platform Statistics
-            </h2>
-            <p className="text-xl text-muted-foreground">
-              Join thousands of security enthusiasts
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card className="bg-card/50 backdrop-blur-sm neon-border border-primary/30 text-center">
-              <CardContent className="p-8">
-                <Trophy className="h-12 w-12 text-primary mx-auto mb-4" />
-                <div className="text-4xl font-bold text-primary mb-2">
-                  <CountUp end={mockStats.totalCompetitions} />
-                </div>
-                <p className="text-muted-foreground">Total Competitions</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-card/50 backdrop-blur-sm neon-border border-accent/30 text-center">
-              <CardContent className="p-8">
-                <Users className="h-12 w-12 mx-auto mb-4" />
-                <div className="text-4xl font-bold text-primary mb-2">
-                  <CountUp end={mockStats.totalParticipants} />
-                </div>
-                <p className="text-muted-foreground">Participants</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-card/50 backdrop-blur-sm neon-border border-warning/30 text-center">
-              <CardContent className="p-8">
-                <Target className="h-12 w-12 text-primary mx-auto mb-4" />
-                <div className="text-4xl font-bold text-primary mb-2">
-                  <CountUp end={mockStats.totalChallenges} />
-                </div>
-                <p className="text-muted-foreground">Challenges Solved</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-card/50 backdrop-blur-sm neon-border border-destructive/30 text-center">
-              <CardContent className="p-8">
-                <Zap className="h-12 w-12 text-primary mx-auto mb-4" />
-                <div className="text-4xl font-bold text-primary mb-2">
-                  <CountUp end={mockStats.activeCompetitions} />
-                </div>
-                <p className="text-muted-foreground">Active Now</p>
-              </CardContent>
-            </Card>
-          </div>
+      <section className="py-20 bg-card/20 relative">
+        <div className="absolute inset-0">
+          <FaultyTerminal
+            scale={2.4}
+            digitSize={2.7}
+            gridMul={[7, 2]}
+            timeScale={1}
+            scanlineIntensity={0.3}
+            noiseAmp={0.9}
+            chromaticAberration={0}
+            dither={0}
+            curvature={0}
+            tint="#ffffff"
+            mouseReact={false}
+            mouseStrength={0.3}
+            pageLoadAnimation={false}
+            brightness={0.1}
+          />
         </div>
+        <MaxWidthContainer className="relative z-10">
+          <div className="flex items-center justify-between gap-14">
+            <div className="mb-12 w-[350px]">
+              <h2 className="text-heading-large text-primary-200 mb-4">
+                Platform Statistics
+              </h2>
+              <p className="text-body-medium text-primary-50">
+                Join thousands of security enthusiasts
+              </p>
+            </div>
+          
+            <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8 w-full">
+              {statCards.map((stat, index) => {
+                const values = [
+                  mockStats.totalCompetitions,
+                  mockStats.totalParticipants,
+                  mockStats.totalChallenges,
+                  mockStats.activeCompetitions
+                ];
+                
+                return (
+                  <Card key={stat.id} className="bg-neutral-0/50 border border-primary-900 text-center py-11">
+                    <CardContent className="p-8">
+                      <stat.icon className="h-12 w-12 text-primary mx-auto mb-4" fill="primary-500" />
+                      <div className="text-heading-large text-primary mb-2">
+                        <CountUp end={values[index]} />
+                      </div>
+                      <p className="text-primary-200 text-heading-small">{stat.label}</p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          </div>
+        </MaxWidthContainer>
       </section>
 
       {/* How It Works */}
-      <section className="py-32 px-6 bg-gradient-to-br from-primary-900/20 to-background">
-        <div className="container mx-auto max-w-7xl">
+      <section className="py-32 gradient-3">
+        <MaxWidthContainer>
           {/* Header */}
-          <div className="flex items-center gap-14 mb-12">
+          <div className="flex items-start gap-14 mb-12">
             <div className="flex-1 max-w-[350px]">
               <h2 className="text-heading-large text-primary-200 mb-4">
                 How It Works
@@ -383,112 +497,49 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
                 Three simple steps to start hacking
               </p>
             </div>
-          </div>
-          
-          {/* Step 1 */}
-          <div className="flex items-center gap-20 mb-12">
-            <div className="w-[250px] h-[220px] bg-gradient-to-br from-primary-500/20 to-primary-700/30 rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-heading-large text-primary-foreground">1</span>
+            <div className="flex-1">
+              {steps.map((step) => (
+                <div key={step.id}>
+                  <div className="flex items-center gap-20 mb-12">
+                    {/* Step Card */}
+                    <div className="text-center">
+                      <div className="w-[250px] h-[220px] mx-auto mb-4 flex items-center justify-center">
+                        <step.image className="w-full h-full" />
+                      </div>
+                    </div>
+                    
+                    {/* Step Content */}
+                    <div className="flex-1 space-y-4">
+                      <div className="flex items-center gap-6">
+                        <span className="text-heading-large text-primary">{step.number}</span>
+                        <h3 className="text-heading-large text-primary-50">{step.title}</h3>
+                      </div>
+                      <h4 className="text-body-large text-primary-50 font-bold">
+                        {step.subtitle}
+                      </h4>
+                      <p className="text-body-medium text-primary-100">
+                        {step.description.split('\n').map((line, i) => (
+                          <span key={i}>
+                            {line}
+                            {i < step.description.split('\n').length - 1 && <br />}
+                          </span>
+                        ))}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-                <p className="text-body-medium text-primary-foreground">Join</p>
-              </div>
-            </div>
-            
-            <div className="flex-1 space-y-4">
-              <div className="flex items-center gap-6">
-                <span className="text-heading-large text-primary">1</span>
-                <h3 className="text-heading-large text-primary-50">Join</h3>
-              </div>
-              <h4 className="text-body-large text-primary-50 font-bold">
-                Register, connect, and build your team
-              </h4>
-              <p className="text-body-medium text-primary-100">
-                Create your hacker profile and explore upcoming competitions.<br />
-                Meet players from around the world and start your journey together.
-              </p>
+              ))}
             </div>
           </div>
           
-          {/* Divider */}
-          <div className="flex justify-end mb-12">
-            <div className="w-[1114px] h-px border-t border-dashed border-primary-800"></div>
-          </div>
-          
-          {/* Step 2 */}
-          <div className="flex items-center gap-20 mb-12 justify-end">
-            <div className="flex-1 space-y-4 text-right">
-              <div className="flex items-center gap-6 justify-end">
-                <h3 className="text-heading-large text-primary-50">Solve</h3>
-                <span className="text-heading-large text-primary">2</span>
-              </div>
-              <h4 className="text-body-large text-primary-50 font-bold">
-                Tackle challenges, learn, and grow your skills
-              </h4>
-              <p className="text-body-medium text-primary-100">
-                Face real-world problems across web, crypto, pwn, and reverse.<br />
-                Sharpen your creativity and technical expertise with every solve.
-              </p>
-            </div>
-            
-            <div className="w-[250px] h-[220px] bg-gradient-to-br from-accent/20 to-accent/30 rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-heading-large text-accent-foreground">2</span>
-                </div>
-                <p className="text-body-medium text-accent-foreground">Solve</p>
-              </div>
-            </div>
-          </div>
-          
-          {/* Divider */}
-          <div className="flex justify-end mb-12">
-            <div className="w-[1114px] h-px border-t border-dashed border-primary-800"></div>
-          </div>
-          
-          {/* Step 3 */}
-          <div className="flex items-center gap-20">
-            <div className="w-[250px] h-[220px] bg-gradient-to-br from-first-blood/20 to-first-blood/30 rounded-lg flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-first-blood rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-heading-large text-first-blood-foreground">3</span>
-                </div>
-                <p className="text-body-medium text-first-blood-foreground">Win</p>
-              </div>
-            </div>
-            
-            <div className="flex-1 space-y-4">
-              <div className="flex items-center gap-6">
-                <span className="text-heading-large text-primary">3</span>
-                <h3 className="text-heading-large text-primary-50">Win</h3>
-              </div>
-              <h4 className="text-body-large text-primary-50 font-bold">
-                Capture flags, climb the leaderboard, and celebrate victory
-              </h4>
-              <p className="text-body-medium text-primary-100">
-                Showcase your talent against global competitors under pressure.<br />
-                Earn recognition, grow with your team, and enjoy the thrill of success.
-              </p>
-            </div>
-          </div>
-        </div>
+          {/* Steps */}
+
+
+        </MaxWidthContainer>
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-6 bg-card/50 border-t border-border">
-        <div className="container mx-auto text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <span className="text-xl font-bold text-primary">JCTF</span>
-          </div>
-          <p className="text-primary mb-4">
-            The ultimate platform for cybersecurity competitions
-          </p>
-          <p className="text-sm text-muted-foreground">
-            © 2024 SURF-LAB JCTF. All rights reserved.
-          </p>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }
