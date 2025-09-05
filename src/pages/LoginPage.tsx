@@ -86,16 +86,11 @@ export function LoginPage({ onLogin, onBack, onSwitchToRegister }: LoginPageProp
       
       {/* Cyberpunk Grid */}
       <div className="absolute inset-0 cyber-grid opacity-30"></div>
-      
-      {/* Floating Particles */}
-      <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-      <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-accent rounded-full animate-pulse delay-500"></div>
-      <div className="absolute bottom-1/4 left-1/2 w-2 h-2 bg-warning rounded-full animate-pulse delay-1000"></div>
-      
+
       {/* Back Button */}
       {onBack && (
         <Button
-          variant="ghost"
+          variant="link"
           className="absolute top-6 left-6 text-muted-foreground hover:text-primary transition-colors"
           onClick={onBack}
         >
@@ -112,7 +107,7 @@ export function LoginPage({ onLogin, onBack, onSwitchToRegister }: LoginPageProp
             <span className="text-2xl font-bold text-primary">JCTF</span>
           </div>
           <CardTitle className="text-2xl font-bold text-foreground">
-            Access <span className="text-accent">Terminal</span>
+            Access <span className="text-primary-300">Terminal</span>
           </CardTitle>
           <CardDescription className="text-muted-foreground">
             Enter your credentials to join the competition
@@ -197,7 +192,7 @@ export function LoginPage({ onLogin, onBack, onSwitchToRegister }: LoginPageProp
               <Button
                 type="button"
                 variant="link"
-                className="text-accent hover:text-accent/80"
+                className="text-primary-600 hover:text-primary-300/80"
               >
                 Forgot Password?
               </Button>
@@ -210,7 +205,7 @@ export function LoginPage({ onLogin, onBack, onSwitchToRegister }: LoginPageProp
               <Button
                 type="button"
                 variant="link"
-                className="text-accent hover:text-accent/80 p-0 h-auto"
+                className="text-primary-600 hover:text-primary-300/80 p-0 h-auto"
                 onClick={onSwitchToRegister}
               >
                 Register
