@@ -98,7 +98,7 @@
   --color-primary-foreground: #F5F5F7;
   
   /* Neutral Color Palette - Figma Design */
-  --color-neutral-0: #0A0A0C;
+  --color-neutral-0: ##F5F5F7;
   --color-neutral-50: #D9D9DE;
   --color-neutral-100: #B3B3BA;
   --color-neutral-200: #8C8C96;
@@ -383,6 +383,35 @@ html {
   .text-body-xsmall {
     font-size: var(--text-body-xsmall);
     font-weight: var(--text-body-xsmall-weight);
+    line-height: var(--text-body-xsmall-height);
+    letter-spacing: var(--text-body-xsmall-spacing);
+  }
+
+  /* Body Text Bold */
+  .text-body-large-bold {
+    font-size: var(--text-body-large);
+    font-weight: 700;
+    line-height: var(--text-body-large-height);
+    letter-spacing: var(--text-body-large-spacing);
+  }
+  
+  .text-body-medium-bold {
+    font-size: var(--text-body-medium);
+    font-weight: 700;
+    line-height: var(--text-body-medium-height);
+    letter-spacing: var(--text-body-medium-spacing);
+  }
+  
+  .text-body-small-bold {
+    font-size: var(--text-body-small);
+    font-weight: 700;
+    line-height: var(--text-body-small-height);
+    letter-spacing: var(--text-body-small-spacing);
+  }
+  
+  .text-body-xsmall-bold {
+    font-size: var(--text-body-xsmall);
+    font-weight: 700;
     line-height: var(--text-body-xsmall-height);
     letter-spacing: var(--text-body-xsmall-spacing);
   }
