@@ -1,5 +1,5 @@
 import React, { ComponentPropsWithRef, ElementType, Fragment, PropsWithChildren } from 'react';
-import { cn } from '@/components/utils';
+import { cn } from '@/utils';
 
 export type MaxWidthContainerProps<
   TOuter extends ElementType = 'div',

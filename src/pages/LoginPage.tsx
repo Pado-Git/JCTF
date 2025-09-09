@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/form/button';
+import { useAuthStore } from '@/stores/authStore';
 import { Input } from '@/components/form/input';
 import { Label } from '@/components/form/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
@@ -52,31 +54,25 @@ function MatrixRain({ className = '' }: MatrixRainProps) {
   );
 }
 
-interface LoginPageProps {
-  onLogin?: (email: string, password: string) => void;
-  onBack?: () => void;
-  onSwitchToRegister?: () => void;
-}
-
-export function LoginPage({ onLogin, onBack, onSwitchToRegister }: LoginPageProps) {
+export function LoginPage() {
+  const navigate = useNavigate();
+  const { login, isLoading } = useAuthStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
+    setError('');
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    if (onLogin) {
-      onLogin(email, password);
+    try {
+      await login(email, password);
+      navigate('/dashboard');
+    } catch (err) {
+      setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
     }
-    
-    setIsLoading(false);
   };
 
   return (
@@ -88,42 +84,46 @@ export function LoginPage({ onLogin, onBack, onSwitchToRegister }: LoginPageProp
       <div className="absolute inset-0 cyber-grid opacity-30"></div>
 
       {/* Back Button */}
-      {onBack && (
-        <Button
-          variant="link"
-          className="absolute top-6 left-6 text-muted-foreground hover:text-primary transition-colors"
-          onClick={onBack}
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Home
-        </Button>
-      )}
-      
-      {/* Login Card */}
-      <Card className="w-full max-w-md mx-4 bg-card/80 backdrop-blur-md neon-border border-primary/50 relative z-10">
-        <CardHeader className="text-center">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <Shield className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold text-primary">JCTF</span>
+      <Button
+        variant="text"
+        className="absolute top-6 left-6 text-muted-foreground hover:text-primary transition-colors"
+        onClick={() => navigate('/')}
+      >
+        <ArrowLeft className="h-4 w-4 mr-2" />
+        Back to Home
+      </Button>
+
+      {/* Login Form */}
+      <Card className="w-full max-w-md mx-4 relative z-10 bg-card/80 backdrop-blur-sm border-primary/30">
+        <CardHeader className="text-center pb-8">
+          <div className="flex justify-center mb-4">
+            <div className="p-3 rounded-full bg-primary/10">
+              <Shield className="h-8 w-8 text-primary" />
+            </div>
           </div>
-          <CardTitle className="text-2xl font-bold text-foreground">
-            Access <span className="text-primary-300">Terminal</span>
+          <CardTitle className="text-2xl font-bold text-primary-50">
+            Welcome Back
           </CardTitle>
-          <CardDescription className="text-muted-foreground">
-            Enter your credentials to join the competition
+          <CardDescription className="text-primary-200">
+            Sign in to your JCTF account
           </CardDescription>
         </CardHeader>
         
         <CardContent>
+          {error && (
+            <div className="mb-4 p-3 bg-destructive/10 border border-destructive/20 rounded-lg text-destructive text-sm">
+              {error}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-foreground">
-                Email
+              <Label htmlFor="email" className="text-primary-100">
+                Email Address
               </Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="hacker@example.com"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -132,7 +132,7 @@ export function LoginPage({ onLogin, onBack, onSwitchToRegister }: LoginPageProp
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="password" className="text-foreground">
+              <Label htmlFor="password" className="text-primary-100">
                 Password
               </Label>
               <div className="relative">
@@ -148,7 +148,7 @@ export function LoginPage({ onLogin, onBack, onSwitchToRegister }: LoginPageProp
                 <Button
                   type="button"
                   variant="text"
-                  size="sm"
+                  size="small"
                   className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 p-0 text-muted-foreground hover:text-primary"
                   onClick={() => setShowPassword(!showPassword)}
                 >
@@ -161,72 +161,50 @@ export function LoginPage({ onLogin, onBack, onSwitchToRegister }: LoginPageProp
               </div>
             </div>
             
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="remember"
-                checked={rememberMe}
-                onCheckedChange={(checked) => setRememberMe(checked as boolean)}
-                className="border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary"
-              />
-              <Label htmlFor="remember" className="text-sm text-muted-foreground">
-                Remember me
-              </Label>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="remember"
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                />
+                <Label htmlFor="remember" className="text-sm text-primary-200">
+                  Remember me
+                </Label>
+              </div>
+              <Button
+                type="button"
+                variant="text"
+                className="text-sm text-primary hover:text-primary-600"
+              >
+                Forgot password?
+              </Button>
             </div>
             
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/80 text-primary-foreground"
+              className="w-full bg-primary hover:bg-primary-600 text-primary-50"
               disabled={isLoading}
             >
-              {isLoading ? (
-                <div className="flex items-center">
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground mr-2"></div>
-                  Authenticating...
-                </div>
-              ) : (
-                'Login'
-              )}
+              {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
-            
-            <div className="text-center">
-              <Button
-                type="button"
-                variant="link"
-                className="text-primary-600 hover:text-primary-300/80"
-              >
-                Forgot Password?
-              </Button>
-            </div>
           </form>
           
-          <div className="mt-6 pt-6 border-t border-border">
-            <div className="text-center text-sm text-muted-foreground">
+          <div className="mt-6 text-center">
+            <p className="text-sm text-primary-200">
               Don't have an account?{' '}
               <Button
                 type="button"
-                variant="link"
-                className="text-primary-600 hover:text-primary-300/80 p-0 h-auto"
-                onClick={onSwitchToRegister}
+                variant="text"
+                className="text-primary hover:text-primary-600 p-0 h-auto"
+                onClick={() => navigate('/register')}
               >
-                Register
+                Sign up here
               </Button>
-            </div>
+            </p>
           </div>
         </CardContent>
       </Card>
-      
-      {/* Terminal-style Footer */}
-      <div className="absolute bottom-4 left-4 text-xs font-mono text-primary/60">
-        <div>&gt; Secure connection established</div>
-        <div>&gt; Encryption: AES-256</div>
-        <div>&gt; Status: <span className="text-accent animate-pulse">READY</span></div>
-      </div>
-      
-      <div className="absolute bottom-4 right-4 text-xs font-mono text-primary/60">
-        <div>System: JCTF v2.0.1</div>
-        <div>Uptime: 99.8%</div>
-        <div>Users: <span className="text-accent">15,670</span> online</div>
-      </div>
     </div>
   );
 }

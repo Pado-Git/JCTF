@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/form/button';
+import { useAuthStore } from '@/stores/authStore';
 import { Card, CardContent, } from '@/components/data-display/card';
 import { Trophy, Shield } from 'lucide-react';
 import Galaxy from '@/components/background/Galaxy/Galaxy';
@@ -7,13 +9,7 @@ import { IcoArrowRightSLined, IcoChallengeFilled, IcoLightFilled, IcoLogin, IcoT
 import { ImageJoin, ImageSolve, ImageWin } from '@/assets/images';
 import MaxWidthContainer from '@/components/layout/MaxWidthContainer';
 import Footer from '@/components/layout/Footer';
-import FaultyTerminal from '../components/background/FaultyTerminal/FaultyTerminal';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Pagination } from 'swiper/modules';
-
-import 'swiper/css';
-import 'swiper/css/free-mode';
-import 'swiper/css/pagination';
+import FaultyTerminal from '@/components/background/FaultyTerminal/FaultyTerminal';
 
 interface Competition {
   id: string;
@@ -187,33 +183,6 @@ function CountUp({ end, duration = 2000 }: { end: number; duration?: number }) {
   return <span>{count.toLocaleString()}</span>;
 }
 
-function TimeRemaining({ endTime }: { endTime: string }) {
-  const [timeLeft, setTimeLeft] = useState('');
-  
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date().getTime();
-      const end = new Date(endTime).getTime();
-      const difference = end - now;
-      
-      if (difference > 0) {
-        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        
-        setTimeLeft(`${days}d ${hours}h ${minutes}m`);
-      } else {
-        setTimeLeft('Ended');
-      }
-    };
-    
-    updateTime();
-    const interval = setInterval(updateTime, 60000);
-    return () => clearInterval(interval);
-  }, [endTime]);
-  
-  return <span>{timeLeft}</span>;
-}
 
 function getContestStatusMessage(comp: Competition) {
   const now = new Date().getTime();
@@ -234,13 +203,9 @@ function getContestStatusMessage(comp: Competition) {
   }
 }
 
-interface HomePageProps {
-  onNavigate?: (page: string) => void;
-  user?: { email: string; nickname?: string } | null;
-  onLogout?: () => void;
-}
-
-export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
+export function HomePage() {
+  const navigate = useNavigate();
+  const { user, isAuthenticated, logout } = useAuthStore();
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
@@ -252,20 +217,20 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
               <span className="text-2xl font-bold text-primary">JCTF</span>
             </div>
             <div className="flex items-center space-x-4">
-              {user ? (
+              {isAuthenticated && user ? (
                 <div className="flex items-center space-x-4">
                   <span className="text-sm text-muted-foreground">
                     Welcome, <span className="text-accent">{user.email}</span>
                   </span>
                   <Button 
-                    onClick={() => onNavigate?.('dashboard')}
+                    onClick={() => navigate('/dashboard')}
                     className="bg-primary hover:bg-primary/80 text-primary-foreground"
                   >
                     Dashboard
                   </Button>
                   <Button 
                     variant="secondary" 
-                    onClick={onLogout}
+                    onClick={logout}
                     className="neon-border border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
                   >
                     Logout
@@ -274,8 +239,8 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
               ) : (
                 <>
                   <Button 
-                    variant="link" 
-                    onClick={() => onNavigate?.('login')}
+                    variant="text" 
+                    onClick={() => navigate('/login')}
                     className="text-primary hover:text-primary/80"
                   >
                     <IcoLogin />
@@ -283,7 +248,7 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
                   </Button>
                   <Button 
                     variant="secondary"
-                    onClick={() => onNavigate?.('register')}
+                    onClick={() => navigate('/register')}
                     className="border border-primary text-primary"
                   >
                     Register
@@ -335,8 +300,8 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
           
           <div className="flex flex-col md:flex-row gap-6 justify-center items-center mb-12">
             <Button 
-              size="lg" 
-              onClick={() => onNavigate?.(user ? 'competitions' : 'login')}
+              size="large" 
+              onClick={() => navigate(isAuthenticated ? '/competitions' : '/login')}
               className="bg-primary hover:bg-primary/80 text-primary-foreground px-6 py-3 text-[17px] font-bold h-12"
               style={{
                 boxShadow: '0px 0px 16px rgba(99, 102, 241, 1)',
@@ -417,7 +382,7 @@ export function HomePage({ onNavigate, user, onLogout }: HomePageProps) {
                     {getContestStatusMessage(comp)}
                   </p>
                   <Button 
-                    onClick={() => onNavigate?.(user ? 'competitions' : 'login')}
+                    onClick={() => navigate(isAuthenticated ? '/competitions' : '/login')}
                     className="w-full bg-primary hover:bg-primary/80 text-primary-foreground h-10 text-[15px]"
                   >
                     {comp.status === 'running' ? 'Join now' : 'Register'}

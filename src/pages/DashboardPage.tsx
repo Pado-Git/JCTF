@@ -1,29 +1,24 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/form/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
 import { Badge } from '@/components/feedback/badge';
 import { Progress } from '@/components/feedback/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
-import { 
+import { MaxWidthContainer } from '@/components/layout/MaxWidthContainer';
+import { IcoTrophyFilled, IcoChallengeFilled, IcoStarFilled, IcoCrownFilled, IcoLogoutFilled, IcoTimerLined1 } from '@/assets/icons';
+import {
   Shield, 
-  Trophy, 
   Target, 
   Users, 
   Clock, 
-  Zap, 
-  Calendar,
   TrendingUp,
-  Award,
   Activity,
-  ArrowRight,
-  Settings
+  ArrowRight
 } from 'lucide-react';
+import Header from '@/components/layout/Header';
 
-interface DashboardPageProps {
-  user: { email: string; nickname?: string };
-  onNavigate?: (page: string) => void;
-  onLogout?: () => void;
-}
+// Props interface removed - using React Router now
 
 interface CompetitionEntry {
   id: string;
@@ -59,6 +54,33 @@ interface UserStats {
   averageRank: number;
   firstBloods: number;
 }
+
+const dashboardMocks = [
+  {
+    id: 'competitions',
+    value: 15,
+    label: 'Competitions',
+    icon: IcoTrophyFilled,
+  },
+  {
+    id: 'solved',
+    value: 127,
+    label: 'Challenges Solved',
+    icon: IcoChallengeFilled,
+  },
+  {
+    id: 'points',
+    value: 18650,
+    label: 'Total Points',
+    icon: IcoStarFilled,
+  },
+  {
+    id: 'firstbloods',
+    value: 12,
+    label: 'First Bloods',
+    icon: IcoCrownFilled,
+    }
+];
 
 const mockCompetitions: CompetitionEntry[] = [
   {
@@ -142,8 +164,10 @@ const mockStats: UserStats = {
   firstBloods: 12
 };
 
-export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps) {
+export function DashboardPage() {
+  const navigate = useNavigate();
   const [currentTime, setCurrentTime] = useState(new Date());
+  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -151,6 +175,10 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  const handleLogout = () => {
+    navigate('/');
+  };
 
   const getActivityIcon = (type: string) => {
     switch (type) {
@@ -189,60 +217,46 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
                 <Shield className="h-8 w-8 text-primary" />
                 <span className="text-2xl font-bold text-primary">JCTF</span>
               </div>
-              <div className="hidden md:flex items-center space-x-6">
+              <div className="hidden md:flex items-center gap-16">
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('dashboard')}
-                  className="text-primary"
+                  variant="text"
+                  onClick={() => navigate('/dashboard')}
                 >
                   Dashboard
                 </Button>
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('competitions')}
-                  className="text-muted-foreground hover:text-accent"
+                  variant="text" 
+                  onClick={() => navigate('/competitions')}
                 >
                   Competitions
                 </Button>
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('leaderboard')}
-                  className="text-muted-foreground hover:text-accent"
+                  variant="text" 
+                  onClick={() => navigate('/leaderboard')}
                 >
                   Leaderboard
                 </Button>
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('profile')}
-                  className="text-muted-foreground hover:text-accent"
+                  variant="text" 
+                  onClick={() => navigate('/profile')}
                 >
                   Profile
                 </Button>
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('teams')}
-                  className="text-muted-foreground hover:text-accent"
+                  variant="text" 
+                  onClick={() => navigate('/teams')}
                 >
                   Teams
                 </Button>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-muted-foreground">
-                {currentTime.toLocaleTimeString()}
-              </div>
               <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => onNavigate?.('profile')}
+                variant="secondary" 
+                onClick={handleLogout}
+                className="text-body-small text-bold text-primary"
               >
-                <Settings className="h-4 w-4" />
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={onLogout}
-                className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
-              >
+                <IcoLogoutFilled />
                 Logout
               </Button>
             </div>
@@ -250,78 +264,71 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
         </div>
       </nav>
 
-      <div className="container mx-auto px-6 py-8">
-        {/* Welcome Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">
-            Welcome back, <span className="text-accent">{user.nickname || user.email}</span>
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Ready to hack some challenges? Let's see what's new.
-          </p>
-        </div>
+      {/* Stats Section with Background */}
+      <section 
+        className="py-20 relative"
+        style={{
+          background: 'url(/images/background.png) no-repeat center center'
+        }}
+      >
+        <MaxWidthContainer className="relative z-10">
+          {/* Welcome Header */}
+          <div className="mb-8">
+            <h1 className="text-heading-large text-primary-50 mb-2">
+              Welcome back, <span className="text-primary">{user.nickname || user.email}</span>
+            </h1>
+            <p className="text-primary-100 text-body-medium">
+              Ready to hack some challenges? Let's see what's new.
+            </p>
+          </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-card/50 backdrop-blur-sm border-primary/30">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Competitions</p>
-                  <p className="text-3xl font-bold text-primary">
-                    {mockStats.totalCompetitions}
-                  </p>
-                </div>
-                <Trophy className="h-8 w-8 text-primary/50" />
-              </div>
-            </CardContent>
-          </Card>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {dashboardMocks.map((stat) => {
+              const IconComponent = stat.icon;
+              return (
+                <Card key={stat.id} className="bg-neutral-900/50 backdrop-blur-sm border border-primary-900 rounded-3xl p-10">
+                    <div className="flex items-center justify-between">
+                      <div className="flex flex-col">
+                        <p className={`text-primary text-heading-large`}>
+                          {stat.value}
+                        </p>
+                        <p className={`text-primary-200 text-heading-xsmall`}>
+                          {stat.label}
+                        </p>
+                      </div>
+                      <div className="w-14 h-14 flex items-center justify-center">
+                        <IconComponent 
+                          className="w-14 h-14" 
+                          style={{
+                            background: 'linear-gradient(135deg, #3730A3 2%, #1E1B4B 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text',
+                            fill: 'url(#icon-gradient)'
+                          }}
+                        />
+                        <svg width="0" height="0" className="absolute">
+                          <defs>
+                            <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                              <stop offset="2%" stopColor="#3730A3" />
+                              <stop offset="100%" stopColor="#1E1B4B" />
+                            </linearGradient>
+                          </defs>
+                        </svg>
+                      </div>
+                    </div>
+                </Card>
+              );
+            })}
+          </div>
+        </MaxWidthContainer>
+      </section>
 
-          <Card className="bg-card/50 backdrop-blur-sm border-accent/30">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Challenges Solved</p>
-                  <p className="text-3xl font-bold text-accent">
-                    {mockStats.totalSolved}
-                  </p>
-                </div>
-                <Target className="h-8 w-8 text-accent/50" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card/50 backdrop-blur-sm border-warning/30">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Points</p>
-                  <p className="text-3xl font-bold text-warning">
-                    {mockStats.totalPoints.toLocaleString()}
-                  </p>
-                </div>
-                <Zap className="h-8 w-8 text-warning/50" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card/50 backdrop-blur-sm border-first-blood/30">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">First Bloods</p>
-                  <p className="text-3xl font-bold text-first-blood">
-                    {mockStats.firstBloods}
-                  </p>
-                </div>
-                <Award className="h-8 w-8 text-first-blood/50" />
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Main Content */}
-        <Tabs defaultValue="competitions" className="space-y-6">
+      {/* Main Content */}
+      <section className="py-20">
+        <MaxWidthContainer>
+          <Tabs defaultValue="competitions" className="space-y-6">
           <TabsList className="bg-card/50 backdrop-blur-sm">
             <TabsTrigger value="competitions" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
               My Competitions
@@ -435,7 +442,7 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
                         <div className="flex flex-col space-y-2">
                           <Button 
                             className="bg-primary hover:bg-primary/80 text-primary-foreground"
-                            onClick={() => onNavigate?.('challenges')}
+                            onClick={() => navigate('/challenges')}
                             disabled={comp.status === 'ended'}
                           >
                             {comp.status === 'running' ? 'Continue' : comp.status === 'upcoming' ? 'View Details' : 'View Results'}
@@ -444,9 +451,9 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
                           
                           {comp.status === 'running' && (
                             <Button 
-                              variant="outline"
+                              variant="secondary"
                               className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
-                              onClick={() => onNavigate?.('leaderboard')}
+                              onClick={() => navigate('/leaderboard')}
                             >
                               Leaderboard
                             </Button>
@@ -459,19 +466,23 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
               ))}
             </div>
           </TabsContent>
+          
+          <CardHeader>
+            <CardTitle className="flex items-center gap-4">
+              <IcoTimerLined1 className='text-primary size-6' />
+              <span className='text-primary-200 text-heading-medium'>Recent Activity</span>
+            </CardTitle>
+            <CardDescription className="text-primary-100 text-body-medium">
+              Your latest achievements and competition updates
+            </CardDescription>
+          </CardHeader>
 
           <TabsContent value="activity" className="space-y-6">
-            <Card className="bg-card/50 backdrop-blur-sm border-primary/30">
-              <CardHeader>
-                <CardTitle className="text-foreground">Recent Activity</CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  Your latest achievements and competition updates
-                </CardDescription>
-              </CardHeader>
+            <Card className="border-neutral-600 bg-neutral-900">
               <CardContent>
-                <div className="space-y-4">
+                <div className="grid grid-cols-1 gap-4 p-4">
                   {mockActivities.map((activity) => (
-                    <div key={activity.id} className="flex items-start space-x-4 p-4 rounded-lg bg-muted/20 border border-border">
+                    <div key={activity.id} className="flex items-center bg-neutral-800 rounded-2xl border-neutral-700 p-8 gap-4">
                       <div className={`p-2 rounded-full bg-card ${getActivityColor(activity.type)}`}>
                         {getActivityIcon(activity.type)}
                       </div>
@@ -484,8 +495,8 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
                                 Solved "{activity.challengeName}"
                               </span>
                               {activity.isFirstBlood && (
-                                <Badge className="bg-first-blood text-first-blood-foreground text-xs">
-                                  FIRST BLOOD!
+                                <Badge className="bg-primary text-neutral-0 text-body-xsmall">
+                                  FIRST BLOOD
                                 </Badge>
                               )}
                             </>
@@ -517,7 +528,8 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
             </Card>
           </TabsContent>
         </Tabs>
-      </div>
+        </MaxWidthContainer>
+      </section>
     </div>
   );
 }

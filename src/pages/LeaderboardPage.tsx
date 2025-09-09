@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/form/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
 import { Badge } from '@/components/feedback/badge';
@@ -19,11 +20,7 @@ import {
   ArrowLeft,
 } from 'lucide-react';
 
-interface LeaderboardPageProps {
-  user?: { email: string; nickname?: string } | null;
-  onNavigate?: (page: string) => void;
-  onBack?: () => void;
-}
+// Props interface removed - using React Router now
 
 interface TeamEntry {
   rank: number;
@@ -274,10 +271,12 @@ function TeamCard({ team, showDetails }: { team: TeamEntry; showDetails: boolean
   );
 }
 
-export function LeaderboardPage({ user, onNavigate, onBack }: LeaderboardPageProps) {
+export function LeaderboardPage() {
+  const navigate = useNavigate();
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(new Date());
+  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
 
   useEffect(() => {
     if (autoRefresh) {
@@ -306,7 +305,7 @@ export function LeaderboardPage({ user, onNavigate, onBack }: LeaderboardPagePro
             <div className="flex items-center space-x-4">
               <Button
                 variant="text"
-                onClick={onBack || (() => onNavigate?.('home'))}
+                onClick={() => navigate('/dashboard') || (() => navigate?.('home'))}
                 className="text-muted-foreground hover:text-primary"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -395,8 +394,8 @@ export function LeaderboardPage({ user, onNavigate, onBack }: LeaderboardPagePro
               Last updated: {mockCompetition.lastUpdated}
             </div>
             <Button
-              variant="outline"
-              size="sm"
+              variant="secondary"
+              size="small"
               onClick={handleRefresh}
               className="border-primary/30 text-primary hover:bg-primary/20"
             >

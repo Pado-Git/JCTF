@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/form/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/data-display/card';
 import { Badge } from '@/components/feedback/badge';
@@ -22,11 +23,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-interface ChallengesPageProps {
-  user: { email: string; nickname?: string };
-  onNavigate?: (page: string) => void;
-  onBack?: () => void;
-}
+// Props interface removed - using React Router now
 
 interface Challenge {
   id: string;
@@ -196,8 +193,8 @@ function CategoryFilter({ selected, onSelect }: { selected: string; onSelect: (c
       {categories.map((category) => (
         <Button
           key={category.name}
-          variant={selected === category.name ? 'default' : 'outline'}
-          size="sm"
+          variant={selected === category.name ? 'primary' : 'secondary'}
+          size="small"
           onClick={() => onSelect(category.name)}
           className={
             selected === category.name
@@ -314,7 +311,7 @@ function ChallengeModal({ challenge, isOpen, onClose }: {
                   {challenge.category.name}
                 </Badge>
                 <Badge 
-                  variant="outline" 
+                  variant="secondary" 
                   className={`${getDifficultyColor(challenge.difficulty)} border-current`}
                 >
                   {challenge.difficulty}
@@ -379,8 +376,8 @@ function ChallengeModal({ challenge, isOpen, onClose }: {
                     {challenge.files.map((file) => (
                       <Button
                         key={file}
-                        variant="outline"
-                        size="sm"
+                        variant="secondary"
+                        size="small"
                         className="w-full justify-start border-accent/30 text-accent hover:bg-accent/20"
                       >
                         <Download className="h-4 w-4 mr-2" />
@@ -486,7 +483,7 @@ function ChallengeModal({ challenge, isOpen, onClose }: {
               <h3 className="text-sm font-semibold text-foreground mb-2">Recent Solvers</h3>
               <div className="flex flex-wrap gap-2">
                 {challenge.recentSolvers.slice(0, 10).map((solver, index) => (
-                  <Badge key={solver} variant="outline" className="text-xs">
+                  <Badge key={solver} variant="secondary" className="text-xs">
                     {index === 0 && challenge.firstBlood?.user === solver && (
                       <Crown className="h-3 w-3 mr-1 text-first-blood" />
                     )}
@@ -502,10 +499,12 @@ function ChallengeModal({ challenge, isOpen, onClose }: {
   );
 }
 
-export function ChallengesPage({ user, onNavigate, onBack }: ChallengesPageProps) {
+export function ChallengesPage() {
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
 
   const filteredChallenges = mockChallenges.filter(challenge => {
     const matchesCategory = selectedCategory === 'All' || challenge.category.name === selectedCategory;
@@ -526,7 +525,7 @@ export function ChallengesPage({ user, onNavigate, onBack }: ChallengesPageProps
             <div className="flex items-center space-x-4">
               <Button
                 variant="text"
-                onClick={onBack || (() => onNavigate?.('dashboard'))}
+                onClick={() => navigate('/dashboard') || (() => navigate?.('dashboard'))}
                 className="text-muted-foreground hover:text-primary"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -605,8 +604,8 @@ export function ChallengesPage({ user, onNavigate, onBack }: ChallengesPageProps
               />
             </div>
             <Button 
-              variant="outline"
-              onClick={() => onNavigate?.('leaderboard')}
+              variant="secondary"
+              onClick={() => navigate?.('leaderboard')}
               className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
             >
               <Trophy className="h-4 w-4 mr-2" />
@@ -679,7 +678,7 @@ export function ChallengesPage({ user, onNavigate, onBack }: ChallengesPageProps
                       <span>{challenge.solveCount}</span>
                     </div>
                     <Badge 
-                      variant="outline" 
+                      variant="secondary" 
                       className={`${getDifficultyColor(challenge.difficulty)} border-current text-xs`}
                     >
                       {challenge.difficulty}
