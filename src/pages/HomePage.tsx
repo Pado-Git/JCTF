@@ -9,8 +9,8 @@ import { HeroSection, CurrentCompetitions, Statics, HowItWorks } from '@/home/la
 
 export function HomePage() {
   const navigate = useNavigate();
-  const { user, isAuthenticated } = useAuthStore();
-  
+  const { user, isAuthenticated, logout } = useAuthStore();
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
