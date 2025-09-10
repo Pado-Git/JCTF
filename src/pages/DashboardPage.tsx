@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Badge } from '@/components/feedback/badge';
-import { Progress } from '@/components/feedback/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
-import { MaxWidthContainer } from '@/components/layout/MaxWidthContainer';
-import { IcoTrophyFilled, IcoChallengeFilled, IcoStarFilled, IcoCrownFilled, IcoLogoutFilled, IcoTimerLined1 } from '@/assets/icons';
+import { Button } from '@/+shared/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
+import { Badge } from '@/+shared/components/feedback/badge';
+import { Progress } from '@/+shared/components/feedback/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/data-display/tabs';
+import { MaxWidthContainer } from '@/+shared/components/layout/MaxWidthContainer';
+import { IcoTrophyFilled, IcoChallengeFilled, IcoStarFilled, IcoCrownFilled, IcoLogoutFilled, IcoTimerLined1 } from '@/+shared/assets/icons';
 import {
   Shield, 
   Target, 
@@ -16,7 +16,7 @@ import {
   Activity,
   ArrowRight
 } from 'lucide-react';
-import Header from '@/components/layout/Header';
+import Header from '@/+shared/components/layout/Header';
 
 // Props interface removed - using React Router now
 

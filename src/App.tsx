@@ -1,5 +1,5 @@
 import { RouterProvider } from 'react-router-dom';
-import { Toaster } from '@/components/feedback/sonner';
+import { Toaster } from '@/+shared/components/feedback/sonner';
 import router from './Routes';
 
 export default function App() {

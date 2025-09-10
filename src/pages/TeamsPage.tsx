@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Input } from '@/components/form/input';
-import { Label } from '@/components/form/label';
-import { Textarea } from '@/components/form/textarea';
-import { Badge } from '@/components/feedback/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/overlay/dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/data-display/avatar';
+import { Button } from '@/+shared/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
+import { Input } from '@/+shared/components/form/input';
+import { Label } from '@/+shared/components/form/label';
+import { Textarea } from '@/+shared/components/form/textarea';
+import { Badge } from '@/+shared/components/feedback/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/data-display/tabs';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/+shared/components/overlay/dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/+shared/components/data-display/avatar';
 import { 
   Shield, 
   Users, 

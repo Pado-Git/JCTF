@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/form/button';
-import { useAuthStore } from '@/stores/authStore';
-import { Input } from '@/components/form/input';
-import { Label } from '@/components/form/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Checkbox } from '@/components/form/checkbox';
+import { Button } from '@/+shared/components/form/button';
+import { useAuthStore } from '@/+shared/stores/authStore';
+import { Input } from '@/+shared/components/form/input';
+import { Label } from '@/+shared/components/form/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
+import { Checkbox } from '@/+shared/components/form/checkbox';
 import { Shield, Eye, EyeOff, ArrowLeft, Check, X } from 'lucide-react';
 
 interface PasswordStrength {

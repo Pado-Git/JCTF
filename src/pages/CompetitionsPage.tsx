@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Badge } from '@/components/feedback/badge';
-import { Progress } from '@/components/feedback/progress';
+import { Button } from '@/+shared/components/form/button';
+import { Competition, getContestStatusMessage } from '@/+shared/utils';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
+import { Badge } from '@/+shared/components/feedback/badge';
+import { Progress } from '@/+shared/components/feedback/progress';
 import { 
   Trophy, 
   Users, 

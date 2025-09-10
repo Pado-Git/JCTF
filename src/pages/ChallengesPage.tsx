@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/form/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Badge } from '@/components/feedback/badge';
-import { Input } from '@/components/form/input';
-import { Label } from '@/components/form/label';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/overlay/dialog';
-import { Progress } from '@/components/feedback/progress';
+import { Button } from '@/+shared/components/form/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
+import { Badge } from '@/+shared/components/feedback/badge';
+import { Input } from '@/+shared/components/form/input';
+import { Label } from '@/+shared/components/form/label';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/+shared/components/overlay/dialog';
+import { Progress } from '@/+shared/components/feedback/progress';
 import { 
   Shield, 
   Target,  

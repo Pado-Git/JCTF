@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Badge } from '@/components/feedback/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
-import { Switch } from '@/components/form/switch';
-import { Label } from '@/components/form/label';
+import { Button } from '@/+shared/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
+import { Badge } from '@/+shared/components/feedback/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/data-display/tabs';
+import { Switch } from '@/+shared/components/form/switch';
+import { Label } from '@/+shared/components/form/label';
 import { 
   Shield, 
   Trophy, 
