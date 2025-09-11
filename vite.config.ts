@@ -20,6 +20,7 @@ export default defineConfig({
       '@/assets': path.resolve(__dirname, './src/assets'),
       '@/styles': path.resolve(__dirname, './src/styles'),
       '@/types': path.resolve(__dirname, './src/types'),
+      '@home': path.resolve(__dirname, './src/home'),
     },
   },
   build: {

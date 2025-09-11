@@ -8,7 +8,8 @@
       "@/stores/*": ["src/+shared/stores/*"],
       "@/assets/*": ["./src/assets/*"],
       "@/styles/*": ["./src/styles/*"],
-      "@/types/*": ["src/+shared/types/*"]
+      "@/types/*": ["src/+shared/types/*"],
+      "@home/*": ["./src/home/*"]
     },
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.tsbuildinfo",
     "target": "ES2022",
