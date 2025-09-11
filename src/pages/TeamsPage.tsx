@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Button } from '@/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Input } from '@/components/form/input';
-import { Label } from '@/components/form/label';
-import { Textarea } from '@/components/form/textarea';
-import { Badge } from '@/components/feedback/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/overlay/dialog';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/data-display/avatar';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/+shared/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
+import { Input } from '@/+shared/components/form/input';
+import { Label } from '@/+shared/components/form/label';
+import { Textarea } from '@/+shared/components/form/textarea';
+import { Badge } from '@/+shared/components/feedback/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/data-display/tabs';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/+shared/components/overlay/dialog';
+import { Avatar, AvatarFallback, AvatarImage } from '@/+shared/components/data-display/avatar';
 import { 
   Shield, 
   Users, 
@@ -26,11 +27,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-interface TeamsPageProps {
-  user: { email: string; nickname?: string };
-  onNavigate?: (page: string) => void;
-  onBack?: () => void;
-}
+// Props interface removed - using React Router now
 
 interface Team {
   id: string;
@@ -232,12 +229,14 @@ const mockPublicTeams: Array<{
   }
 ];
 
-export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
+export function TeamsPage() {
+  const navigate = useNavigate();
   const [myTeam, setMyTeam] = useState<Team | null>(mockTeams[0]);
   const [invites, setInvites] = useState<TeamInvite[]>(mockInvites);
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showJoinDialog, setShowJoinDialog] = useState(false);
+  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
   const [newTeam, setNewTeam] = useState({
     name: '',
     description: '',
@@ -341,8 +340,8 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
-                variant="ghost"
-                onClick={onBack || (() => onNavigate?.('dashboard'))}
+                variant="text"
+                onClick={() => navigate('/dashboard') || (() => navigate?.('dashboard'))}
                 className="text-muted-foreground hover:text-primary"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -359,7 +358,7 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
                 <>
                   <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>
                     <DialogTrigger asChild>
-                      <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                      <Button variant="secondary" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                         <UserPlus className="h-4 w-4 mr-2" />
                         Join Team
                       </Button>
@@ -384,7 +383,7 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
                         </div>
                         <div className="flex space-x-2">
                           <Button
-                            variant="outline"
+                            variant="secondary"
                             onClick={() => setShowJoinDialog(false)}
                             className="flex-1"
                           >
@@ -439,7 +438,7 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
                         </div>
                         <div className="flex space-x-2">
                           <Button
-                            variant="outline"
+                            variant="secondary"
                             onClick={() => setShowCreateDialog(false)}
                             className="flex-1"
                           >
@@ -503,8 +502,8 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
                       </div>
                       <div className="flex space-x-2">
                         <Button
-                          variant="outline"
-                          size="sm"
+                          variant="secondary"
+                          size="small"
                           onClick={() => handleDeclineInvite(invite.id)}
                           className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
                         >
@@ -512,7 +511,7 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
                           Decline
                         </Button>
                         <Button
-                          size="sm"
+                          size="small"
                           onClick={() => handleAcceptInvite(invite.id)}
                           className="bg-accent hover:bg-accent/80 text-accent-foreground"
                         >
@@ -618,7 +617,7 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
                             className="bg-muted/30 border-border text-foreground font-mono"
                           />
                           <Button
-                            variant="outline"
+                            variant="secondary"
                             onClick={() => {
                               navigator.clipboard.writeText(myTeam.inviteCode!);
                               toast.success('Invite code copied to clipboard!');
@@ -736,7 +735,7 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
                         <h4 className="font-semibold text-foreground">Edit Team Information</h4>
                         <p className="text-sm text-muted-foreground">Update team name and description</p>
                       </div>
-                      <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                      <Button variant="secondary" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                         <Edit3 className="h-4 w-4 mr-2" />
                         Edit
                       </Button>
@@ -747,7 +746,7 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
                         <h4 className="font-semibold text-destructive">Leave Team</h4>
                         <p className="text-sm text-muted-foreground">Leave this team permanently</p>
                       </div>
-                      <Button variant="outline" className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground">
+                      <Button variant="secondary" className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground">
                         <LogOut className="h-4 w-4 mr-2" />
                         Leave
                       </Button>
@@ -758,7 +757,7 @@ export function TeamsPage({ user, onNavigate, onBack }: TeamsPageProps) {
                         <h4 className="font-semibold text-destructive">Delete Team</h4>
                         <p className="text-sm text-muted-foreground">Permanently delete this team and all data</p>
                       </div>
-                      <Button variant="outline" className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground">
+                      <Button variant="secondary" className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground">
                         <Trash2 className="h-4 w-4 mr-2" />
                         Delete
                       </Button>

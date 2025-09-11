@@ -1,29 +1,12 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Badge } from '@/components/feedback/badge';
-import { Progress } from '@/components/feedback/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
-import { 
-  Shield, 
-  Trophy, 
-  Target, 
-  Users, 
-  Clock, 
-  Zap, 
-  Calendar,
-  TrendingUp,
-  Award,
-  Activity,
-  ArrowRight,
-  Settings
-} from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Card, MaxWidthContainer, AnimatedBackground } from '@/+shared/components';
+import { IcoTrophyFilled, IcoChallengeFilled, IcoStarFilled, IcoCrownFilled, IcoLogoutFilled, IcoTimerLined1, IcoMedalFilled } from '@/+shared/assets/icons';
+import { leaderBg1, leaderBg2, leaderBg3 } from '@/home/assets';
+import { headerInfo } from '@/dashboard/data/mockData';
+import { ActivityCard, CompetitionCard, StatCard } from '@/dashboard/components';
 
-interface DashboardPageProps {
-  user: { email: string; nickname?: string };
-  onNavigate?: (page: string) => void;
-  onLogout?: () => void;
-}
+// Props interface removed - using React Router now
 
 interface CompetitionEntry {
   id: string;
@@ -52,13 +35,33 @@ interface RecentActivity {
   isFirstBlood?: boolean;
 }
 
-interface UserStats {
-  totalCompetitions: number;
-  totalSolved: number;
-  totalPoints: number;
-  averageRank: number;
-  firstBloods: number;
-}
+
+const dashboardMocks = [
+  {
+    id: 'competitions',
+    value: 15,
+    label: 'Competitions',
+    icon: IcoTrophyFilled,
+  },
+  {
+    id: 'solved',
+    value: 127,
+    label: 'Challenges Solved',
+    icon: IcoChallengeFilled,
+  },
+  {
+    id: 'points',
+    value: 18650,
+    label: 'Total Points',
+    icon: IcoStarFilled,
+  },
+  {
+    id: 'firstbloods',
+    value: 12,
+    label: 'First Bloods',
+    icon: IcoCrownFilled,
+    }
+];
 
 const mockCompetitions: CompetitionEntry[] = [
   {
@@ -134,48 +137,13 @@ const mockActivities: RecentActivity[] = [
   }
 ];
 
-const mockStats: UserStats = {
-  totalCompetitions: 15,
-  totalSolved: 127,
-  totalPoints: 18650,
-  averageRank: 8.3,
-  firstBloods: 12
-};
 
-export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps) {
-  const [currentTime, setCurrentTime] = useState(new Date());
+export function DashboardPage() {
+  const navigate = useNavigate();
+  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const getActivityIcon = (type: string) => {
-    switch (type) {
-      case 'solve':
-        return <Target className="h-4 w-4" />;
-      case 'join':
-        return <Users className="h-4 w-4" />;
-      case 'rank_up':
-        return <TrendingUp className="h-4 w-4" />;
-      default:
-        return <Activity className="h-4 w-4" />;
-    }
-  };
-
-  const getActivityColor = (type: string) => {
-    switch (type) {
-      case 'solve':
-        return 'text-accent';
-      case 'join':
-        return 'text-primary';
-      case 'rank_up':
-        return 'text-warning';
-      default:
-        return 'text-muted-foreground';
-    }
+  const handleLogout = () => {
+    navigate('/');
   };
 
   return (
@@ -186,63 +154,48 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2">
-                <Shield className="h-8 w-8 text-primary" />
                 <span className="text-2xl font-bold text-primary">JCTF</span>
               </div>
-              <div className="hidden md:flex items-center space-x-6">
+              <div className="hidden md:flex items-center gap-16">
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('dashboard')}
-                  className="text-primary"
+                  variant="text"
+                  onClick={() => navigate('/dashboard')}
                 >
                   Dashboard
                 </Button>
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('competitions')}
-                  className="text-muted-foreground hover:text-accent"
+                  variant="text" 
+                  onClick={() => navigate('/competitions')}
                 >
                   Competitions
                 </Button>
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('leaderboard')}
-                  className="text-muted-foreground hover:text-accent"
+                  variant="text" 
+                  onClick={() => navigate('/leaderboard')}
                 >
                   Leaderboard
                 </Button>
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('profile')}
-                  className="text-muted-foreground hover:text-accent"
+                  variant="text" 
+                  onClick={() => navigate('/profile')}
                 >
                   Profile
                 </Button>
                 <Button 
-                  variant="ghost" 
-                  onClick={() => onNavigate?.('teams')}
-                  className="text-muted-foreground hover:text-accent"
+                  variant="text" 
+                  onClick={() => navigate('/teams')}
                 >
                   Teams
                 </Button>
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="text-sm text-muted-foreground">
-                {currentTime.toLocaleTimeString()}
-              </div>
               <Button 
-                variant="ghost" 
-                size="sm"
-                onClick={() => onNavigate?.('profile')}
+                variant="secondary" 
+                onClick={handleLogout}
+                className="text-body-small text-bold text-primary"
               >
-                <Settings className="h-4 w-4" />
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={onLogout}
-                className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
-              >
+                <IcoLogoutFilled />
                 Logout
               </Button>
             </div>
@@ -250,274 +203,90 @@ export function DashboardPage({ user, onNavigate, onLogout }: DashboardPageProps
         </div>
       </nav>
 
-      <div className="container mx-auto px-6 py-8">
+      <MaxWidthContainer className="relative z-10">
         {/* Welcome Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-foreground mb-2">
-            Welcome back, <span className="text-accent">{user.nickname || user.email}</span>
-          </h1>
-          <p className="text-muted-foreground text-lg">
-            Ready to hack some challenges? Let's see what's new.
-          </p>
+        <div className="p-4">
+          <div className="absolute inset-0 z-0">
+            <AnimatedBackground
+              images={[leaderBg1, leaderBg2, leaderBg3]}
+              interval={400}
+              opacity={1}
+            />
+          </div>
+          <div className='relative z-10 mt-20 mb-14 flex items-center justify-between'>
+            <div>
+              <h1 className="text-heading-large text-primary-50 mb-2">
+                Welcome back <span className="text-primary">{user.nickname || user.email}</span>
+              </h1>
+              <p className="text-primary-100 text-body-medium">
+                Ready to hack some challenges? Let's see what's new.
+              </p>
+            </div>
+            <div className='flex items-center gap-10'>
+              {headerInfo.map((info) => {
+                return (
+                  <div className='flex flex-col items-center gap-1'>
+                    <span className='text-heading-xsmall text-primary-50'>{info.value}</span>
+                    <span className='text-primary-200 text-body-small'>{info.label}</span>
+                  </div>
+                )
+              })}
+            </div>
+          </div>
         </div>
-
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <Card className="bg-card/50 backdrop-blur-sm border-primary/30">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Competitions</p>
-                  <p className="text-3xl font-bold text-primary">
-                    {mockStats.totalCompetitions}
-                  </p>
-                </div>
-                <Trophy className="h-8 w-8 text-primary/50" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card/50 backdrop-blur-sm border-accent/30">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Challenges Solved</p>
-                  <p className="text-3xl font-bold text-accent">
-                    {mockStats.totalSolved}
-                  </p>
-                </div>
-                <Target className="h-8 w-8 text-accent/50" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card/50 backdrop-blur-sm border-warning/30">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">Total Points</p>
-                  <p className="text-3xl font-bold text-warning">
-                    {mockStats.totalPoints.toLocaleString()}
-                  </p>
-                </div>
-                <Zap className="h-8 w-8 text-warning/50" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-card/50 backdrop-blur-sm border-first-blood/30">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-muted-foreground">First Bloods</p>
-                  <p className="text-3xl font-bold text-first-blood">
-                    {mockStats.firstBloods}
-                  </p>
-                </div>
-                <Award className="h-8 w-8 text-first-blood/50" />
-              </div>
-            </CardContent>
-          </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+          {dashboardMocks.map((stat) => (
+            <StatCard
+              key={stat.id}
+              id={stat.id}
+              value={stat.value}
+              label={stat.label}
+              icon={stat.icon}
+            />
+          ))}
         </div>
+      </MaxWidthContainer>
 
-        {/* Main Content */}
-        <Tabs defaultValue="competitions" className="space-y-6">
-          <TabsList className="bg-card/50 backdrop-blur-sm">
-            <TabsTrigger value="competitions" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              My Competitions
-            </TabsTrigger>
-            <TabsTrigger value="activity" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
-              Recent Activity
-            </TabsTrigger>
-          </TabsList>
+      {/* Main Content */}
+      <section className="py-20">
+        <MaxWidthContainer>
+          <div className='flex items-center gap-4 mb-10'>
+            <IcoMedalFilled className='text-primary size-6' />
+            <span className='text-primary-200 text-heading-medium'>My Competitions</span>
+          </div>
+          <div className="grid gap-6">
+            {mockCompetitions.map((comp) => (
+              <CompetitionCard
+                key={comp.id}
+                competition={comp}
+              />
+            ))}
+          </div>
+        </MaxWidthContainer>
+      </section>
 
-          <TabsContent value="competitions" className="space-y-6">
-            <div className="grid gap-6">
-              {mockCompetitions.map((comp) => (
-                <Card key={comp.id} className="bg-card/50 backdrop-blur-sm border-primary/30 hover:border-accent transition-all duration-300">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-xl text-foreground">{comp.name}</CardTitle>
-                        <CardDescription className="text-muted-foreground">
-                          {comp.team ? `Team: ${comp.team.name}` : 'Individual Competition'}
-                        </CardDescription>
-                      </div>
-                      <Badge 
-                        variant={comp.status === 'running' ? 'default' : comp.status === 'ended' ? 'secondary' : 'outline'}
-                        className={
-                          comp.status === 'running' 
-                            ? 'bg-accent text-accent-foreground' 
-                            : comp.status === 'ended'
-                            ? 'bg-muted text-muted-foreground'
-                            : 'bg-warning text-warning-foreground'
-                        }
-                      >
-                        {comp.status.toUpperCase()}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent>
-                    <div className="grid md:grid-cols-3 gap-6">
-                      {/* Rank & Score */}
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-2">Current Rank</p>
-                          <div className="flex items-baseline space-x-2">
-                            <span className="text-3xl font-bold text-primary">
-                              {comp.myRank || '-'}
-                            </span>
-                            <span className="text-muted-foreground">
-                              / {comp.totalTeams || '-'}
-                            </span>
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-2">Score</p>
-                          <div className="flex items-baseline space-x-2">
-                            <span className="text-2xl font-bold text-accent">
-                              {comp.myScore.toLocaleString()}
-                            </span>
-                            <span className="text-muted-foreground">
-                              / {comp.maxScore.toLocaleString()}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
+      <section className='py-20 bg-neutral-800'>
+        <MaxWidthContainer>
+          <div className='flex flex-col gap-2 mb-10'>
+            <div className='flex items-center gap-4'>
+              <IcoTimerLined1 className='text-primary size-6' />
+              <span className='text-primary-200 text-heading-medium'>Recent Activity</span>
+            </div>
+            <span className='text-primary-100 text-body-medium'>
+              Your latest achievements and competition updates
+            </span>
+          </div>
 
-                      {/* Progress */}
-                      <div className="space-y-4">
-                        <div>
-                          <div className="flex justify-between text-sm mb-2">
-                            <span className="text-muted-foreground">Challenges</span>
-                            <span className="text-foreground">
-                              {comp.solvedChallenges} / {comp.totalChallenges}
-                            </span>
-                          </div>
-                          <Progress 
-                            value={(comp.solvedChallenges / comp.totalChallenges) * 100} 
-                            className="h-2"
-                          />
-                        </div>
-                        
-                        <div>
-                          <div className="flex justify-between text-sm mb-2">
-                            <span className="text-muted-foreground">Score Progress</span>
-                            <span className="text-foreground">
-                              {Math.round((comp.myScore / comp.maxScore) * 100)}%
-                            </span>
-                          </div>
-                          <Progress 
-                            value={(comp.myScore / comp.maxScore) * 100} 
-                            className="h-2"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Time & Actions */}
-                      <div className="space-y-4">
-                        {comp.timeLeft && (
-                          <div>
-                            <p className="text-sm text-muted-foreground mb-2">
-                              {comp.status === 'running' ? 'Time Left' : 'Starts In'}
-                            </p>
-                            <div className="flex items-center space-x-2">
-                              <Clock className="h-4 w-4 text-warning" />
-                              <span className="text-warning font-semibold">
-                                {comp.timeLeft}
-                              </span>
-                            </div>
-                          </div>
-                        )}
-                        
-                        <div className="flex flex-col space-y-2">
-                          <Button 
-                            className="bg-primary hover:bg-primary/80 text-primary-foreground"
-                            onClick={() => onNavigate?.('challenges')}
-                            disabled={comp.status === 'ended'}
-                          >
-                            {comp.status === 'running' ? 'Continue' : comp.status === 'upcoming' ? 'View Details' : 'View Results'}
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </Button>
-                          
-                          {comp.status === 'running' && (
-                            <Button 
-                              variant="outline"
-                              className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
-                              onClick={() => onNavigate?.('leaderboard')}
-                            >
-                              Leaderboard
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+          <Card className="border-neutral-600 bg-neutral-900">
+            <div className="grid grid-cols-1 gap-4 p-4">
+              {mockActivities.map((activity) => (
+                <ActivityCard key={activity.id} activity={activity} />
               ))}
             </div>
-          </TabsContent>
-
-          <TabsContent value="activity" className="space-y-6">
-            <Card className="bg-card/50 backdrop-blur-sm border-primary/30">
-              <CardHeader>
-                <CardTitle className="text-foreground">Recent Activity</CardTitle>
-                <CardDescription className="text-muted-foreground">
-                  Your latest achievements and competition updates
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {mockActivities.map((activity) => (
-                    <div key={activity.id} className="flex items-start space-x-4 p-4 rounded-lg bg-muted/20 border border-border">
-                      <div className={`p-2 rounded-full bg-card ${getActivityColor(activity.type)}`}>
-                        {getActivityIcon(activity.type)}
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-2">
-                          {activity.type === 'solve' && (
-                            <>
-                              <span className="text-foreground font-semibold">
-                                Solved "{activity.challengeName}"
-                              </span>
-                              {activity.isFirstBlood && (
-                                <Badge className="bg-first-blood text-first-blood-foreground text-xs">
-                                  FIRST BLOOD!
-                                </Badge>
-                              )}
-                            </>
-                          )}
-                          {activity.type === 'join' && (
-                            <span className="text-foreground font-semibold">
-                              Joined {activity.competitionName}
-                            </span>
-                          )}
-                          {activity.type === 'rank_up' && (
-                            <span className="text-foreground font-semibold">
-                              Rank improved in {activity.competitionName}
-                            </span>
-                          )}
-                        </div>
-                        
-                        <div className="flex items-center space-x-4 mt-1 text-sm text-muted-foreground">
-                          <span>{activity.competitionName}</span>
-                          {activity.points && (
-                            <span className="text-accent">+{activity.points} pts</span>
-                          )}
-                          <span>{activity.timestamp}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
+          </Card>
+        </MaxWidthContainer>
+      </section>
     </div>
   );
 }

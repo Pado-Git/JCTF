@@ -1,13 +1,14 @@
 import { useState } from 'react';
-import { Button } from '@/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Input } from '@/components/form/input';
-import { Label } from '@/components/form/label';
-import { Textarea } from '@/components/form/textarea';
-import { Badge } from '@/components/feedback/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/data-display/tabs';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/data-display/avatar';
-import { Progress } from '@/components/feedback/progress';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@/+shared/components/form/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
+import { Input } from '@/+shared/components/form/input';
+import { Label } from '@/+shared/components/form/label';
+import { Textarea } from '@/+shared/components/form/textarea';
+import { Badge } from '@/+shared/components/feedback/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/data-display/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from '@/+shared/components/data-display/avatar';
+import { Progress } from '@/+shared/components/feedback/progress';
 import { 
   Shield, 
   Trophy,
@@ -26,11 +27,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 
-interface ProfilePageProps {
-  user: { email: string; nickname?: string };
-  onNavigate?: (page: string) => void;
-  onBack?: () => void;
-}
+// Props interface removed - using React Router now
 
 interface UserProfile {
   email: string;
@@ -160,12 +157,14 @@ const mockProfile: UserProfile = {
   }
 };
 
-export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
+export function ProfilePage() {
+  const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState<UserProfile>(mockProfile);
   const [editedProfile, setEditedProfile] = useState<UserProfile>(mockProfile);
   const [isLoading, setIsLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -212,8 +211,8 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Button
-                variant="ghost"
-                onClick={onBack || (() => onNavigate?.('dashboard'))}
+                variant="text"
+                onClick={() => navigate('/dashboard') || (() => navigate?.('dashboard'))}
                 className="text-muted-foreground hover:text-primary"
               >
                 <ArrowLeft className="h-4 w-4 mr-2" />
@@ -227,7 +226,7 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
             
             <div className="flex items-center space-x-4">
               <Button
-                variant="ghost"
+                variant="text"
                 onClick={() => setShowSettings(!showSettings)}
                 className="text-muted-foreground hover:text-primary"
               >
@@ -244,7 +243,7 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
               ) : (
                 <div className="flex space-x-2">
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     onClick={handleCancel}
                     className="border-border text-muted-foreground hover:text-foreground"
                   >
@@ -409,7 +408,7 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-muted-foreground">Your Role</span>
-                      <Badge variant="outline" className="border-accent text-accent">
+                      <Badge variant="secondary" className="border-accent text-accent">
                         {profile.currentTeam.role}
                       </Badge>
                     </div>
@@ -418,9 +417,9 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
                       <span className="text-foreground font-semibold">{profile.currentTeam.members}</span>
                     </div>
                     <Button 
-                      variant="outline" 
+                      variant="secondary" 
                       className="w-full border-accent text-accent hover:bg-accent hover:text-accent-foreground"
-                      onClick={() => onNavigate?.('teams')}
+                      onClick={() => navigate?.('teams')}
                     >
                       Manage Team
                     </Button>
@@ -541,7 +540,7 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
                         <p className="text-sm text-muted-foreground">Update your login credentials</p>
                       </div>
                     </div>
-                    <Button variant="outline" className="border-warning text-warning hover:bg-warning hover:text-warning-foreground">
+                    <Button variant="secondary" className="border-warning text-warning hover:bg-warning hover:text-warning-foreground">
                       Change
                     </Button>
                   </div>
@@ -554,7 +553,7 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
                         <p className="text-sm text-muted-foreground">Competition updates and announcements</p>
                       </div>
                     </div>
-                    <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                    <Button variant="secondary" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                       Configure
                     </Button>
                   </div>
@@ -567,7 +566,7 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
                         <p className="text-sm text-muted-foreground">Control who can see your profile</p>
                       </div>
                     </div>
-                    <Badge variant="outline" className="border-accent text-accent">
+                    <Badge variant="secondary" className="border-accent text-accent">
                       Public
                     </Badge>
                   </div>
@@ -600,7 +599,7 @@ export function ProfilePage({ user, onNavigate, onBack }: ProfilePageProps) {
                           <h4 className="font-semibold text-foreground">{achievement.title}</h4>
                           <p className="text-sm text-muted-foreground mb-2">{achievement.description}</p>
                           <div className="flex items-center justify-between">
-                            <Badge variant="outline" className={`${achievement.color} border-current`}>
+                            <Badge variant="secondary" className={`${achievement.color} border-current`}>
                               Earned
                             </Badge>
                             <span className="text-xs text-muted-foreground">{achievement.earnedDate}</span>

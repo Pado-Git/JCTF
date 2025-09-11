@@ -1,0 +1,10 @@
+pre-commit:
+  parallel: true
+  commands:
+    lint-staged:
+      run: pnpm lint-staged
+# pre-push:
+#   parallel: true
+#   commands:
+#     audit-check:
+#       run: pnpm audit

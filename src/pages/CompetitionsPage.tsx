@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import { Button } from '@/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/data-display/card';
-import { Badge } from '@/components/feedback/badge';
-import { Progress } from '@/components/feedback/progress';
+import { useNavigate } from 'react-router-dom';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Badge, Progress } from '@/+shared/components';
 import { 
   Trophy, 
   Users, 
@@ -21,11 +19,7 @@ interface User {
   nickname?: string;
 }
 
-interface CompetitionsPageProps {
-  user: User;
-  onNavigate?: (page: string) => void;
-  onBack?: () => void;
-}
+// Props interface removed - using React Router now
 
 // Mock competition data
 const competitions = [
@@ -105,9 +99,11 @@ const getStatusColor = (status: string) => {
   }
 };
 
-export function CompetitionsPage({ user, onNavigate, onBack }: CompetitionsPageProps) {
+export function CompetitionsPage() {
+  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState<'all' | 'active' | 'upcoming' | 'ended'>('all');
   const [selectedCompetition, setSelectedCompetition] = useState<number | null>(null);
+  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
 
   const filteredCompetitions = competitions.filter(comp => {
     if (selectedTab === 'all') return true;
@@ -152,9 +148,9 @@ export function CompetitionsPage({ user, onNavigate, onBack }: CompetitionsPageP
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Button
-                variant="ghost"
-                size="sm"
-                onClick={onBack}
+                variant="text"
+                size="small"
+                onClick={() => navigate('/dashboard')}
                 className="text-muted-foreground hover:text-foreground"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" />
@@ -186,7 +182,7 @@ export function CompetitionsPage({ user, onNavigate, onBack }: CompetitionsPageP
           ].map(({ key, label, icon: Icon }) => (
             <Button
               key={key}
-              variant={selectedTab === key ? "default" : "ghost"}
+              variant={selectedTab === key ? "primary" : "text"}
               onClick={() => setSelectedTab(key as any)}
               className={selectedTab === key ? "bg-primary text-primary-foreground" : ""}
             >
@@ -291,10 +287,10 @@ export function CompetitionsPage({ user, onNavigate, onBack }: CompetitionsPageP
                     {competition.registered ? (
                       <Button
                         className="w-full"
-                        variant="outline"
+                        variant="secondary"
                         onClick={(e) => {
                           e.stopPropagation();
-                          onNavigate?.('challenges');
+                          navigate?.('challenges');
                         }}
                       >
                         <Shield className="w-4 h-4 mr-2" />
@@ -331,20 +327,20 @@ export function CompetitionsPage({ user, onNavigate, onBack }: CompetitionsPageP
                     {competition.status === 'active' && competition.registered && (
                       <div className="flex gap-2">
                         <Button
-                          size="sm"
+                          size="small"
                           onClick={(e) => {
                             e.stopPropagation();
-                            onNavigate?.('challenges');
+                            navigate?.('challenges');
                           }}
                         >
                           View Challenges
                         </Button>
                         <Button
-                          size="sm"
-                          variant="outline"
+                          size="small"
+                          variant="secondary"
                           onClick={(e) => {
                             e.stopPropagation();
-                            onNavigate?.('leaderboard');
+                            navigate?.('leaderboard');
                           }}
                         >
                           Leaderboard
