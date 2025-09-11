@@ -98,7 +98,7 @@
   --color-primary-foreground: #F5F5F7;
   
   /* Neutral Color Palette - Figma Design */
-  --color-neutral-0: ##F5F5F7;
+  --color-neutral-0: #F5F5F7;
   --color-neutral-50: #D9D9DE;
   --color-neutral-100: #B3B3BA;
   --color-neutral-200: #8C8C96;
@@ -116,16 +116,18 @@
   --color-muted-foreground: #8C8C96;
   
   /* State Colors - Figma Design */
-  --color-accent: #309956;
-  --color-accent-foreground: #F5F5F7;
-  --color-destructive: #FF6D6D;
-  --color-destructive-foreground: #F5F5F7;
-  --color-warning: #FF8733;
-  --color-warning-foreground: #F5F5F7;
+  
+  /* Success Colors */
   --color-success: #309956;
-  --color-success-foreground: #F5F5F7;
-  --color-first-blood: #FFD700;
-  --color-first-blood-foreground: #0A0A0C;
+  --color-success-dark: #012309;
+  
+  /* Warning Colors */
+  --color-warning: #FF8733;
+  --color-warning-dark: #883400;
+  
+  /* Error Colors */
+  --color-error: #FF6D6D;
+  --color-error-dark: #570000;
   
   --color-border: rgba(99, 102, 241, 0.2);
   --color-input: transparent;
@@ -140,12 +142,12 @@
   --color-chart-4: #FF6D6D;
   --color-chart-5: #FFD700;
   
-  /* Border Radius */
-  --radius: 0.625rem;
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  /* Border Radius - Figma Design System */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-rounded: 1000px;
   
   /* Sidebar Colors */
   --color-sidebar: #1F1F26;
@@ -225,7 +227,7 @@
 /**
  * Base typography - Based on Figma Design System
  */
-@layer base {
+/* @layer base {
   :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
     h1 {
       font-size: var(--text-heading-large);
@@ -283,7 +285,7 @@
       letter-spacing: var(--text-body-medium-spacing);
     }
   }
-}
+} */
 
 html {
   font-size: var(--font-size);
@@ -440,5 +442,70 @@ html {
   
   .gradient-neutral {
     background: var(--gradient-neutral);
+  }
+
+  /* State Color Utility Classes - Figma Design System */
+  .bg-success {
+    background-color: var(--color-success);
+  }
+  
+  .text-success {
+    color: var(--color-success);
+  }
+  
+  .bg-success-dark {
+    background-color: var(--color-success-dark);
+  }
+  
+  .bg-warning {
+    background-color: var(--color-warning);
+  }
+  
+  .text-warning {
+    color: var(--color-warning);
+  }
+  
+  .bg-warning-dark {
+    background-color: var(--color-warning-dark);
+  }
+  
+  .bg-error {
+    background-color: var(--color-error);
+  }
+  
+  .text-error {
+    color: var(--color-error);
+  }
+  
+  .bg-error-dark {
+    background-color: var(--color-error-dark);
+  }
+
+  /* Hover Effects */
+  
+  .card-hover:hover {
+    background: var(--gradient-3);
+    border: 2px solid var(--color-primary-900);
+  }
+
+  /* Border Radius Utility Classes - Figma Design System */
+  .rounded-radius-xs {
+    border-radius: var(--radius-xs);
+  }
+  
+  .rounded-radius-sm {
+    border-radius: var(--radius-sm);
+  }
+  
+  .rounded-radius-md {
+    border-radius: var(--radius-md);
+  }
+  
+  .rounded-radius-lg {
+    border-radius: var(--radius-lg);
+  }
+  
+  .rounded-radius-rounded {
+    border-radius: var(--radius-rounded);
   }
 }
