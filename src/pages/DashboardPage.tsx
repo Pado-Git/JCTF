@@ -6,7 +6,7 @@ import { Badge } from '@/+shared/components/feedback/badge';
 import { Progress } from '@/+shared/components/feedback/progress';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/data-display/tabs';
 import { MaxWidthContainer } from '@/+shared/components/layout/MaxWidthContainer';
-import { IcoTrophyFilled, IcoChallengeFilled, IcoStarFilled, IcoCrownFilled, IcoLogoutFilled, IcoTimerLined1 } from '@/+shared/assets/icons';
+import { IcoTrophyFilled, IcoChallengeFilled, IcoStarFilled, IcoCrownFilled, IcoLogoutFilled, IcoTimerLined1, IcoMedalFilled } from '@/+shared/assets/icons';
 import {
   Shield, 
   Target, 
@@ -16,7 +16,10 @@ import {
   Activity,
   ArrowRight
 } from 'lucide-react';
-import Header from '@/+shared/components/layout/Header';
+import { AnimatedBackground } from '@/home/components';
+import { leaderBg1, leaderBg2, leaderBg3 } from '@/home/assets';
+import { headerInfo } from '@/dashboard/data/mockData';
+import { ActivityCard, CompetitionCard, StatCard } from '@/dashboard/components';
 
 // Props interface removed - using React Router now
 
@@ -47,13 +50,6 @@ interface RecentActivity {
   isFirstBlood?: boolean;
 }
 
-interface UserStats {
-  totalCompetitions: number;
-  totalSolved: number;
-  totalPoints: number;
-  averageRank: number;
-  firstBloods: number;
-}
 
 const dashboardMocks = [
   {
@@ -156,54 +152,13 @@ const mockActivities: RecentActivity[] = [
   }
 ];
 
-const mockStats: UserStats = {
-  totalCompetitions: 15,
-  totalSolved: 127,
-  totalPoints: 18650,
-  averageRank: 8.3,
-  firstBloods: 12
-};
 
 export function DashboardPage() {
   const navigate = useNavigate();
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
 
   const handleLogout = () => {
     navigate('/');
-  };
-
-  const getActivityIcon = (type: string) => {
-    switch (type) {
-      case 'solve':
-        return <Target className="h-4 w-4" />;
-      case 'join':
-        return <Users className="h-4 w-4" />;
-      case 'rank_up':
-        return <TrendingUp className="h-4 w-4" />;
-      default:
-        return <Activity className="h-4 w-4" />;
-    }
-  };
-
-  const getActivityColor = (type: string) => {
-    switch (type) {
-      case 'solve':
-        return 'text-accent';
-      case 'join':
-        return 'text-primary';
-      case 'rank_up':
-        return 'text-warning';
-      default:
-        return 'text-muted-foreground';
-    }
   };
 
   return (
@@ -264,270 +219,88 @@ export function DashboardPage() {
         </div>
       </nav>
 
-      {/* Stats Section with Background */}
-      <section 
-        className="py-20 relative"
-        style={{
-          background: 'url(/images/background.png) no-repeat center center'
-        }}
-      >
-        <MaxWidthContainer className="relative z-10">
-          {/* Welcome Header */}
-          <div className="mb-8">
-            <h1 className="text-heading-large text-primary-50 mb-2">
-              Welcome back, <span className="text-primary">{user.nickname || user.email}</span>
-            </h1>
-            <p className="text-primary-100 text-body-medium">
-              Ready to hack some challenges? Let's see what's new.
-            </p>
+      <MaxWidthContainer className="relative z-10">
+        {/* Welcome Header */}
+        <div className="p-4">
+          <div className="absolute inset-0 z-0">
+            <AnimatedBackground
+              images={[leaderBg1, leaderBg2, leaderBg3]}
+              interval={400}
+              opacity={1}
+            />
           </div>
-
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {dashboardMocks.map((stat) => {
-              const IconComponent = stat.icon;
-              return (
-                <Card key={stat.id} className="bg-neutral-900/50 backdrop-blur-sm border border-primary-900 rounded-3xl p-10">
-                    <div className="flex items-center justify-between">
-                      <div className="flex flex-col">
-                        <p className={`text-primary text-heading-large`}>
-                          {stat.value}
-                        </p>
-                        <p className={`text-primary-200 text-heading-xsmall`}>
-                          {stat.label}
-                        </p>
-                      </div>
-                      <div className="w-14 h-14 flex items-center justify-center">
-                        <IconComponent 
-                          className="w-14 h-14" 
-                          style={{
-                            background: 'linear-gradient(135deg, #3730A3 2%, #1E1B4B 100%)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text',
-                            fill: 'url(#icon-gradient)'
-                          }}
-                        />
-                        <svg width="0" height="0" className="absolute">
-                          <defs>
-                            <linearGradient id="icon-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                              <stop offset="2%" stopColor="#3730A3" />
-                              <stop offset="100%" stopColor="#1E1B4B" />
-                            </linearGradient>
-                          </defs>
-                        </svg>
-                      </div>
-                    </div>
-                </Card>
-              );
-            })}
+          <div className='relative z-10 mt-20 mb-14 flex items-center justify-between'>
+            <div>
+              <h1 className="text-heading-large text-primary-50 mb-2">
+                Welcome back <span className="text-primary">{user.nickname || user.email}</span>
+              </h1>
+              <p className="text-primary-100 text-body-medium">
+                Ready to hack some challenges? Let's see what's new.
+              </p>
+            </div>
+            <div className='flex items-center gap-10'>
+              {headerInfo.map((info) => {
+                return (
+                  <div className='flex flex-col items-center gap-1'>
+                    <span className='text-heading-xsmall text-primary-50'>{info.value}</span>
+                    <span className='text-primary-200 text-body-small'>{info.label}</span>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-        </MaxWidthContainer>
-      </section>
+        </div>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+          {dashboardMocks.map((stat) => (
+            <StatCard
+              key={stat.id}
+              id={stat.id}
+              value={stat.value}
+              label={stat.label}
+              icon={stat.icon}
+            />
+          ))}
+        </div>
+      </MaxWidthContainer>
 
       {/* Main Content */}
       <section className="py-20">
         <MaxWidthContainer>
-          <Tabs defaultValue="competitions" className="space-y-6">
-          <TabsList className="bg-card/50 backdrop-blur-sm">
-            <TabsTrigger value="competitions" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
-              My Competitions
-            </TabsTrigger>
-            <TabsTrigger value="activity" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
-              Recent Activity
-            </TabsTrigger>
-          </TabsList>
+          <div className='flex items-center gap-4 mb-10'>
+            <IcoMedalFilled className='text-primary size-6' />
+            <span className='text-primary-200 text-heading-medium'>My Competitions</span>
+          </div>
+          <div className="grid gap-6">
+            {mockCompetitions.map((comp) => (
+              <CompetitionCard
+                key={comp.id}
+                competition={comp}
+              />
+            ))}
+          </div>
+        </MaxWidthContainer>
+      </section>
 
-          <TabsContent value="competitions" className="space-y-6">
-            <div className="grid gap-6">
-              {mockCompetitions.map((comp) => (
-                <Card key={comp.id} className="bg-card/50 backdrop-blur-sm border-primary/30 hover:border-accent transition-all duration-300">
-                  <CardHeader className="pb-4">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <CardTitle className="text-xl text-foreground">{comp.name}</CardTitle>
-                        <CardDescription className="text-muted-foreground">
-                          {comp.team ? `Team: ${comp.team.name}` : 'Individual Competition'}
-                        </CardDescription>
-                      </div>
-                      <Badge 
-                        variant={comp.status === 'running' ? 'default' : comp.status === 'ended' ? 'secondary' : 'outline'}
-                        className={
-                          comp.status === 'running' 
-                            ? 'bg-accent text-accent-foreground' 
-                            : comp.status === 'ended'
-                            ? 'bg-muted text-muted-foreground'
-                            : 'bg-warning text-warning-foreground'
-                        }
-                      >
-                        {comp.status.toUpperCase()}
-                      </Badge>
-                    </div>
-                  </CardHeader>
-                  
-                  <CardContent>
-                    <div className="grid md:grid-cols-3 gap-6">
-                      {/* Rank & Score */}
-                      <div className="space-y-4">
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-2">Current Rank</p>
-                          <div className="flex items-baseline space-x-2">
-                            <span className="text-3xl font-bold text-primary">
-                              {comp.myRank || '-'}
-                            </span>
-                            <span className="text-muted-foreground">
-                              / {comp.totalTeams || '-'}
-                            </span>
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-2">Score</p>
-                          <div className="flex items-baseline space-x-2">
-                            <span className="text-2xl font-bold text-accent">
-                              {comp.myScore.toLocaleString()}
-                            </span>
-                            <span className="text-muted-foreground">
-                              / {comp.maxScore.toLocaleString()}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Progress */}
-                      <div className="space-y-4">
-                        <div>
-                          <div className="flex justify-between text-sm mb-2">
-                            <span className="text-muted-foreground">Challenges</span>
-                            <span className="text-foreground">
-                              {comp.solvedChallenges} / {comp.totalChallenges}
-                            </span>
-                          </div>
-                          <Progress 
-                            value={(comp.solvedChallenges / comp.totalChallenges) * 100} 
-                            className="h-2"
-                          />
-                        </div>
-                        
-                        <div>
-                          <div className="flex justify-between text-sm mb-2">
-                            <span className="text-muted-foreground">Score Progress</span>
-                            <span className="text-foreground">
-                              {Math.round((comp.myScore / comp.maxScore) * 100)}%
-                            </span>
-                          </div>
-                          <Progress 
-                            value={(comp.myScore / comp.maxScore) * 100} 
-                            className="h-2"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Time & Actions */}
-                      <div className="space-y-4">
-                        {comp.timeLeft && (
-                          <div>
-                            <p className="text-sm text-muted-foreground mb-2">
-                              {comp.status === 'running' ? 'Time Left' : 'Starts In'}
-                            </p>
-                            <div className="flex items-center space-x-2">
-                              <Clock className="h-4 w-4 text-warning" />
-                              <span className="text-warning font-semibold">
-                                {comp.timeLeft}
-                              </span>
-                            </div>
-                          </div>
-                        )}
-                        
-                        <div className="flex flex-col space-y-2">
-                          <Button 
-                            className="bg-primary hover:bg-primary/80 text-primary-foreground"
-                            onClick={() => navigate('/challenges')}
-                            disabled={comp.status === 'ended'}
-                          >
-                            {comp.status === 'running' ? 'Continue' : comp.status === 'upcoming' ? 'View Details' : 'View Results'}
-                            <ArrowRight className="ml-2 h-4 w-4" />
-                          </Button>
-                          
-                          {comp.status === 'running' && (
-                            <Button 
-                              variant="secondary"
-                              className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
-                              onClick={() => navigate('/leaderboard')}
-                            >
-                              Leaderboard
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </TabsContent>
-          
-          <CardHeader>
-            <CardTitle className="flex items-center gap-4">
+      <section className='py-20 bg-neutral-800'>
+        <MaxWidthContainer>
+          <div className='flex flex-col gap-2 mb-10'>
+            <div className='flex items-center gap-4'>
               <IcoTimerLined1 className='text-primary size-6' />
               <span className='text-primary-200 text-heading-medium'>Recent Activity</span>
-            </CardTitle>
-            <CardDescription className="text-primary-100 text-body-medium">
+            </div>
+            <span className='text-primary-100 text-body-medium'>
               Your latest achievements and competition updates
-            </CardDescription>
-          </CardHeader>
+            </span>
+          </div>
 
-          <TabsContent value="activity" className="space-y-6">
-            <Card className="border-neutral-600 bg-neutral-900">
-              <CardContent>
-                <div className="grid grid-cols-1 gap-4 p-4">
-                  {mockActivities.map((activity) => (
-                    <div key={activity.id} className="flex items-center bg-neutral-800 rounded-2xl border-neutral-700 p-8 gap-4">
-                      <div className={`p-2 rounded-full bg-card ${getActivityColor(activity.type)}`}>
-                        {getActivityIcon(activity.type)}
-                      </div>
-                      
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center space-x-2">
-                          {activity.type === 'solve' && (
-                            <>
-                              <span className="text-foreground font-semibold">
-                                Solved "{activity.challengeName}"
-                              </span>
-                              {activity.isFirstBlood && (
-                                <Badge className="bg-primary text-neutral-0 text-body-xsmall">
-                                  FIRST BLOOD
-                                </Badge>
-                              )}
-                            </>
-                          )}
-                          {activity.type === 'join' && (
-                            <span className="text-foreground font-semibold">
-                              Joined {activity.competitionName}
-                            </span>
-                          )}
-                          {activity.type === 'rank_up' && (
-                            <span className="text-foreground font-semibold">
-                              Rank improved in {activity.competitionName}
-                            </span>
-                          )}
-                        </div>
-                        
-                        <div className="flex items-center space-x-4 mt-1 text-sm text-muted-foreground">
-                          <span>{activity.competitionName}</span>
-                          {activity.points && (
-                            <span className="text-accent">+{activity.points} pts</span>
-                          )}
-                          <span>{activity.timestamp}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+          <Card className="border-neutral-600 bg-neutral-900">
+            <div className="grid grid-cols-1 gap-4 p-4">
+              {mockActivities.map((activity) => (
+                <ActivityCard key={activity.id} activity={activity} />
+              ))}
+            </div>
+          </Card>
         </MaxWidthContainer>
       </section>
     </div>

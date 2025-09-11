@@ -78,7 +78,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         ref={ref}
         data-slot="badge"
         className={cn(
-          "rounded-radius-xs px-2 py-1 text-body-xsmall-bold whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden h-6 flex items-center justify-center",
+          "rounded-radius-xs px-2 py-1 text-body-xsmall-bold whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden h-6 flex",
           className
         )}
         style={variantStyle}
