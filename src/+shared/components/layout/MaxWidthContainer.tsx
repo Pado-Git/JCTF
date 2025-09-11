@@ -46,7 +46,7 @@ export function MaxWidthContainer<TOuter extends ElementType = 'div', TInner ext
         {addonNodes?.afterbegin}
         <InnerWrapper
           className={cn(
-            'w-full max-w-[1520px] px-6',
+            'w-full max-w-[1260px] px-6',
             innerProps?.className
           )}
           {...restInnerProps}
