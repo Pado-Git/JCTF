@@ -65,10 +65,10 @@ export function HowItWorks() {
       {/* Header */}
       <div className="flex items-start gap-14 mb-12">
         <div className="flex-1 max-w-[350px]">
-          <h2 className="text-heading-large text-primary-200 mb-4">
+          <h2 className="typo-heading-large text-primary-200 mb-4">
             How It Works
           </h2>
-          <p className="text-body-medium text-primary-50">
+          <p className="typo-body-medium text-primary-50">
             Three simple steps to start hacking
           </p>
         </div>
@@ -86,13 +86,13 @@ export function HowItWorks() {
                 {/* Step Content */}
                 <div className="flex-1 space-y-4">
                   <div className="flex items-center gap-6">
-                    <span className="text-heading-large text-primary">{step.number}</span>
-                    <h3 className="text-heading-large text-primary-50">{step.title}</h3>
+                    <span className="typo-heading-large text-primary">{step.number}</span>
+                    <h3 className="typo-heading-large text-primary-50">{step.title}</h3>
                   </div>
-                  <h4 className="text-body-large text-primary-50 font-bold">
+                  <h4 className="typo-body-large text-primary-50 font-bold">
                     {step.subtitle}
                   </h4>
-                  <p className="text-body-medium text-primary-100">
+                  <p className="typo-body-medium text-primary-100">
                     {step.description.split('\n').map((line, i) => (
                       <span key={i}>
                         {line}

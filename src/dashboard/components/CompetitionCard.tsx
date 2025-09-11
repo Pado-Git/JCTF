@@ -1,14 +1,16 @@
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/+shared/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
+import { Card, CardContent, CardDescription, CardHeader } from '@/+shared/components/data-display/card';
 import { Badge } from '@/+shared/components/feedback/badge';
 import { Progress } from '@/+shared/components/feedback/progress';
 import { Clock, ArrowRight } from 'lucide-react';
+import { IcoIndividualLined, IcoTeamLined } from '@/+shared/assets';
+import { IcoChallengeFilled, IcoChart, IcoStarLined, IcoTimerLined1, IcoTimerLined2, IcoTrophyLined } from '@/+shared/assets/icons';
 
 interface CompetitionEntry {
   id: string;
   name: string;
-  status: 'running' | 'upcoming' | 'ended';
+  status: 'live' | 'upcoming' | 'ended';
   myRank: number;
   totalTeams: number;
   myScore: number;
@@ -31,77 +33,90 @@ export function CompetitionCard({ competition: comp }: CompetitionCardProps) {
 
   return (
     <Card className="bg-neutral-800 border-2 border-neutral-700 card-hover">
-      <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <CardTitle className="text-xl text-foreground">{comp.name}</CardTitle>
-            <CardDescription className="text-muted-foreground">
-              {comp.team ? `Team: ${comp.team.name}` : 'Individual Competition'}
-            </CardDescription>
-          </div>
-          <Badge 
-            variant={comp.status === 'running' ? 'default' : comp.status === 'ended' ? 'secondary' : 'outline'}
-            className={
-              comp.status === 'running' 
-                ? 'bg-accent text-accent-foreground' 
-                : comp.status === 'ended'
-                ? 'bg-muted text-muted-foreground'
-                : 'bg-warning text-warning-foreground'
+      <CardHeader className='flex justify-between align-start'>
+        <div className='flex flex-col gap-2'>
+          <span className="typo-heading-medium text-primary-100 mb-2">{comp.name}</span>
+          
+          <div className='flex gap-2'>
+            <Badge variant={comp.status} />
+            {comp.team ?
+              <Badge variant="participant"><IcoTeamLined /> Team</Badge> :
+              <Badge variant="participant"><IcoIndividualLined />Individual</Badge>
             }
-          >
-            {comp.status.toUpperCase()}
-          </Badge>
+          </div>
+          {comp.team &&
+            <CardDescription className="typo-body-small text-primary-300">
+              Team <span className="typo-body-small-bold text-neutral-0">{comp.team?.name}</span>
+            </CardDescription>
+          }
         </div>
+        {comp.timeLeft && (
+          <div className='flex flex-col gap-1'>
+            <div className="flex items-center gap-1 text-neutral-200 typo-body-xsmall">
+              <IcoTimerLined2 className='w-4 h-4' />
+              {comp.status === 'live' ? 'Time Left' : 'Starts In'}
+            </div>
+            <span className="typo-body-medium text-neutral-50">
+              {comp.timeLeft}
+            </span>
+          </div>
+        )}
       </CardHeader>
-      
+
       <CardContent>
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className='flex flex-col gap-4'>
           {/* Rank & Score */}
-          <div className="space-y-4">
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">Current Rank</p>
-              <div className="flex items-baseline space-x-2">
-                <span className="text-3xl font-bold text-primary">
-                  {comp.myRank || '-'}
-                </span>
-                <span className="text-muted-foreground">
-                  / {comp.totalTeams || '-'}
-                </span>
+          <div className='flex gap-48 items-center'>
+            <div className='flex gap-4 items-center'>
+              <IcoTrophyLined className='size-6 text-primary-50' />
+              <div>
+                <div className="flex items-center gap-1">
+                  <span className="typo-heading-medium text-primary-50">
+                    {comp.myRank || '-'}
+                  </span>
+                  <span className="typo-body-medium text-neutral-200">
+                    /{comp.totalTeams || '-'}
+                  </span>
+                </div>
+                <p className="typo-body-xsmall text-primary-100">Current Rank</p>
               </div>
             </div>
-            
-            <div>
-              <p className="text-sm text-muted-foreground mb-2">Score</p>
-              <div className="flex items-baseline space-x-2">
-                <span className="text-2xl font-bold text-accent">
-                  {comp.myScore.toLocaleString()}
-                </span>
-                <span className="text-muted-foreground">
-                  / {comp.maxScore.toLocaleString()}
-                </span>
+            <div className='flex gap-4 items-center'>
+              <IcoChallengeFilled className='size-6 text-primary-50' />
+              <div>
+                <div className="flex items-center gap-1">
+                  <span className="typo-heading-medium text-primary-50">
+                    {comp.solvedChallenges || '-'}
+                  </span>
+                  <span className="typo-body-medium text-neutral-200">
+                    /{comp.totalChallenges || '-'}
+                  </span>
+                </div>
+                <p className="typo-body-xsmall text-primary-100">Challenges</p>
+              </div>
+            </div>
+            <div className='flex gap-4 items-center'>
+              <IcoStarLined className='size-6 text-primary-50' />
+              <div>
+                <div className="flex items-center gap-1">
+                  <span className="typo-heading-medium text-primary-50">
+                    {comp.myScore || '-'}
+                  </span>
+                  <span className="typo-body-medium text-neutral-200">
+                    /{comp.maxScore || '-'}
+                  </span>
+                </div>
+                <p className="typo-body-xsmall text-primary-100">Score</p>
               </div>
             </div>
           </div>
-
-          {/* Progress */}
-          <div className="space-y-4">
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Challenges</span>
-                <span className="text-foreground">
-                  {comp.solvedChallenges} / {comp.totalChallenges}
-                </span>
-              </div>
-              <Progress 
-                value={(comp.solvedChallenges / comp.totalChallenges) * 100} 
-                className="h-2"
-              />
-            </div>
-            
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-muted-foreground">Score Progress</span>
-                <span className="text-foreground">
+         
+          <div className='flex justify-between items-center gap-6'>
+            {/* Progress */}
+            <div className="flex flex-col gap-2 flex-[3]">
+              <div className="flex justify-between items-center typo-body-xsmall text-neutral-200">
+                <span>Score Progress</span>
+                <span className="typo-body-xsmall text-neutral-200">
                   {Math.round((comp.myScore / comp.maxScore) * 100)}%
                 </span>
               </div>
@@ -110,46 +125,30 @@ export function CompetitionCard({ competition: comp }: CompetitionCardProps) {
                 className="h-2"
               />
             </div>
-          </div>
 
-          {/* Time & Actions */}
-          <div className="space-y-4">
-            {comp.timeLeft && (
-              <div>
-                <p className="text-sm text-muted-foreground mb-2">
-                  {comp.status === 'running' ? 'Time Left' : 'Starts In'}
-                </p>
-                <div className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4 text-warning" />
-                  <span className="text-warning font-semibold">
-                    {comp.timeLeft}
-                  </span>
-                </div>
-              </div>
-            )}
-            
-            <div className="flex flex-col space-y-2">
-              <Button 
-                className="bg-primary hover:bg-primary/80 text-primary-foreground"
+            <div className="flex gap-2 flex-[2] justify-end">
+              <Button
+                variant="primary" size="small"
                 onClick={() => navigate('/challenges')}
                 disabled={comp.status === 'ended'}
               >
-                {comp.status === 'running' ? 'Continue' : comp.status === 'upcoming' ? 'View Details' : 'View Results'}
-                <ArrowRight className="ml-2 h-4 w-4" />
+                <IcoTrophyLined />
+                {comp.status === 'live' ? 'Continue' : comp.status === 'upcoming' ? 'View Details' : 'View Results'}
               </Button>
               
-              {comp.status === 'running' && (
+              {comp.status === 'live' && (
                 <Button 
-                  variant="secondary"
-                  className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
+                  variant="secondary" size="small"
                   onClick={() => navigate('/leaderboard')}
                 >
+                  <IcoChart />
                   Leaderboard
                 </Button>
               )}
             </div>
           </div>
         </div>
+
       </CardContent>
     </Card>
   );

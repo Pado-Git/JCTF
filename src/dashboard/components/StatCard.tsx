@@ -13,10 +13,10 @@ export function StatCard({ id, value, label, icon: IconComponent }: StatCardProp
     <Card key={id} className="bg-neutral-900/50 backdrop-blur-sm border border-primary-900 rounded-3xl p-10">
       <div className="flex items-center justify-between">
         <div className="flex flex-col">
-          <p className="text-primary text-heading-large">
+          <p className="text-primary typo-heading-large">
             {value}
           </p>
-          <p className="text-primary-200 text-heading-xsmall">
+          <p className="text-primary-200 typo-heading-xsmall">
             {label}
           </p>
         </div>

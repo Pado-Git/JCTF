@@ -224,69 +224,6 @@
   }
 }
 
-/**
- * Base typography - Based on Figma Design System
- */
-/* @layer base {
-  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
-    h1 {
-      font-size: var(--text-heading-large);
-      font-weight: var(--text-heading-large-weight);
-      line-height: var(--text-heading-large-height);
-      letter-spacing: var(--text-heading-large-spacing);
-    }
-
-    h2 {
-      font-size: var(--text-heading-medium);
-      font-weight: var(--text-heading-medium-weight);
-      line-height: var(--text-heading-medium-height);
-      letter-spacing: var(--text-heading-medium-spacing);
-    }
-
-    h3 {
-      font-size: var(--text-heading-small);
-      font-weight: var(--text-heading-small-weight);
-      line-height: var(--text-heading-small-height);
-      letter-spacing: var(--text-heading-small-spacing);
-    }
-
-    h4 {
-      font-size: var(--text-heading-xsmall);
-      font-weight: var(--text-heading-xsmall-weight);
-      line-height: var(--text-heading-xsmall-height);
-      letter-spacing: var(--text-heading-xsmall-spacing);
-    }
-
-    p {
-      font-size: var(--text-body-medium);
-      font-weight: var(--text-body-medium-weight);
-      line-height: var(--text-body-medium-height);
-      letter-spacing: var(--text-body-medium-spacing);
-    }
-
-    label {
-      font-size: var(--text-body-medium);
-      font-weight: var(--text-body-medium-weight);
-      line-height: var(--text-body-medium-height);
-      letter-spacing: var(--text-body-medium-spacing);
-    }
-
-    button {
-      font-size: var(--text-body-medium);
-      font-weight: var(--text-body-medium-weight);
-      line-height: var(--text-body-medium-height);
-      letter-spacing: var(--text-body-medium-spacing);
-    }
-
-    input {
-      font-size: var(--text-body-medium);
-      font-weight: var(--text-body-medium-weight);
-      line-height: var(--text-body-medium-height);
-      letter-spacing: var(--text-body-medium-spacing);
-    }
-  }
-} */
-
 html {
   font-size: var(--font-size);
 }
@@ -296,21 +233,21 @@ html {
  */
 @layer utilities {
   /* Display Text */
-  .text-display-large {
+  .typo-display-large {
     font-size: var(--text-display-large);
     font-weight: var(--text-display-large-weight);
     line-height: var(--text-display-large-height);
     letter-spacing: var(--text-display-large-spacing);
   }
   
-  .text-display-medium {
+  .typo-display-medium {
     font-size: var(--text-display-medium);
     font-weight: var(--text-display-medium-weight);
     line-height: var(--text-display-medium-height);
     letter-spacing: var(--text-display-medium-spacing);
   }
   
-  .text-display-small {
+  .typo-display-small {
     font-size: var(--text-display-small);
     font-weight: var(--text-display-small-weight);
     line-height: var(--text-display-small-height);
@@ -318,42 +255,42 @@ html {
   }
   
   /* Heading Text */
-  .text-heading-xlarge {
+  .typo-heading-xlarge {
     font-size: var(--text-heading-xlarge);
     font-weight: var(--text-heading-xlarge-weight);
     line-height: var(--text-heading-xlarge-height);
     letter-spacing: var(--text-heading-xlarge-spacing);
   }
   
-  .text-heading-large {
+  .typo-heading-large {
     font-size: var(--text-heading-large);
     font-weight: var(--text-heading-large-weight);
     line-height: var(--text-heading-large-height);
     letter-spacing: var(--text-heading-large-spacing);
   }
   
-  .text-heading-medium {
+  .typo-heading-medium {
     font-size: var(--text-heading-medium);
     font-weight: var(--text-heading-medium-weight);
     line-height: var(--text-heading-medium-height);
     letter-spacing: var(--text-heading-medium-spacing);
   }
   
-  .text-heading-small {
+  .typo-heading-small {
     font-size: var(--text-heading-small);
     font-weight: var(--text-heading-small-weight);
     line-height: var(--text-heading-small-height);
     letter-spacing: var(--text-heading-small-spacing);
   }
   
-  .text-heading-xsmall {
+  .typo-heading-xsmall {
     font-size: var(--text-heading-xsmall);
     font-weight: var(--text-heading-xsmall-weight);
     line-height: var(--text-heading-xsmall-height);
     letter-spacing: var(--text-heading-xsmall-spacing);
   }
   
-  .text-heading-xxsmall {
+  .typo-heading-xxsmall {
     font-size: var(--text-heading-xxsmall);
     font-weight: var(--text-heading-xxsmall-weight);
     line-height: var(--text-heading-xxsmall-height);
@@ -361,28 +298,28 @@ html {
   }
   
   /* Body Text */
-  .text-body-large {
+  .typo-body-large {
     font-size: var(--text-body-large);
     font-weight: var(--text-body-large-weight);
     line-height: var(--text-body-large-height);
     letter-spacing: var(--text-body-large-spacing);
   }
   
-  .text-body-medium {
+  .typo-body-medium {
     font-size: var(--text-body-medium);
     font-weight: var(--text-body-medium-weight);
     line-height: var(--text-body-medium-height);
     letter-spacing: var(--text-body-medium-spacing);
   }
   
-  .text-body-small {
+  .typo-body-small {
     font-size: var(--text-body-small);
     font-weight: var(--text-body-small-weight);
     line-height: var(--text-body-small-height);
     letter-spacing: var(--text-body-small-spacing);
   }
   
-  .text-body-xsmall {
+  .typo-body-xsmall {
     font-size: var(--text-body-xsmall);
     font-weight: var(--text-body-xsmall-weight);
     line-height: var(--text-body-xsmall-height);
@@ -390,28 +327,28 @@ html {
   }
 
   /* Body Text Bold */
-  .text-body-large-bold {
+  .typo-body-large-bold {
     font-size: var(--text-body-large);
     font-weight: 700;
     line-height: var(--text-body-large-height);
     letter-spacing: var(--text-body-large-spacing);
   }
   
-  .text-body-medium-bold {
+  .typo-body-medium-bold {
     font-size: var(--text-body-medium);
     font-weight: 700;
     line-height: var(--text-body-medium-height);
     letter-spacing: var(--text-body-medium-spacing);
   }
   
-  .text-body-small-bold {
+  .typo-body-small-bold {
     font-size: var(--text-body-small);
     font-weight: 700;
     line-height: var(--text-body-small-height);
     letter-spacing: var(--text-body-small-spacing);
   }
   
-  .text-body-xsmall-bold {
+  .typo-body-xsmall-bold {
     font-size: var(--text-body-xsmall);
     font-weight: 700;
     line-height: var(--text-body-xsmall-height);
