@@ -74,7 +74,7 @@ export function CurrentCompetitions() {
                 <h3 className="typo-heading-medium text-primary-100">
                   {comp.name}
                 </h3>
-                <div className={`px-2 py-1 rounded-xs text-body-xsmall font-bold w-fit ${
+                <div className={`px-2 py-1 rounded-xs typo-body-xsmall font-bold w-fit ${
                   comp.status === 'live' 
                     ? 'bg-accent text-accent-foreground' 
                     : 'bg-warning text-warning-foreground'
