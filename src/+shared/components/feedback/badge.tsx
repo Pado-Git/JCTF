@@ -1,46 +1,96 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/+shared/utils";
 
-const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
-  {
-    variants: {
-      variant: {
-        default:
-          "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
-        secondary:
-          "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
-        destructive:
-          "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline:
-          "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
-      },
-    },
-    defaultVariants: {
-      variant: "default",
-    },
+// Badge 스타일 정의
+const BADGE_STYLES = {
+  // Competition Status
+  live: { 
+    backgroundColor: 'var(--color-success)', 
+    color: 'var(--color-neutral-0)' 
   },
-);
+  upcoming: { 
+    backgroundColor: 'var(--color-warning)', 
+    color: 'var(--color-neutral-0)' 
+  },
+  ended: { 
+    backgroundColor: 'var(--color-neutral-400)', 
+    color: 'var(--color-neutral-900)' 
+  },
+  
+  // Level Status
+  easy: { 
+    backgroundColor: 'var(--color-success-dark)', 
+    color: 'var(--color-success)' 
+  },
+  beginner: { 
+    backgroundColor: 'var(--color-success-dark)', 
+    color: 'var(--color-success)' 
+  },
+  medium: { 
+    backgroundColor: 'var(--color-warning-dark)', 
+    color: 'var(--color-warning)' 
+  },
+  advanced: { 
+    backgroundColor: 'var(--color-warning-dark)', 
+    color: 'var(--color-warning)' 
+  },
+  hard: { 
+    backgroundColor: 'var(--color-error-dark)', 
+    color: 'var(--color-error)' 
+  },
+  expert: { 
+    backgroundColor: 'var(--color-error-dark)', 
+    color: 'var(--color-error)' 
+  },
+  
+  // Participant Status
+  participant: { 
+    backgroundColor: 'var(--color-neutral-500)', 
+    color: 'var(--color-neutral-100)',
+    border: '1px solid var(--color-neutral-400)'
+  },
+  
+  primary: { 
+    backgroundColor: 'var(--color-primary)', 
+    color: 'var(--color-neutral-0)' 
+  }
+} as const;
 
-function Badge({
-  className,
-  variant,
-  asChild = false,
-  ...props
-}: React.ComponentProps<"span"> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot : "span";
+export type BadgeVariant = keyof typeof BADGE_STYLES;
 
-  return (
-    <Comp
-      data-slot="badge"
-      className={cn(badgeVariants({ variant }), className)}
-      {...props}
-    />
-  );
+export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
+  variant?: BadgeVariant;
+  asChild?: boolean;
+  icon?: React.ReactNode;
 }
 
-export { Badge, badgeVariants };
+const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
+  ({ className, variant = 'primary', icon, children, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "span";
+    
+    // variant에 따른 스타일 가져오기
+    const variantStyle = BADGE_STYLES[variant] || BADGE_STYLES.primary;
+
+    return (
+      <Comp
+        ref={ref}
+        data-slot="badge"
+        className={cn(
+          "rounded-radius-xs px-2 py-1 text-body-xsmall-bold whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden h-6 flex items-center justify-center",
+          className
+        )}
+        style={variantStyle}
+        {...props}
+      >
+        {icon && <span className="flex items-center">{icon}</span>}
+        {children}
+      </Comp>
+    );
+  }
+);
+
+Badge.displayName = "Badge";
+
+export { Badge, BADGE_STYLES };
