@@ -11,7 +11,7 @@ export function CurrentCompetitions() {
       id: 'comp-001',
       name: 'Winter CTF 2024',
       description: 'Test your skills in web exploitation, cryptography, and reverse engineering',
-      status: 'running',
+      status: 'live',
       startTime: '2024-01-15T09:00:00Z',
       endTime: '2024-01-17T21:00:00Z',
       participants: 234,
@@ -75,11 +75,11 @@ export function CurrentCompetitions() {
                   {comp.name}
                 </h3>
                 <div className={`px-2 py-1 rounded-xs text-body-xsmall font-bold w-fit ${
-                  comp.status === 'running' 
+                  comp.status === 'live' 
                     ? 'bg-accent text-accent-foreground' 
                     : 'bg-warning text-warning-foreground'
                 }`}>
-                  {comp.status === 'running' ? 'Live' : 'Upcoming'}
+                  {comp.status === 'live' ? 'Live' : 'Upcoming'}
                 </div>
                 <p className="text-body-medium text-primary-50 mt-4 h-12 flex items-start">
                   {comp.description}
@@ -123,7 +123,7 @@ export function CurrentCompetitions() {
                 onClick={() => navigate(isAuthenticated ? '/competitions' : '/login')}
                 className="w-full bg-primary hover:bg-primary/80 text-primary-foreground h-10 text-[15px]"
               >
-                {comp.status === 'running' ? 'Join now' : 'Register'}
+                {comp.status === 'live' ? 'Join now' : 'Register'}
               </Button>
             </div>
           </Card>

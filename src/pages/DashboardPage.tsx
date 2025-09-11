@@ -11,7 +11,7 @@ import { ActivityCard, CompetitionCard, StatCard } from '@/dashboard/components'
 interface CompetitionEntry {
   id: string;
   name: string;
-  status: 'running' | 'upcoming' | 'ended';
+  status: 'live' | 'upcoming' | 'ended';
   myRank: number;
   totalTeams: number;
   myScore: number;
@@ -67,7 +67,7 @@ const mockCompetitions: CompetitionEntry[] = [
   {
     id: 'comp-001',
     name: 'Winter CTF 2024',
-    status: 'running',
+    status: 'live',
     myRank: 12,
     totalTeams: 87,
     myScore: 1250,

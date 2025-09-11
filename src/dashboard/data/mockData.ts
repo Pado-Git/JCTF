@@ -32,7 +32,7 @@ export const mockCompetitions: CompetitionEntry[] = [
   {
     id: 'comp-001',
     name: 'Winter CTF 2024',
-    status: 'running',
+    status: 'live',
     myRank: 12,
     totalTeams: 87,
     myScore: 1250,
