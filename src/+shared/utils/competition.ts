@@ -2,7 +2,7 @@ export interface Competition {
   id: string;
   name: string;
   description: string;
-  status: 'upcoming' | 'running' | 'ended';
+  status: 'upcoming' | 'live' | 'ended';
   startTime: string;
   endTime: string;
   participants: number;
@@ -59,7 +59,7 @@ export function getTimeRemaining(comp: Competition): string {
   const start = new Date(comp.startTime).getTime();
   const end = new Date(comp.endTime).getTime();
   
-  const targetTime = comp.status === 'running' ? end : start;
+  const targetTime = comp.status === 'live' ? end : start;
   const difference = targetTime - now;
   
   if (difference <= 0) return 'Ended';

@@ -41,7 +41,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
         <div className="flex items-center space-x-2 gap-4">
           {activity.type === 'solve' && (
             <>
-              <span className="text-heading-xsmall text-neutral-0">
+              <span className="typo-heading-xsmall text-neutral-0">
                 Solved "{activity.challengeName}"
               </span>
               {activity.isFirstBlood && (
@@ -52,17 +52,17 @@ export function ActivityCard({ activity }: ActivityCardProps) {
             </>
           )}
           {activity.type === 'join' && (
-            <span className="text-heading-xsmall text-neutral-0">
+            <span className="typo-heading-xsmall text-neutral-0">
               Joined {activity.competitionName}
             </span>
           )}
           {activity.type === 'rank_up' && (
-            <span className="text-heading-xsmall text-neutral-0">
+            <span className="typo-heading-xsmall text-neutral-0">
               Rank improved in {activity.competitionName}
             </span>
           )}
         </div>
-        <div className="flex items-center space-x-4 mt-1 text-primary-300 text-body-xsmall">
+        <div className="flex items-center space-x-4 mt-1 text-primary-300 typo-body-xsmall">
           <span>{activity.competitionName}</span>
           <span>{activity.timestamp}</span>
         </div>

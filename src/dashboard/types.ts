@@ -1,7 +1,7 @@
 export interface CompetitionEntry {
   id: string;
   name: string;
-  status: 'running' | 'upcoming' | 'ended';
+  status: 'live' | 'upcoming' | 'ended';
   myRank: number;
   totalTeams: number;
   myScore: number;

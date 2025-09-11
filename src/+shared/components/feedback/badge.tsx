@@ -66,26 +66,50 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
   icon?: React.ReactNode;
 }
 
+// Badge 텍스트 매핑
+const BADGE_TEXT = {
+  // Competition Status
+  live: "Live",
+  upcoming: "Upcoming", 
+  ended: "Ended",
+  
+  // Level Status
+  easy: "Easy",
+  beginner: "Beginner",
+  medium: "Medium",
+  advanced: "Advanced",
+  hard: "Hard",
+  expert: "Expert",
+  
+  // Participant Status
+  participant: "Participant",
+  
+  primary: "Primary"
+} as const;
+
 const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className, variant = 'primary', icon, children, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "span";
     
     // variant에 따른 스타일 가져오기
     const variantStyle = BADGE_STYLES[variant] || BADGE_STYLES.primary;
+    
+    // children이 없으면 variant에 따른 텍스트 사용
+    const displayText = children || BADGE_TEXT[variant] || BADGE_TEXT.primary;
 
     return (
       <Comp
         ref={ref}
         data-slot="badge"
         className={cn(
-          "rounded-radius-xs px-2 py-1 text-body-xsmall-bold whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden h-6 flex",
+          "rounded-radius-xs px-2 py-1 typo-body-xsmall-bold whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden flex items-center justify-center",
           className
         )}
         style={variantStyle}
         {...props}
       >
         {icon && <span className="flex items-center">{icon}</span>}
-        {children}
+        {displayText}
       </Comp>
     );
   }

@@ -11,7 +11,7 @@ import { ActivityCard, CompetitionCard, StatCard } from '@/dashboard/components'
 interface CompetitionEntry {
   id: string;
   name: string;
-  status: 'running' | 'upcoming' | 'ended';
+  status: 'live' | 'upcoming' | 'ended';
   myRank: number;
   totalTeams: number;
   myScore: number;
@@ -67,7 +67,7 @@ const mockCompetitions: CompetitionEntry[] = [
   {
     id: 'comp-001',
     name: 'Winter CTF 2024',
-    status: 'running',
+    status: 'live',
     myRank: 12,
     totalTeams: 87,
     myScore: 1250,
@@ -193,7 +193,7 @@ export function DashboardPage() {
               <Button 
                 variant="secondary" 
                 onClick={handleLogout}
-                className="text-body-small text-bold text-primary"
+                className="typo-body-small text-bold text-primary"
               >
                 <IcoLogoutFilled />
                 Logout
@@ -215,10 +215,10 @@ export function DashboardPage() {
           </div>
           <div className='relative z-10 mt-20 mb-14 flex items-center justify-between'>
             <div>
-              <h1 className="text-heading-large text-primary-50 mb-2">
+              <h1 className="typo-heading-large text-primary-50 mb-2">
                 Welcome back <span className="text-primary">{user.nickname || user.email}</span>
               </h1>
-              <p className="text-primary-100 text-body-medium">
+              <p className="text-primary-100 typo-body-medium">
                 Ready to hack some challenges? Let's see what's new.
               </p>
             </div>
@@ -226,8 +226,8 @@ export function DashboardPage() {
               {headerInfo.map((info) => {
                 return (
                   <div className='flex flex-col items-center gap-1'>
-                    <span className='text-heading-xsmall text-primary-50'>{info.value}</span>
-                    <span className='text-primary-200 text-body-small'>{info.label}</span>
+                    <span className='typo-heading-xsmall text-primary-50'>{info.value}</span>
+                    <span className='text-primary-200 typo-body-small'>{info.label}</span>
                   </div>
                 )
               })}
@@ -253,7 +253,7 @@ export function DashboardPage() {
         <MaxWidthContainer>
           <div className='flex items-center gap-4 mb-10'>
             <IcoMedalFilled className='text-primary size-6' />
-            <span className='text-primary-200 text-heading-medium'>My Competitions</span>
+            <span className='text-primary-200 typo-heading-medium'>My Competitions</span>
           </div>
           <div className="grid gap-6">
             {mockCompetitions.map((comp) => (
@@ -271,9 +271,9 @@ export function DashboardPage() {
           <div className='flex flex-col gap-2 mb-10'>
             <div className='flex items-center gap-4'>
               <IcoTimerLined1 className='text-primary size-6' />
-              <span className='text-primary-200 text-heading-medium'>Recent Activity</span>
+              <span className='text-primary-200 typo-heading-medium'>Recent Activity</span>
             </div>
-            <span className='text-primary-100 text-body-medium'>
+            <span className='text-primary-100 typo-body-medium'>
               Your latest achievements and competition updates
             </span>
           </div>

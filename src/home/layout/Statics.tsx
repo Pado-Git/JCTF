@@ -63,10 +63,10 @@ export function Statics() {
     <MaxWidthContainer className="relative z-10">
       <div className="flex items-center justify-between gap-14">
         <div className="mb-12 w-[350px]">
-          <h2 className="text-heading-large text-primary-200 mb-4">
+          <h2 className="typo-heading-large text-primary-200 mb-4">
             Platform Statistics
           </h2>
-          <p className="text-body-medium text-primary-50">
+          <p className="typo-body-medium text-primary-50">
             Join thousands of security enthusiasts
           </p>
         </div>
@@ -84,10 +84,10 @@ export function Statics() {
               <Card key={stat.id} className="bg-background/60 border border-primary-900 text-center py-11">
                 <CardContent className="p-8">
                   <stat.icon className="h-12 w-12 text-primary mx-auto mb-4" fill="primary-500" />
-                  <div className="text-heading-large text-primary mb-2">
+                  <div className="typo-heading-large text-primary mb-2">
                     <CountUp end={values[index]} />
                   </div>
-                  <p className="text-primary-200 text-heading-small">{stat.label}</p>
+                  <p className="text-primary-200 typo-heading-small">{stat.label}</p>
                 </CardContent>
               </Card>
             );
