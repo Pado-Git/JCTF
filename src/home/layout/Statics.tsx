@@ -1,6 +1,6 @@
 import { IcoChallengeFilled, IcoLightFilled, IcoTeamFilled, IcoTrophyFilled } from "@/+shared/assets";
-import { Card, CardContent, CountUp, MaxWidthContainer } from "@/+shared/components";
-import FaultyTerminal from "@/home/components/FaultyTerminal/FaultyTerminal";
+import { Card, CardContent, CountUp, MaxWidthContainer, AnimatedBackground } from "@/+shared/components";
+import { staticsBg1, staticsBg2, staticsBg3 } from "@home/assets/background";
 
 export function Statics() {
   interface StatCard {
@@ -53,24 +53,13 @@ export function Statics() {
 
   return(
     <section className="py-20 bg-card/20 relative">
-    <div className="absolute inset-0">
-      <FaultyTerminal
-        scale={2.4}
-        digitSize={2.7}
-        gridMul={[7, 2]}
-        timeScale={1}
-        scanlineIntensity={0.3}
-        noiseAmp={0.9}
-        chromaticAberration={0}
-        dither={0}
-        curvature={0}
-        tint="#ffffff"
-        mouseReact={false}
-        mouseStrength={0.3}
-        pageLoadAnimation={false}
-        brightness={0.1}
-      />
-    </div>
+    <div className="absolute inset-0 z-0">
+    <AnimatedBackground
+      images={[staticsBg1, staticsBg2, staticsBg3]}
+      interval={400}
+      opacity={0.7}
+    />
+  </div>
     <MaxWidthContainer className="relative z-10">
       <div className="flex items-center justify-between gap-14">
         <div className="mb-12 w-[350px]">
@@ -92,7 +81,7 @@ export function Statics() {
             ];
             
             return (
-              <Card key={stat.id} className="bg-neutral-0/50 border border-primary-900 text-center py-11">
+              <Card key={stat.id} className="bg-background/60 border border-primary-900 text-center py-11">
                 <CardContent className="p-8">
                   <stat.icon className="h-12 w-12 text-primary mx-auto mb-4" fill="primary-500" />
                   <div className="text-heading-large text-primary mb-2">

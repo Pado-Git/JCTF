@@ -1,22 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/+shared/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
-import { Badge } from '@/+shared/components/feedback/badge';
-import { Progress } from '@/+shared/components/feedback/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/data-display/tabs';
-import { MaxWidthContainer } from '@/+shared/components/layout/MaxWidthContainer';
+import { Button, Card, MaxWidthContainer, AnimatedBackground } from '@/+shared/components';
 import { IcoTrophyFilled, IcoChallengeFilled, IcoStarFilled, IcoCrownFilled, IcoLogoutFilled, IcoTimerLined1, IcoMedalFilled } from '@/+shared/assets/icons';
-import {
-  Shield, 
-  Target, 
-  Users, 
-  Clock, 
-  TrendingUp,
-  Activity,
-  ArrowRight
-} from 'lucide-react';
-import { AnimatedBackground } from '@/home/components';
 import { leaderBg1, leaderBg2, leaderBg3 } from '@/home/assets';
 import { headerInfo } from '@/dashboard/data/mockData';
 import { ActivityCard, CompetitionCard, StatCard } from '@/dashboard/components';
@@ -169,7 +154,6 @@ export function DashboardPage() {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-6">
               <div className="flex items-center space-x-2">
-                <Shield className="h-8 w-8 text-primary" />
                 <span className="text-2xl font-bold text-primary">JCTF</span>
               </div>
               <div className="hidden md:flex items-center gap-16">

@@ -1,4 +1,4 @@
-import { useBackgroundAnimation } from '@/home/hooks/useBackgroundAnimation';
+import { useBackgroundAnimation } from '@/+shared/hooks/useBackgroundAnimation';
 
 interface AnimatedBackgroundProps {
   images: string[];
