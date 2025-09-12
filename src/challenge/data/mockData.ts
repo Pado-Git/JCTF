@@ -133,7 +133,7 @@ export const mockChallenges: Challenge[] = [
     solved: false,
     isFirstBlood: false,
     solveCount: 1,
-    difficulty: 'Insane',
+    difficulty: 'Medium',
     files: ['nightmare.exe'],
     hint: 'The packer is a custom variant of UPX',
     firstBlood: {
@@ -157,6 +157,22 @@ export const mockChallenges: Challenge[] = [
     files: ['evidence.img', 'network.pcap'],
     hint: 'Check the deleted files and network traffic for suspicious activity',
     recentSolvers: ['ForensicsExpert', 'CyberDetective', 'DataHunter']
+  },
+  {
+    id: 'chal-006',
+    name: 'Advanced Binary Exploitation',
+    description: "This challenge requires solving 2 previous challenges to unlock. Master the art of binary exploitation with this advanced challenge.\n\n**Prerequisites:**\n- Complete 'Buffer Overflow Championship'\n- Complete 'Reverse Engineering Nightmare'\n\nThis challenge combines both skills for the ultimate test.",
+    category: { name: 'Pwn', color: '#45B7D1' },
+    tags: ['advanced', 'binary-exploitation', 'locked'],
+    scoreType: 'FIXED',
+    score: 1000,
+    solved: false,
+    isFirstBlood: false,
+    solveCount: 0,
+    difficulty: 'Easy',
+    files: ['advanced_binary', 'exploit_template.py'],
+    hint: 'This challenge is locked until you complete the prerequisites',
+    recentSolvers: []
   }
 ];
 
