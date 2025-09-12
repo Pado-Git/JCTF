@@ -160,12 +160,3 @@ export const mockChallenges: Challenge[] = [
   }
 ];
 
-export const getDifficultyColor = (difficulty: string) => {
-  switch (difficulty) {
-    case 'Easy': return 'text-accent';
-    case 'Medium': return 'text-warning';
-    case 'Hard': return 'text-destructive';
-    case 'Insane': return 'text-first-blood';
-    default: return 'text-muted-foreground';
-  }
-};
