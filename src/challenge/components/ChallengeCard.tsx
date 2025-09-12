@@ -1,10 +1,7 @@
-import { Card } from '@/+shared/components/data-display/card';
-import { Badge, BadgeVariant } from '@/+shared/components/feedback/badge';
-import { Button } from '@/+shared/components/form/button';
+import { Badge, BadgeVariant, Button, Card } from '@/+shared/components';
 import { Challenge } from '@/challenge/data';
 import { getCategoryIcon } from '@/challenge/utils';
-import { IcoCheckboxCircleLined, IcoUnlockFilled } from '@/+shared/assets';
-import { IcoArrowRightSLined, IcoCrownLined, IcoTeamLined } from '@/+shared/assets/icons';
+import { IcoCheckboxCircleLined, IcoUnlockFilled, IcoArrowRightSLined, IcoCrownLined, IcoTeamLined } from '@/+shared/assets';
 
 interface ChallengeCardProps {
   challenge: Challenge;
