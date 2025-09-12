@@ -451,3 +451,12 @@ html {
     border-radius: var(--radius-rounded);
   }
 }
+
+/* Locked card styles */
+.locked-card .locked\:bg-neutral-700 {
+  background-color: var(--color-neutral-700);
+}
+
+.locked-card .locked\:text-neutral-600 {
+  color: var(--color-neutral-600);
+}
