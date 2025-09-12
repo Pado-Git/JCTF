@@ -1,18 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/+shared/components/form/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
-import { Badge } from '@/+shared/components/feedback/badge';
-import { SearchInput } from '@/+shared/components/form/search-input';
-import { Progress } from '@/+shared/components/feedback/progress';
+import { Button, MaxWidthContainer, SearchInput, Progress } from '@/+shared/components';
 import { 
   Shield, 
-  Target,  
-  Users, 
-  Trophy,
-  Check,
-  ArrowLeft,
-  Crown
+  Target,
+  ArrowLeft
 } from 'lucide-react';
 import { 
   Challenge, 
@@ -20,17 +12,14 @@ import {
   mockChallenges
 } from '@/challenge/data';
 import { bannerBg } from '@/challenge/assets';
-import { ChallengeModal, CategoryFilter } from '@/challenge/components';
-import { IcoCheckboxCircleLined, IcoStarLined, IcoTrophyFilled } from '@/+shared/assets';
+import { ChallengeModal, CategoryFilter, ChallengeCard } from '@/challenge/components';
+import { IcoCheckboxCircleLined, IcoStarLined, IcoTrophyFilled, IcoChart } from '@/+shared/assets';
 import {
-  getDifficultyColor,
   calculateScore,
   getSolvedCount,
   getProgressPercentage
 } from '@/challenge/utils';
-import { MaxWidthContainer } from '@/+shared/components';
 
-// Props interface removed - using React Router now
 
 
 
@@ -100,7 +89,7 @@ export function ChallengesPage() {
 
       {/* Competition Info - Full Width Background */}
       <div 
-        className="relative mb-8 py-8 overflow-hidden"
+        className="relative mb-8 pt-20 pb-14 overflow-hidden"
         style={{
           backgroundImage: `url(${bannerBg})`,
           backgroundSize: 'cover',
@@ -119,11 +108,11 @@ export function ChallengesPage() {
           <div className='flex flex-col gap-2'>
             <h1 className="text-primary-50 typo-heading-large">
               {mockCompetition.name} <span className="text-primary">Challenges</span>
-            </h1>
+          </h1>
             <p className="typo-body-small text-primary-300">
               Team
               <span className="typo-body-small-bold text-neutral-0 ml-2">{mockCompetition.myTeam.name}</span>
-            </p>
+          </p>
           </div>
           
           <div className='border border-neutral-700 bg-neutral-900/50 rounded-radius-md p-6'>
@@ -131,129 +120,63 @@ export function ChallengesPage() {
               <IcoTrophyFilled className='size-6'/>
               <span className="typo-heading-xsmall text-primary-300">Progress</span>
             </div>
-            <div className="flex items-center space-x-6 text-sm">
+          <div className="flex items-center space-x-6 text-sm">
               <div className="flex-1">
                 <Progress value={getProgressPercentage(solvedCount, mockChallenges.length)} className="h-2 bg-neutral-900" />
               </div>
-              <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2">
                 <IcoCheckboxCircleLined className='size-4 text-primary' />
                 <span className="typo-body-small text-neutral-50">
                   Solved: <span className="text-primary">{solvedCount}</span> / {mockChallenges.length}
-                </span>
-              </div>
-              <div className="flex items-center space-x-2">
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
                 <IcoStarLined className='size-4 text-primary' />
                 <span className="typo-body-small text-neutral-50">
                   Points: <span className="text-primary">{totalPoints.toLocaleString()}</span>
-                </span>
-              </div>
+              </span>
+            </div>
             </div>
           </div>
         </MaxWidthContainer>
-      </div>
-
-      <div className="container mx-auto px-6 py-8">
-
-        {/* Search and Filter */}
-        <div className="mb-6">
-          <div className="flex flex-col md:flex-row gap-4 mb-4">
-            <div className="flex-1">
-              <SearchInput
-                placeholder="Search challenges by name or tags..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
-            <Button 
-              variant="secondary"
-              onClick={() => navigate?.('leaderboard')}
-              className="border-accent text-accent hover:bg-accent hover:text-accent-foreground"
-            >
-              <Trophy className="h-4 w-4 mr-2" />
-              Scoreboard
-            </Button>
-          </div>
-          
-          <CategoryFilter 
-            selected={selectedCategory}
-            onSelect={setSelectedCategory}
-          />
         </div>
 
+      <MaxWidthContainer className="py-14" innerProps={{ className: "gap-6" }}>
+
+        {/* Search and Filter */}
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1">
+            <SearchInput
+              placeholder="Search challenges by name or tags..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <Button 
+            variant="secondary"
+            size="small"
+            onClick={() => navigate?.('leaderboard')}
+          >
+            <IcoChart className='size-4' />
+            Leaderboard
+          </Button>
+        </div>
+        
+        <CategoryFilter 
+          selected={selectedCategory}
+          onSelect={setSelectedCategory}
+        />
+
         {/* Challenges Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="flex flex-wrap gap-6 mt-4">
           {filteredChallenges.map((challenge) => (
-            <Card 
+            <ChallengeCard
               key={challenge.id}
-              className={`bg-card/50 backdrop-blur-sm transition-all duration-300 cursor-pointer hover:scale-105 ${
-                challenge.solved 
-                  ? 'border-accent/50 bg-accent/5' 
-                  : 'border-primary/30 hover:border-accent'
-              } ${challenge.isFirstBlood ? 'bg-first-blood/5 border-first-blood/50' : ''}`}
+              challenge={challenge}
               onClick={() => setSelectedChallenge(challenge)}
-            >
-              <CardHeader className="pb-3">
-                <div className="flex items-start justify-between mb-2">
-                  <CardTitle className={`text-lg ${challenge.solved ? 'text-accent' : 'text-foreground'}`}>
-                    <div className="flex items-center space-x-2">
-                      {challenge.name}
-                      {challenge.solved && <Check className="h-5 w-5 text-accent" />}
-                      {challenge.isFirstBlood && <Crown className="h-5 w-5 text-first-blood" />}
-                    </div>
-                  </CardTitle>
-                  <div className="flex flex-col items-end space-y-1">
-                    <Badge 
-                      style={{ backgroundColor: challenge.category.color }}
-                      className="text-black font-semibold"
-                    >
-                      {challenge.category.name}
-                    </Badge>
-                    <div className="text-right">
-                      <div className={`text-lg font-bold ${getDifficultyColor(challenge.difficulty)}`}>
-                        {challenge.scoreType === 'DYNAMIC' ? challenge.currentScore : challenge.score}
-                      </div>
-                      <div className="text-xs text-muted-foreground">pts</div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="flex flex-wrap gap-1 mb-2">
-                  {challenge.tags.slice(0, 3).map((tag) => (
-                    <Badge key={tag} variant="secondary" className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                  {challenge.tags.length > 3 && (
-                    <Badge variant="secondary" className="text-xs">
-                      +{challenge.tags.length - 3}
-                    </Badge>
-                  )}
-                </div>
-              </CardHeader>
-              
-              <CardContent>
-                <div className="flex items-center justify-between text-sm">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex items-center space-x-1 text-muted-foreground">
-                      <Users className="h-4 w-4" />
-                      <span>{challenge.solveCount}</span>
-                    </div>
-                    <Badge 
-                      variant="secondary" 
-                      className={`${getDifficultyColor(challenge.difficulty)} border-current text-xs`}
-                    >
-                      {challenge.difficulty}
-                    </Badge>
-                  </div>
-                  
-                  {challenge.firstBlood && (
-                    <div className="text-xs text-first-blood">
-                      🏆 {challenge.firstBlood.user}
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+              isLocked={challenge.tags.includes('locked')}
+              lockProgress={challenge.tags.includes('locked') ? '2/3' : undefined}
+            />
           ))}
         </div>
 
@@ -266,7 +189,7 @@ export function ChallengesPage() {
             </p>
           </div>
         )}
-      </div>
+      </MaxWidthContainer>
 
       {/* Challenge Modal */}
       {selectedChallenge && (
