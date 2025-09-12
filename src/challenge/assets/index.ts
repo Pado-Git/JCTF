@@ -1,1 +1,1 @@
-export * from './bannerBg.png';
+export { default as bannerBg } from './bannerBg.png';
