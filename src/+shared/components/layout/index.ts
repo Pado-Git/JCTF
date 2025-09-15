@@ -1,4 +1,5 @@
 export * from './aspect-ratio';
+export * from './Divider';
 export * from './Footer';
 export * from './Header';
 export * from './MaxWidthContainer';
