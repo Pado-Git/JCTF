@@ -120,7 +120,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
         ref={ref}
         data-slot="badge"
         className={cn(
-          "rounded-radius-xs px-2 py-1 whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden flex items-center justify-center",
+          "w-fit rounded-radius-xs px-2 py-1 whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden flex items-center justify-center",
           getTextSize(),
           className
         )}
