@@ -168,6 +168,7 @@
   --gradient-1: linear-gradient(135deg, #6366F1 2%, #1E1B4B 100%);
   --gradient-2: linear-gradient(135deg, #3730A3 2%, #1E1B4B 100%);
   --gradient-3: linear-gradient(135deg, #1E1B4B 2%, #0A0A0C 100%);
+  --gradient-3-deg: linear-gradient(180deg, #1E1B4B 2%, #0A0A0C 100%);
   --gradient-4: linear-gradient(135deg, #6366F1 2%, #3730A3 100%);
   --gradient-neutral: linear-gradient(90deg, #0A0A0C 0%, #1F1F26 100%);
 }
@@ -377,6 +378,10 @@ html {
   
   .gradient-3 {
     background: var(--gradient-3);
+  }
+
+  .gradient-3-deg {
+    background: var(--gradient-3-deg);
   }
   
   .gradient-4 {

@@ -17,6 +17,7 @@ export { default as IcoCrownFilled } from './ico_crown-filled.svg?react';
 export { default as IcoCrownLined } from './ico_crown-lined.svg?react';
 export { default as IcoCryptoLined } from './ico_crypto-lined.svg?react';
 export { default as IcoDownloadLined } from './ico_download-lined.svg?react';
+export { default as IcoEyeLined } from './ico_eye-lined.svg?react';
 export { default as IcoFileFilled } from './ico_file-filled.svg?react';
 export { default as IcoGlobalLined } from './ico_global-lined.svg?react';
 export { default as IcoIndividualLined } from './ico_individual-lined.svg?react';
