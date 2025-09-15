@@ -5,3 +5,4 @@ export * from './MaxWidthContainer';
 export * from './resizable';
 export * from './separator';
 export * from './sidebar';
+export * from './RootLayout';

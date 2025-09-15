@@ -1,13 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/+shared/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
-import { Badge } from '@/+shared/components/feedback/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/data-display/tabs';
-import { Switch } from '@/+shared/components/form/switch';
-import { Label } from '@/+shared/components/form/label';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Badge, Tabs, TabsContent, TabsList, TabsTrigger, Switch, Label } from '@/+shared/components';
 import { 
-  Shield, 
   Trophy, 
   Crown, 
   Medal,
@@ -17,7 +11,6 @@ import {
   Users, 
   Target,
   RefreshCw,
-  ArrowLeft,
 } from 'lucide-react';
 
 // Props interface removed - using React Router now
@@ -272,11 +265,9 @@ function TeamCard({ team, showDetails }: { team: TeamEntry; showDetails: boolean
 }
 
 export function LeaderboardPage() {
-  const navigate = useNavigate();
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
   const [lastUpdate, setLastUpdate] = useState(new Date());
-  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
 
   useEffect(() => {
     if (autoRefresh) {
@@ -297,51 +288,7 @@ export function LeaderboardPage() {
   const myTeam = mockLeaderboard.find(team => team.isMyTeam);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-card/50 backdrop-blur-sm border-b border-border sticky top-0 z-40">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="text"
-                onClick={() => navigate('/dashboard') || (() => navigate?.('home'))}
-                className="text-muted-foreground hover:text-primary"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back
-              </Button>
-              <div className="flex items-center space-x-2">
-                <Shield className="h-6 w-6 text-primary" />
-                <span className="text-xl font-bold text-primary">JCTF</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-6">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">
-                  {mockCompetition.timeLeft}
-                </div>
-                <div className="text-xs text-muted-foreground">Time Remaining</div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-lg font-bold text-foreground">
-                  {mockCompetition.totalTeams}
-                </div>
-                <div className="text-xs text-muted-foreground">Teams</div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-lg font-bold text-foreground">
-                  {mockCompetition.totalChallenges}
-                </div>
-                <div className="text-xs text-muted-foreground">Challenges</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <>
 
       <div className="container mx-auto px-6 py-8">
         {/* Page Header */}
@@ -519,7 +466,7 @@ export function LeaderboardPage() {
           </Card>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

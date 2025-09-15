@@ -5,7 +5,6 @@ import {
   Trophy, 
   Users, 
   Calendar,
-  ArrowLeft,
   Target,
   Zap,
   Shield,
@@ -14,8 +13,6 @@ import {
   Award
 } from 'lucide-react';
 import { 
-  Competition, 
-  User, 
   competitions, 
   mockUser 
 } from '@/competition/data';
@@ -39,35 +36,7 @@ export function CompetitionsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-background matrix-bg">
-      {/* Header */}
-      <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="text"
-                size="small"
-                onClick={() => navigate('/dashboard')}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div>
-                <h1 className="text-2xl font-bold text-primary">Competitions</h1>
-                <p className="text-muted-foreground">Join CTF competitions and test your skills</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <p className="text-sm text-muted-foreground">Welcome back</p>
-                <p className="font-medium text-foreground">{user.nickname || user.email}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="matrix-bg">
 
       <div className="container mx-auto px-4 py-8">
         {/* Filter Tabs */}
@@ -262,6 +231,6 @@ export function CompetitionsPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
   );
 }

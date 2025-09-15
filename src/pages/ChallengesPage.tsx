@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, MaxWidthContainer, SearchInput, Progress } from '@/+shared/components';
 import { 
-  Shield, 
   Target,
-  ArrowLeft
 } from 'lucide-react';
 import { 
   Challenge, 
@@ -41,52 +39,7 @@ export function ChallengesPage() {
   const totalPoints = calculateScore(mockChallenges);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-card/50 backdrop-blur-sm border-b border-border sticky top-0 z-40">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="text"
-                onClick={() => navigate('/dashboard') || (() => navigate?.('dashboard'))}
-                className="text-muted-foreground hover:text-primary"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back
-              </Button>
-              <div className="flex items-center space-x-2">
-                <Shield className="h-6 w-6 text-primary" />
-                <span className="text-xl font-bold text-primary">JCTF</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-6">
-              <div className="text-center">
-                <div className="text-2xl font-bold text-primary">
-                  {mockCompetition.timeLeft}
-                </div>
-                <div className="text-xs text-muted-foreground">Time Left</div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-lg font-bold text-accent">
-                  #{mockCompetition.myTeam.rank}
-                </div>
-                <div className="text-xs text-muted-foreground">Team Rank</div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-lg font-bold text-warning">
-                  {mockCompetition.myTeam.score.toLocaleString()}
-                </div>
-                <div className="text-xs text-muted-foreground">Points</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+    <>
       {/* Competition Info - Full Width Background */}
       <div 
         className="relative mb-8 pt-20 pb-14 overflow-hidden"
@@ -199,6 +152,6 @@ export function ChallengesPage() {
           onClose={() => setSelectedChallenge(null)}
         />
       )}
-    </div>
+    </>
   );
 }

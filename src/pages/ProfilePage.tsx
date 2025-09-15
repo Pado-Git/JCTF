@@ -1,16 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/+shared/components/form/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
-import { Input } from '@/+shared/components/form/input';
-import { Label } from '@/+shared/components/form/label';
-import { Textarea } from '@/+shared/components/form/textarea';
-import { Badge } from '@/+shared/components/feedback/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/data-display/tabs';
-import { Avatar, AvatarFallback, AvatarImage } from '@/+shared/components/data-display/avatar';
-import { Progress } from '@/+shared/components/feedback/progress';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, Textarea, Badge, Tabs, TabsContent, TabsList, TabsTrigger, Avatar, AvatarFallback, AvatarImage, Progress } from '@/+shared/components';
 import { 
-  Shield, 
   Trophy,
   Target,
   Zap,
@@ -19,11 +10,11 @@ import {
   Edit3,
   Save,
   X,
-  ArrowLeft,
   Settings,
   Bell,
   Eye,
-  Key
+  Key,
+  Shield
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -164,7 +155,6 @@ export function ProfilePage() {
   const [editedProfile, setEditedProfile] = useState<UserProfile>(mockProfile);
   const [isLoading, setIsLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -204,20 +194,12 @@ export function ProfilePage() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
+    <>
+      {/* Profile Header with Edit Controls */}
+      <div className="bg-card/50 backdrop-blur-sm border-b border-border">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Button
-                variant="text"
-                onClick={() => navigate('/dashboard') || (() => navigate?.('dashboard'))}
-                className="text-muted-foreground hover:text-primary"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back
-              </Button>
               <div className="flex items-center space-x-2">
                 <Shield className="h-6 w-6 text-primary" />
                 <span className="text-xl font-bold text-primary">JCTF</span>
@@ -263,7 +245,7 @@ export function ProfilePage() {
                     ) : (
                       <>
                         <Save className="h-4 w-4 mr-2" />
-                        Save
+                        Save Changes
                       </>
                     )}
                   </Button>
@@ -272,7 +254,7 @@ export function ProfilePage() {
             </div>
           </div>
         </div>
-      </nav>
+      </div>
 
       <div className="container mx-auto px-6 py-8">
         {/* Profile Header */}
@@ -408,7 +390,7 @@ export function ProfilePage() {
                     </div>
                     <div className="flex justify-between items-center">
                       <span className="text-muted-foreground">Your Role</span>
-                      <Badge variant="secondary" className="border-accent text-accent">
+                      <Badge variant="primary" className="border-accent text-accent">
                         {profile.currentTeam.role}
                       </Badge>
                     </div>
@@ -566,7 +548,7 @@ export function ProfilePage() {
                         <p className="text-sm text-muted-foreground">Control who can see your profile</p>
                       </div>
                     </div>
-                    <Badge variant="secondary" className="border-accent text-accent">
+                    <Badge variant="primary" className="border-accent text-accent">
                       Public
                     </Badge>
                   </div>
@@ -599,7 +581,7 @@ export function ProfilePage() {
                           <h4 className="font-semibold text-foreground">{achievement.title}</h4>
                           <p className="text-sm text-muted-foreground mb-2">{achievement.description}</p>
                           <div className="flex items-center justify-between">
-                            <Badge variant="secondary" className={`${achievement.color} border-current`}>
+                            <Badge variant="primary" className={`${achievement.color} border-current`}>
                               Earned
                             </Badge>
                             <span className="text-xs text-muted-foreground">{achievement.earnedDate}</span>
@@ -648,6 +630,6 @@ export function ProfilePage() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </>
   );
 }
