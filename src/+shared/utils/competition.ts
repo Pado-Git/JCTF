@@ -10,12 +10,33 @@ export interface Competition {
   type: 'individual' | 'team';
 }
 
+// CompetitionEntry와 호환되는 타입
+interface CompetitionWithTime {
+  startTime?: string;
+  endTime?: string;
+  status: 'upcoming' | 'live' | 'ended';
+}
+
 /**
  * 대회 상태에 따른 메시지를 반환합니다.
  * @param comp - 대회 정보
  * @returns 상태 메시지 문자열
  */
-export function getContestStatusMessage(comp: Competition): string {
+export function getContestStatusMessage(comp: CompetitionWithTime): string {
+  // startTime과 endTime이 없으면 status에 따라 기본 메시지 반환
+  if (!comp.startTime || !comp.endTime) {
+    switch (comp.status) {
+      case 'live':
+        return 'Currently running';
+      case 'upcoming':
+        return 'Starting soon';
+      case 'ended':
+        return 'The contest has ended';
+      default:
+        return 'Status unknown';
+    }
+  }
+
   const now = new Date().getTime();
   const start = new Date(comp.startTime).getTime();
   const end = new Date(comp.endTime).getTime();
