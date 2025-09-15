@@ -57,6 +57,10 @@ const BADGE_STYLES = {
     backgroundColor: 'var(--color-primary-900)', 
     color: 'var(--color-primary-400)',
   },
+  greyTag: {
+    backgroundColor: 'var(--color-neutral-600)',
+    color: 'var(--color-neutral-200)'
+  },
   disabled: {
     backgroundColor: 'var(--color-neutral-700)',
     color: 'var(--color-neutral-500)'
@@ -109,7 +113,7 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
 
     // variant에 따른 텍스트 크기 결정
     const getTextSize = () => {
-      if (variant === 'tag' || variant === 'disabled') {
+      if (variant === 'tag' || variant === 'disabled' || variant === 'greyTag') {
         return 'typo-body-xsmall';
       }
       return 'typo-body-xsmall-bold';
