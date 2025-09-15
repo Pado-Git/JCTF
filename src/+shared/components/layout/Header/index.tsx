@@ -1,7 +1,7 @@
 import { Button } from '@/+shared/components/form/button';
-import { ArrowLeft, Shield } from 'lucide-react';
-import { IcoLoginLined, IcoLogoutLined } from '@/+shared/assets';
+import { IcoArrowLeftLined, IcoLoginLined, IcoLogoutLined, Logo } from '@/+shared/assets';
 import { useHeaderLogic } from './index.hooks';
+import { MaxWidthContainer } from '@/+shared/components';
 
 interface HeaderProps {
   className?: string;
@@ -48,60 +48,65 @@ export function Header({ className }: HeaderProps) {
     // 대시보드 페이지
     if (currentPath === '/dashboard') {
       return (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-2">
-              <span className="text-2xl font-bold text-primary">JCTF</span>
+        <MaxWidthContainer className="flex items-center justify-between" innerProps={{ className: "flex items-center justify-between" }}>
+          <div className="w-full flex items-center justify-between">
+            <div className="flex items-center">
+              <Logo />
             </div>
-            <div className="hidden md:flex items-center gap-16">
+            <div className="flex items-center gap-10">
               <Button 
                 variant="text"
+                size="small"
                 onClick={() => handleNavigation('/dashboard')}
-                className={isActivePath('/dashboard') ? 'text-primary' : 'text-muted-foreground'}
+                className={isActivePath('/dashboard') ? 'text-primary' : 'text-primary-100'}
               >
                 Dashboard
               </Button>
               <Button 
                 variant="text" 
+                size="small"
                 onClick={() => handleNavigation('/competitions')}
-                className={isActivePath('/competitions') ? 'text-primary' : 'text-muted-foreground'}
+                className={isActivePath('/competitions') ? 'text-primary' : 'text-primary-100'}
               >
                 Competitions
               </Button>
               <Button 
                 variant="text" 
+                size="small"
                 onClick={() => handleNavigation('/leaderboard')}
-                className={isActivePath('/leaderboard') ? 'text-primary' : 'text-muted-foreground'}
+                className={isActivePath('/leaderboard') ? 'text-primary' : 'text-primary-100'}
               >
                 Leaderboard
               </Button>
               <Button 
                 variant="text" 
+                size="small"
                 onClick={() => handleNavigation('/profile')}
-                className={isActivePath('/profile') ? 'text-primary' : 'text-muted-foreground'}
+                className={isActivePath('/profile') ? 'text-primary' : 'text-primary-100'}
               >
                 Profile
               </Button>
               <Button 
                 variant="text" 
+                size="small"
                 onClick={() => handleNavigation('/teams')}
-                className={isActivePath('/teams') ? 'text-primary' : 'text-muted-foreground'}
+                className={isActivePath('/teams') ? 'text-primary' : 'text-primary-100'}
               >
                 Teams
               </Button>
             </div>
+            <div className="flex items-center space-x-4">
+              <Button 
+                variant="secondary" 
+                size="small"
+                onClick={handleLogout}
+              >
+                <IcoLogoutLined />
+                Logout
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center space-x-4">
-            <Button 
-              variant="secondary" 
-              onClick={handleLogout}
-              className="typo-body-small"
-            >
-              <IcoLogoutLined />
-              Logout
-            </Button>
-          </div>
-        </div>
+        </MaxWidthContainer>
       );
     }
 
@@ -112,15 +117,14 @@ export function Header({ className }: HeaderProps) {
           <div className="flex items-center space-x-4">
             <Button
               variant="text"
+              size="small"
               onClick={() => handleBack('/dashboard')}
-              className="text-muted-foreground hover:text-primary"
             >
-              <ArrowLeft className="h-4 w-4 mr-2" />
+              <IcoArrowLeftLined />
               Back
             </Button>
             <div className="flex items-center space-x-2">
-              <Shield className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold text-primary">JCTF</span>
+              <Logo />
             </div>
           </div>
         </div>
@@ -135,21 +139,21 @@ export function Header({ className }: HeaderProps) {
             variant="text"
             size="small"
             onClick={() => handleBack('/dashboard')}
-            className="text-muted-foreground hover:text-foreground"
+            className='text-neutral-100'
           >
-            <ArrowLeft className="w-4 h-4 mr-2" />
+            <IcoArrowLeftLined />
             Back
           </Button>
           <div>
-            <h1 className="text-2xl font-bold text-primary">{headerConfig.title}</h1>
-            {headerConfig.subtitle && <p className="text-muted-foreground">{headerConfig.subtitle}</p>}
+            <h1 className="typo-heading-small text-primary-200">{headerConfig.title}</h1>
+            {headerConfig.subtitle && <p className="typo-body-xsmall text-neutral-200">{headerConfig.subtitle}</p>}
           </div>
         </div>
         <div className="flex items-center gap-4">
           {user && (
             <div className="text-right">
-              <p className="text-sm text-muted-foreground">Welcome back</p>
-              <p className="font-medium text-foreground">{user.nickname || user.email}</p>
+              <p className="typo-body-small text-neutral-200">Welcome back</p>
+              <p className="font-medium text-neutral-200">{user.nickname || user.email}</p>
             </div>
           )}
         </div>
