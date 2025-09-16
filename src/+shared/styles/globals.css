@@ -430,9 +430,24 @@ html {
   }
 
   /* Hover Effects */
+
+  .gradient-1-hover:hover {
+    background: var(--gradient-1);
+    border: 2px solid var(--color-primary-900);
+  }
+
+  .gradient-2-hover:hover {
+    background: var(--gradient-2);
+    border: 2px solid var(--color-primary-900);
+  }
   
-  .card-hover:hover {
+  .gradient-3-hover:hover {
     background: var(--gradient-3);
+    border: 2px solid var(--color-primary-900);
+  }
+
+  .gradient-4-hover:hover {
+    background: var(--gradient-2);
     border: 2px solid var(--color-primary-900);
   }
 
