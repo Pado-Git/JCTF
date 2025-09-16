@@ -26,7 +26,7 @@ export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgre
       case 'locked':
         return 'bg-neutral-800 border-neutral-700';
       case 'unlocked':
-        return 'gradient-2 border-primary-900';
+        return 'gradient-2 border-primary-900 hover:border-primary-800';
       default:
         return 'bg-neutral-800 border-neutral-700';
     }
@@ -40,6 +40,7 @@ export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgre
             variant="secondary"
             size="small"
             className='w-full'
+            onClick={onClick}
           >
             <IcoCheckboxCircleLined />
             Solved!
