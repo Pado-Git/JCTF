@@ -1,3 +1,4 @@
+export * from './AnimatedBackgroundHeader';
 export * from './aspect-ratio';
 export * from './Divider';
 export * from './Footer';
