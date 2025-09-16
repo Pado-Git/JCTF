@@ -5,12 +5,12 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/+shared/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-sm font-bold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-radius-sm font-bold transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:flex-shrink-0 outline-none focus-visible:ring-2 focus-visible:ring-primary/50",
   {
     variants: {
       variant: {
         // Primary - Figma Design System
-        primary: "bg-primary text-primary-50 hover:bg-primary-600 active:bg-primary-700 disabled:bg-neutral-600 disabled:text-neutral-400",
+        primary: "bg-primary text-primary-50 hover:bg-primary-600 active:bg-primary-700 disabled:bg-neutral-500 disabled:text-neutral-300",
         // Secondary - Figma Design System  
         secondary: "border border-primary bg-transparent text-primary hover:bg-primary hover:text-primary-50 active:bg-primary-600 active:text-primary-50 disabled:border-neutral-600 disabled:text-neutral-400",
         // Secondary Gray - Figma Design System

@@ -3,13 +3,13 @@ import { Button } from '@/+shared/components/form/button';
 import { Card, CardContent, CardDescription, CardHeader } from '@/+shared/components/data-display/card';
 import { Badge } from '@/+shared/components/feedback/badge';
 import { Progress } from '@/+shared/components/feedback/progress';
-import { Clock, ArrowRight } from 'lucide-react';
 import { IcoIndividualLined, IcoTeamLined } from '@/+shared/assets';
-import { IcoChallengeFilled, IcoChart, IcoStarLined, IcoTimerLined1, IcoTimerLined2, IcoTrophyLined } from '@/+shared/assets/icons';
+import { IcoChallengeFilled, IcoChart, IcoStarLined, IcoTimerLined2, IcoTrophyLined } from '@/+shared/assets/icons';
 
 interface CompetitionEntry {
   id: string;
   name: string;
+  backgroundImg: string;
   status: 'live' | 'upcoming' | 'ended';
   myRank: number;
   totalTeams: number;

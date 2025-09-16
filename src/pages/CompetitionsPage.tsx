@@ -5,7 +5,6 @@ import {
   Trophy, 
   Users, 
   Calendar,
-  ArrowLeft,
   Target,
   Zap,
   Shield,
@@ -13,163 +12,31 @@ import {
   Timer,
   Award
 } from 'lucide-react';
-
-interface User {
-  email: string;
-  nickname?: string;
-}
-
-// Props interface removed - using React Router now
-
-// Mock competition data
-const competitions = [
-  {
-    id: 1,
-    name: "SURF-LAB Autumn CTF 2025",
-    description: "Annual autumn competition featuring advanced cyber security challenges",
-    status: "active",
-    startDate: "2025-09-01T09:00:00Z",
-    endDate: "2025-09-15T18:00:00Z",
-    participants: 2847,
-    maxParticipants: 5000,
-    difficulty: "Advanced",
-    categories: ["Web", "Crypto", "Reverse", "Pwn", "Forensics"],
-    prize: "$50,000",
-    registered: true
-  },
-  {
-    id: 2,
-    name: "Beginner's Challenge",
-    description: "Perfect entry point for newcomers to cybersecurity",
-    status: "upcoming",
-    startDate: "2025-09-20T10:00:00Z",
-    endDate: "2025-09-25T20:00:00Z",
-    participants: 1203,
-    maxParticipants: 2000,
-    difficulty: "Beginner",
-    categories: ["Web", "OSINT", "Crypto"],
-    prize: "$5,000",
-    registered: false
-  },
-  {
-    id: 3,
-    name: "Corporate Security Challenge",
-    description: "Real-world corporate security scenarios and incident response",
-    status: "upcoming",
-    startDate: "2025-10-01T08:00:00Z",
-    endDate: "2025-10-07T22:00:00Z",
-    participants: 456,
-    maxParticipants: 1000,
-    difficulty: "Expert",
-    categories: ["Network", "Forensics", "Incident Response"],
-    prize: "$25,000",
-    registered: false
-  },
-  {
-    id: 4,
-    name: "Summer Hacking Marathon",
-    description: "3-day intensive hacking competition with live challenges",
-    status: "ended",
-    startDate: "2025-08-15T00:00:00Z",
-    endDate: "2025-08-18T23:59:59Z",
-    participants: 3241,
-    maxParticipants: 4000,
-    difficulty: "Advanced",
-    categories: ["All Categories"],
-    prize: "$75,000",
-    registered: true
-  }
-];
-
-const getDifficultyColor = (difficulty: string) => {
-  switch (difficulty) {
-    case 'Beginner': return 'bg-success/20 text-success border-success/30';
-    case 'Advanced': return 'bg-warning/20 text-warning border-warning/30';
-    case 'Expert': return 'bg-destructive/20 text-destructive border-destructive/30';
-    default: return 'bg-muted/20 text-muted-foreground border-muted/30';
-  }
-};
-
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case 'active': return 'bg-success/20 text-success border-success/30';
-    case 'upcoming': return 'bg-primary/20 text-primary border-primary/30';
-    case 'ended': return 'bg-muted/20 text-muted-foreground border-muted/30';
-    default: return 'bg-muted/20 text-muted-foreground border-muted/30';
-  }
-};
+import { 
+  competitions, 
+  mockUser 
+} from '@/competition/data';
+import { 
+  getDifficultyColor, 
+  getStatusColor, 
+  formatDate, 
+  getTimeRemaining, 
+  handleRegister 
+} from '@/competition/utils';
 
 export function CompetitionsPage() {
   const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState<'all' | 'active' | 'upcoming' | 'ended'>('all');
   const [selectedCompetition, setSelectedCompetition] = useState<number | null>(null);
-  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
+  const [user] = useState(mockUser);
 
   const filteredCompetitions = competitions.filter(comp => {
     if (selectedTab === 'all') return true;
     return comp.status === selectedTab;
   });
 
-  const handleRegister = (competitionId: number) => {
-    // Mock registration logic
-    console.log(`Registering for competition ${competitionId}`);
-    // In real app, this would be an API call
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('ko-KR', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
-
-  const getTimeRemaining = (endDate: string) => {
-    const now = new Date();
-    const end = new Date(endDate);
-    const diff = end.getTime() - now.getTime();
-    
-    if (diff <= 0) return 'Ended';
-    
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    
-    if (days > 0) return `${days}d ${hours}h remaining`;
-    return `${hours}h remaining`;
-  };
-
   return (
-    <div className="min-h-screen bg-background matrix-bg">
-      {/* Header */}
-      <div className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="text"
-                size="small"
-                onClick={() => navigate('/dashboard')}
-                className="text-muted-foreground hover:text-foreground"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div>
-                <h1 className="text-2xl font-bold text-primary">Competitions</h1>
-                <p className="text-muted-foreground">Join CTF competitions and test your skills</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <p className="text-sm text-muted-foreground">Welcome back</p>
-                <p className="font-medium text-foreground">{user.nickname || user.email}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div className="matrix-bg">
 
       <div className="container mx-auto px-4 py-8">
         {/* Filter Tabs */}
@@ -364,6 +231,6 @@ export function CompetitionsPage() {
           </div>
         )}
       </div>
-    </div>
+      </div>
   );
 }

@@ -5,6 +5,7 @@ export * from './input';
 export * from './input-otp';
 export * from './label';
 export * from './radio-group';
+export * from './search-input';
 export * from './select';
 export * from './slider';
 export * from './switch';

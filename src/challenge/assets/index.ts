@@ -1,0 +1,1 @@
+export { default as bannerBg } from './bannerBg.png';

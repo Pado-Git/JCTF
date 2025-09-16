@@ -10,23 +10,25 @@ import { DashboardPage } from '@/pages/DashboardPage';
 import { CompetitionsPage } from '@/pages/CompetitionsPage';
 import { ChallengesPage } from '@/pages/ChallengesPage';
 import { LeaderboardPage } from '@/pages/LeaderboardPage';
-import { TeamsPage } from '@/pages/TeamsPage';
 import { ProfilePage } from '@/pages/ProfilePage';
+import { TeamsPage } from '@/pages/TeamsPage';
+import { RootLayout } from '@/+shared/components';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <>
+    <Route element={<RootLayout />}>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/challenges" element={<ChallengesPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/competitions" element={<CompetitionsPage />} />
-      <Route path="/challenges" element={<ChallengesPage />} />
-      <Route path="/leaderboard" element={<LeaderboardPage />} />
       <Route path="/teams" element={<TeamsPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
-    </>
-  )
+      <Route path="/leaderboard" element={<LeaderboardPage />} />
+    </Route>
+  ),
+  { basename: '/' }
 );
 
 export default router;

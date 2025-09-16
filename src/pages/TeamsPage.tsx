@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useAuthStore } from '@/+shared/stores/authStore';
 import { Button } from '@/+shared/components/form/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
 import { Input } from '@/+shared/components/form/input';
@@ -10,13 +10,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/+shared/components/d
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/+shared/components/overlay/dialog';
 import { Avatar, AvatarFallback, AvatarImage } from '@/+shared/components/data-display/avatar';
 import { 
-  Shield, 
   Users, 
   Plus,
   Search,
   Crown,
   Mail,
-  ArrowLeft,
   UserPlus,
   Edit3,
   Trash2,
@@ -230,13 +228,12 @@ const mockPublicTeams: Array<{
 ];
 
 export function TeamsPage() {
-  const navigate = useNavigate();
+  const { user } = useAuthStore();
   const [myTeam, setMyTeam] = useState<Team | null>(mockTeams[0]);
   const [invites, setInvites] = useState<TeamInvite[]>(mockInvites);
   const [searchQuery, setSearchQuery] = useState('');
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [showJoinDialog, setShowJoinDialog] = useState(false);
-  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
   const [newTeam, setNewTeam] = useState({
     name: '',
     description: '',
@@ -271,12 +268,12 @@ export function TeamsPage() {
       createdDate: new Date().toISOString(),
       leader: {
         id: 'user-001',
-        nickname: user.nickname || user.email,
+        nickname: user?.nickname || user?.email || 'Unknown User',
       },
       members: [{
         id: 'user-001',
-        nickname: user.nickname || user.email,
-        email: user.email,
+        nickname: user?.nickname || user?.email || 'Unknown User',
+        email: user?.email || 'unknown@example.com',
         role: 'leader',
         joinDate: new Date().toISOString(),
         stats: { totalPoints: 0, totalSolved: 0 }
@@ -330,139 +327,10 @@ export function TeamsPage() {
     toast.success('Invite declined.');
   };
 
-  const isTeamLeader = myTeam?.members.find(m => m.email === user.email)?.role === 'leader';
+  const isTeamLeader = myTeam?.members.find(m => m.email === user?.email)?.role === 'leader';
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Navigation */}
-      <nav className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button
-                variant="text"
-                onClick={() => navigate('/dashboard') || (() => navigate?.('dashboard'))}
-                className="text-muted-foreground hover:text-primary"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back
-              </Button>
-              <div className="flex items-center space-x-2">
-                <Shield className="h-6 w-6 text-primary" />
-                <span className="text-xl font-bold text-primary">JCTF</span>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              {!myTeam && (
-                <>
-                  <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>
-                    <DialogTrigger asChild>
-                      <Button variant="secondary" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-                        <UserPlus className="h-4 w-4 mr-2" />
-                        Join Team
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-card/90 backdrop-blur-md border-primary/50">
-                      <DialogHeader>
-                        <DialogTitle className="text-foreground">Join Team</DialogTitle>
-                        <DialogDescription className="text-muted-foreground">
-                          Enter the invite code provided by your team leader
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="space-y-4">
-                        <div>
-                          <Label htmlFor="joinCode" className="text-foreground">Invite Code</Label>
-                          <Input
-                            id="joinCode"
-                            placeholder="TEAM2024"
-                            value={joinCode}
-                            onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
-                            className="bg-input-background border-border focus:border-primary focus:ring-primary text-foreground font-mono"
-                          />
-                        </div>
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="secondary"
-                            onClick={() => setShowJoinDialog(false)}
-                            className="flex-1"
-                          >
-                            Cancel
-                          </Button>
-                          <Button
-                            onClick={handleJoinTeam}
-                            disabled={isLoading || !joinCode.trim()}
-                            className="flex-1 bg-primary hover:bg-primary/80 text-primary-foreground"
-                          >
-                            {isLoading ? 'Joining...' : 'Join Team'}
-                          </Button>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-
-                  <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
-                    <DialogTrigger asChild>
-                      <Button className="bg-accent hover:bg-accent/80 text-accent-foreground">
-                        <Plus className="h-4 w-4 mr-2" />
-                        Create Team
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent className="bg-card/90 backdrop-blur-md border-accent/50">
-                      <DialogHeader>
-                        <DialogTitle className="text-foreground">Create New Team</DialogTitle>
-                        <DialogDescription className="text-muted-foreground">
-                          Create your own team and invite other players
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="space-y-4">
-                        <div>
-                          <Label htmlFor="teamName" className="text-foreground">Team Name</Label>
-                          <Input
-                            id="teamName"
-                            placeholder="Awesome Team"
-                            value={newTeam.name}
-                            onChange={(e) => setNewTeam({...newTeam, name: e.target.value})}
-                            className="bg-input-background border-border focus:border-accent focus:ring-accent text-foreground"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="teamDescription" className="text-foreground">Description</Label>
-                          <Textarea
-                            id="teamDescription"
-                            placeholder="Describe your team's focus and goals..."
-                            value={newTeam.description}
-                            onChange={(e) => setNewTeam({...newTeam, description: e.target.value})}
-                            className="bg-input-background border-border focus:border-accent focus:ring-accent text-foreground"
-                          />
-                        </div>
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="secondary"
-                            onClick={() => setShowCreateDialog(false)}
-                            className="flex-1"
-                          >
-                            Cancel
-                          </Button>
-                          <Button
-                            onClick={handleCreateTeam}
-                            disabled={isLoading || !newTeam.name.trim()}
-                            className="flex-1 bg-accent hover:bg-accent/80 text-accent-foreground"
-                          >
-                            {isLoading ? 'Creating...' : 'Create Team'}
-                          </Button>
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-6 py-8">
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-foreground mb-2">
@@ -472,6 +340,111 @@ export function TeamsPage() {
             {myTeam ? 'Manage your team and compete together' : 'Join or create a team to participate in competitions'}
           </p>
         </div>
+
+        {/* Team Actions */}
+        {!myTeam && (
+          <div className="mb-8 flex gap-4">
+            <Dialog open={showJoinDialog} onOpenChange={setShowJoinDialog}>
+              <DialogTrigger asChild>
+                <Button variant="secondary" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                  <UserPlus className="h-4 w-4 mr-2" />
+                  Join Team
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-card/90 backdrop-blur-md border-primary/50">
+                <DialogHeader>
+                  <DialogTitle className="text-foreground">Join Team</DialogTitle>
+                  <DialogDescription className="text-muted-foreground">
+                    Enter the invite code provided by your team leader
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="joinCode" className="text-foreground">Invite Code</Label>
+                    <Input
+                      id="joinCode"
+                      placeholder="TEAM2024"
+                      value={joinCode}
+                      onChange={(e) => setJoinCode(e.target.value.toUpperCase())}
+                      className="bg-input-background border-border focus:border-primary focus:ring-primary text-foreground font-mono"
+                    />
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="secondary"
+                      onClick={() => setShowJoinDialog(false)}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleJoinTeam}
+                      disabled={isLoading || !joinCode.trim()}
+                      className="flex-1 bg-primary hover:bg-primary/80 text-primary-foreground"
+                    >
+                      {isLoading ? 'Joining...' : 'Join Team'}
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+
+            <Dialog open={showCreateDialog} onOpenChange={setShowCreateDialog}>
+              <DialogTrigger asChild>
+                <Button className="bg-accent hover:bg-accent/80 text-accent-foreground">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create Team
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="bg-card/90 backdrop-blur-md border-accent/50">
+                <DialogHeader>
+                  <DialogTitle className="text-foreground">Create New Team</DialogTitle>
+                  <DialogDescription className="text-muted-foreground">
+                    Create your own team and invite other players
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="teamName" className="text-foreground">Team Name</Label>
+                    <Input
+                      id="teamName"
+                      placeholder="Awesome Team"
+                      value={newTeam.name}
+                      onChange={(e) => setNewTeam({...newTeam, name: e.target.value})}
+                      className="bg-input-background border-border focus:border-accent focus:ring-accent text-foreground"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="teamDescription" className="text-foreground">Description</Label>
+                    <Textarea
+                      id="teamDescription"
+                      placeholder="Describe your team's focus and goals..."
+                      value={newTeam.description}
+                      onChange={(e) => setNewTeam({...newTeam, description: e.target.value})}
+                      className="bg-input-background border-border focus:border-accent focus:ring-accent text-foreground"
+                    />
+                  </div>
+                  <div className="flex space-x-2">
+                    <Button
+                      variant="secondary"
+                      onClick={() => setShowCreateDialog(false)}
+                      className="flex-1"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleCreateTeam}
+                      disabled={isLoading || !newTeam.name.trim()}
+                      className="flex-1 bg-accent hover:bg-accent/80 text-accent-foreground"
+                    >
+                      {isLoading ? 'Creating...' : 'Create Team'}
+                    </Button>
+                  </div>
+                </div>
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
 
         {/* Team Invites */}
         {invites.length > 0 && (
@@ -808,7 +781,7 @@ export function TeamsPage() {
                       <div className="space-y-4">
                         <div className="flex flex-wrap gap-1">
                           {team.tags.map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
+                            <Badge key={tag} variant="primary" className="text-xs">
                               {tag}
                             </Badge>
                           ))}
@@ -844,7 +817,6 @@ export function TeamsPage() {
             </div>
           </div>
         )}
-      </div>
     </div>
   );
 }

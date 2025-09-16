@@ -82,6 +82,7 @@
   --color-card-foreground: #F5F5F7;
   --color-popover: #1F1F26;
   --color-popover-foreground: #F5F5F7;
+  --color-black: #000000;
   
   /* Primary Color Palette - Figma Design */
   --color-primary-50: #EEF2FF;
@@ -167,6 +168,8 @@
   --gradient-1: linear-gradient(135deg, #6366F1 2%, #1E1B4B 100%);
   --gradient-2: linear-gradient(135deg, #3730A3 2%, #1E1B4B 100%);
   --gradient-3: linear-gradient(135deg, #1E1B4B 2%, #0A0A0C 100%);
+  --gradient-3-deg: linear-gradient(180deg, #1E1B4B 2%, #0A0A0C 100%);
+  --gradient-4: linear-gradient(135deg, #6366F1 2%, #3730A3 100%);
   --gradient-neutral: linear-gradient(90deg, #0A0A0C 0%, #1F1F26 100%);
 }
 
@@ -376,7 +379,15 @@ html {
   .gradient-3 {
     background: var(--gradient-3);
   }
+
+  .gradient-3-deg {
+    background: var(--gradient-3-deg);
+  }
   
+  .gradient-4 {
+    background: var(--gradient-4);
+  }
+
   .gradient-neutral {
     background: var(--gradient-neutral);
   }
@@ -445,4 +456,17 @@ html {
   .rounded-radius-rounded {
     border-radius: var(--radius-rounded);
   }
+}
+
+/* Locked card styles */
+.locked-card .locked\:bg-neutral-700 {
+  background-color: var(--color-neutral-700);
+}
+
+.locked-card .locked\:text-neutral-600 {
+  color: var(--color-neutral-600);
+}
+
+.hover\:bg-image-none:hover {
+  background-image: none !important;
 }

@@ -1,7 +1,14 @@
 export interface CompetitionEntry {
   id: string;
   name: string;
+  backgroundImg: string;
+  description?: string;
   status: 'live' | 'upcoming' | 'ended';
+  startTime?: string;
+  endTime?: string;
+  participants?: number;
+  challenges?: number;
+  type?: 'team' | 'individual';
   myRank: number;
   totalTeams: number;
   myScore: number;

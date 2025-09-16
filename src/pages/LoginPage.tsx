@@ -6,7 +6,7 @@ import { Input } from '@/+shared/components/form/input';
 import { Label } from '@/+shared/components/form/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
 import { Checkbox } from '@/+shared/components/form/checkbox';
-import { Shield, Eye, EyeOff, ArrowLeft } from 'lucide-react';
+import { Shield, Eye, EyeOff } from 'lucide-react';
 
 interface MatrixRainProps {
   className?: string;
@@ -77,22 +77,7 @@ export function LoginPage() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
-      {/* Matrix Rain Background */}
       <MatrixRain />
-      
-      {/* Cyberpunk Grid */}
-      <div className="absolute inset-0 cyber-grid opacity-30"></div>
-
-      {/* Back Button */}
-      <Button
-        variant="text"
-        className="absolute top-6 left-6 text-muted-foreground hover:text-primary transition-colors"
-        onClick={() => navigate('/')}
-      >
-        <ArrowLeft className="h-4 w-4 mr-2" />
-        Back to Home
-      </Button>
-
       {/* Login Form */}
       <Card className="w-full max-w-md mx-4 relative z-10 bg-card/80 backdrop-blur-sm border-primary/30">
         <CardHeader className="text-center pb-8">

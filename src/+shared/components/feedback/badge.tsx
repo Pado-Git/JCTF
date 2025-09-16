@@ -51,6 +51,20 @@ const BADGE_STYLES = {
     color: 'var(--color-neutral-100)',
     border: '1px solid var(--color-neutral-400)'
   },
+
+  // Tag Status
+  tag: {
+    backgroundColor: 'var(--color-primary-900)', 
+    color: 'var(--color-primary-400)',
+  },
+  greyTag: {
+    backgroundColor: 'var(--color-neutral-600)',
+    color: 'var(--color-neutral-200)'
+  },
+  disabled: {
+    backgroundColor: 'var(--color-neutral-700)',
+    color: 'var(--color-neutral-500)'
+  },
   
   primary: { 
     backgroundColor: 'var(--color-primary)', 
@@ -97,12 +111,21 @@ const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
     // children이 없으면 variant에 따른 텍스트 사용
     const displayText = children || BADGE_TEXT[variant] || BADGE_TEXT.primary;
 
+    // variant에 따른 텍스트 크기 결정
+    const getTextSize = () => {
+      if (variant === 'tag' || variant === 'disabled' || variant === 'greyTag') {
+        return 'typo-body-xsmall';
+      }
+      return 'typo-body-xsmall-bold';
+    };
+
     return (
       <Comp
         ref={ref}
         data-slot="badge"
         className={cn(
-          "rounded-radius-xs px-2 py-1 typo-body-xsmall-bold whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden flex items-center justify-center",
+          "w-fit rounded-radius-xs px-2 py-1 whitespace-nowrap shrink-0 gap-1 [&>svg]:size-3 [&>svg]:pointer-events-none transition-[color,box-shadow] overflow-hidden flex items-center justify-center",
+          getTextSize(),
           className
         )}
         style={variantStyle}
