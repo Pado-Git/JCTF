@@ -466,3 +466,7 @@ html {
 .locked-card .locked\:text-neutral-600 {
   color: var(--color-neutral-600);
 }
+
+.hover\:bg-image-none:hover {
+  background-image: none !important;
+}

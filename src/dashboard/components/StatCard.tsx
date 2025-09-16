@@ -21,15 +21,7 @@ export function StatCard({ id, value, label, icon: IconComponent }: StatCardProp
           </p>
         </div>
         <div className="w-14 h-14 flex items-center justify-center">
-        <IconComponent 
-  className="w-14 h-14" 
-  style={{
-    background: 'linear-gradient(135deg, #3730A3 2%, #1E1B4B 100%)',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text'
-  }}
-/>
+        <IconComponent className="w-14 h-14 text-primary-800" />
         </div>
       </div>
     </Card>

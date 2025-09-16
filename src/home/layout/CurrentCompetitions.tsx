@@ -35,24 +35,16 @@ export function CurrentCompetitions() {
         {mockCompetitions.slice(0, 3).map((comp) => (
           <Card 
             key={comp.id} 
-            className="w-[430px] min-h-[480px] border border-primary-800 rounded-3xl p-8 flex flex-col justify-between group hover:border-primary-500 transition-all duration-300 relative overflow-hidden"
+            className="w-[430px] min-h-[480px] border border-primary-800 rounded-radius-lg p-8 flex flex-col justify-between group hover:border-primary-500 hover:shadow-2 hover:bg-primary-900 hover:bg-image-none transition-all duration-300 relative overflow-hidden"
             style={{
               backgroundImage: `url(${comp.backgroundImg})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               backgroundRepeat: 'no-repeat'
             }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundImage = 'none';
-              e.currentTarget.classList.add('gradient-2');
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundImage = `url(${comp.backgroundImg})`;
-              e.currentTarget.classList.remove('gradient-2');
-            }}
           >
             {/* Background Overlay */}
-            <div className="absolute inset-0 bg-primary-900/70 z-0"></div>
+            <div className="bg-overlay absolute inset-0 bg-primary-900/70 z-0 duration-300"></div>
             
             {/* Header Section */}
             <div className="flex flex-col gap-8 relative z-10">
@@ -111,7 +103,11 @@ export function CurrentCompetitions() {
 
         ))}
       </div>
-      <Button variant="secondary" className="w-fit h-12 px-6 text-primary mt-14">
+      <Button 
+        variant="secondary" 
+        className="w-fit h-12 px-6 text-primary mt-14"
+        onClick={() => navigate('/competitions')}
+      >
         View All Competitions
         <IcoArrowRightSLined />
       </Button>
