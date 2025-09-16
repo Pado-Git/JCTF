@@ -23,7 +23,7 @@ export function CategoryFilter({ selected, onSelect }: CategoryFilterProps) {
               transition-all duration-200 cursor-pointer
               ${isActive 
                 ? 'gradient-2 text-primary-100' 
-                : 'bg-neutral-800 text-neutral-400 hover:bg-neutral-700 hover:text-neutral-300'
+                : 'bg-neutral-800 text-neutral-400 hover:bg-primary-900 hover:text-neutral-300'
               }
             `}
           >
