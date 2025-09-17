@@ -1,0 +1,166 @@
+{
+  "Constants": {
+    "dashboard": "대시보드",
+    "challenges": "챌린지",
+    "competitions": "대회",
+    "leaderboard": "리더보드",
+    "teams": "팀",
+    "profile": "프로필",
+    "login": "로그인",
+    "register": "회원가입",
+    "logout": "로그아웃",
+    "home": "홈",
+    "loading": "로딩 중...",
+    "error": "오류",
+    "success": "성공",
+    "confirm": "확인",
+    "cancel": "취소",
+    "submit": "제출",
+    "search": "검색",
+    "filter": "필터",
+    "reset": "재설정",
+    "refresh": "새로고침",
+    "points": "포인트",
+    "score": "점수",
+    "rank": "순위",
+    "time": "시간",
+    "date": "날짜",
+    "category": "카테고리",
+    "difficulty": "난이도",
+    "status": "상태"
+  },
+  "Shared": {
+    "Header": {
+      "login": "로그인",
+      "logout": "로그아웃",
+      "profile": "프로필"
+    },
+    "Navigation": {
+      "dashboard": "대시보드",
+      "challenges": "챌린지",
+      "competitions": "대회",
+      "leaderboard": "리더보드",
+      "teams": "팀"
+    },
+    "Button": {
+      "submit": "제출",
+      "cancel": "취소",
+      "confirm": "확인",
+      "retry": "다시 시도",
+      "close": "닫기"
+    },
+    "Form": {
+      "required": "필수 항목입니다",
+      "invalid": "올바르지 않은 형식입니다",
+      "success": "성공적으로 처리되었습니다"
+    },
+    "Loading": {
+      "default": "로딩 중...",
+      "challenges": "챌린지를 불러오는 중...",
+      "leaderboard": "리더보드 데이터를 불러오는 중...",
+      "competitions": "대회 정보를 불러오는 중..."
+    },
+    "Error": {
+      "network": "네트워크 오류가 발생했습니다",
+      "notFound": "요청한 페이지를 찾을 수 없습니다",
+      "unauthorized": "접근 권한이 없습니다",
+      "serverError": "서버 오류가 발생했습니다"
+    }
+  },
+  "Pages": {
+    "Dashboard": {
+      "title": "대시보드",
+      "welcome": "{{name}}님, 환영합니다!",
+      "stats": {
+        "totalChallenges": "총 챌린지",
+        "solvedChallenges": "해결한 챌린지",
+        "currentRank": "현재 순위",
+        "totalScore": "총 점수"
+      }
+    },
+    "Challenges": {
+      "title": "챌린지",
+      "noData": "챌린지가 없습니다",
+      "categories": {
+        "web": "웹",
+        "crypto": "암호학",
+        "reverse": "리버싱",
+        "pwnable": "시스템",
+        "forensics": "포렌식",
+        "misc": "기타"
+      },
+      "difficulty": {
+        "easy": "쉬움",
+        "medium": "보통",
+        "hard": "어려움"
+      },
+      "status": {
+        "solved": "해결됨",
+        "unsolved": "미해결",
+        "locked": "잠김"
+      }
+    },
+    "Competitions": {
+      "title": "대회",
+      "upcoming": "예정된 대회",
+      "ongoing": "진행 중인 대회",
+      "finished": "종료된 대회",
+      "noData": "대회가 없습니다"
+    },
+    "Leaderboard": {
+      "title": "리더보드",
+      "yourTeam": "내 팀",
+      "rank": "순위",
+      "teamName": "팀명",
+      "score": "점수",
+      "lastSolved": "마지막 해결",
+      "autoRefresh": "자동 새로고침 (30초)",
+      "lastUpdated": "마지막 업데이트",
+      "refreshing": "새로고침 중...",
+      "challenges": "챌린지"
+    },
+    "Teams": {
+      "title": "팀",
+      "createTeam": "팀 생성",
+      "joinTeam": "팀 참가",
+      "teamMembers": "팀원",
+      "noTeam": "팀이 없습니다"
+    },
+    "Profile": {
+      "title": "프로필",
+      "personalInfo": "개인 정보",
+      "statistics": "통계",
+      "achievements": "업적"
+    },
+    "Auth": {
+      "login": {
+        "title": "로그인",
+        "email": "이메일",
+        "password": "비밀번호",
+        "rememberMe": "로그인 상태 유지",
+        "forgotPassword": "비밀번호를 잊으셨나요?",
+        "signUp": "회원가입"
+      },
+      "register": {
+        "title": "회원가입",
+        "email": "이메일",
+        "password": "비밀번호",
+        "confirmPassword": "비밀번호 확인",
+        "nickname": "닉네임",
+        "agreeTerms": "이용약관에 동의합니다"
+      }
+    },
+    "Home": {
+      "hero": {
+        "title": "CTF 플랫폼에 오신 것을 환영합니다",
+        "subtitle": "사이버 보안 실력을 테스트하고 향상시키세요",
+        "startButton": "시작하기"
+      },
+      "features": {
+        "challenges": "다양한 챌린지",
+        "competitions": "실시간 대회",
+        "leaderboard": "글로벌 랭킹"
+      }
+    }
+  }
+}
