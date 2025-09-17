@@ -1,3 +1,4 @@
-export * from './FirstBloodSection';
-export * from './HeaderSection';
-export * from './LeaderboardSection';
+export { HeaderSection } from './HeaderSection';
+export { ControlsSection } from './ControlsSection';
+export { LeaderboardSection } from './LeaderboardSection';
+export { FirstBloodSection } from './FirstBloodSection';
