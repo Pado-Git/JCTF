@@ -1,0 +1,166 @@
+{
+  "Constants": {
+    "dashboard": "Dashboard",
+    "challenges": "Challenges",
+    "competitions": "Competitions",
+    "leaderboard": "Leaderboard",
+    "teams": "Teams",
+    "profile": "Profile",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "home": "Home",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "refresh": "Refresh",
+    "points": "Points",
+    "score": "Score",
+    "rank": "Rank",
+    "time": "Time",
+    "date": "Date",
+    "category": "Category",
+    "difficulty": "Difficulty",
+    "status": "Status"
+  },
+  "Shared": {
+    "Header": {
+      "login": "Login",
+      "logout": "Logout",
+      "profile": "Profile"
+    },
+    "Navigation": {
+      "dashboard": "Dashboard",
+      "challenges": "Challenges",
+      "competitions": "Competitions",
+      "leaderboard": "Leaderboard",
+      "teams": "Teams"
+    },
+    "Button": {
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "confirm": "Confirm",
+      "retry": "Retry",
+      "close": "Close"
+    },
+    "Form": {
+      "required": "This field is required",
+      "invalid": "Invalid format",
+      "success": "Successfully processed"
+    },
+    "Loading": {
+      "default": "Loading...",
+      "challenges": "Loading challenges...",
+      "leaderboard": "Loading leaderboard data...",
+      "competitions": "Loading competition information..."
+    },
+    "Error": {
+      "network": "Network error occurred",
+      "notFound": "Requested page not found",
+      "unauthorized": "Access denied",
+      "serverError": "Server error occurred"
+    }
+  },
+  "Pages": {
+    "Dashboard": {
+      "title": "Dashboard",
+      "welcome": "Welcome, {{name}}!",
+      "stats": {
+        "totalChallenges": "Total Challenges",
+        "solvedChallenges": "Solved Challenges",
+        "currentRank": "Current Rank",
+        "totalScore": "Total Score"
+      }
+    },
+    "Challenges": {
+      "title": "Challenges",
+      "noData": "No challenges available",
+      "categories": {
+        "web": "Web",
+        "crypto": "Cryptography",
+        "reverse": "Reverse Engineering",
+        "pwnable": "Pwnable",
+        "forensics": "Forensics",
+        "misc": "Miscellaneous"
+      },
+      "difficulty": {
+        "easy": "Easy",
+        "medium": "Medium",
+        "hard": "Hard"
+      },
+      "status": {
+        "solved": "Solved",
+        "unsolved": "Unsolved",
+        "locked": "Locked"
+      }
+    },
+    "Competitions": {
+      "title": "Competitions",
+      "upcoming": "Upcoming Competitions",
+      "ongoing": "Ongoing Competitions",
+      "finished": "Finished Competitions",
+      "noData": "No competitions available"
+    },
+    "Leaderboard": {
+      "title": "Leaderboard",
+      "yourTeam": "Your Team",
+      "rank": "Rank",
+      "teamName": "Team Name",
+      "score": "Score",
+      "lastSolved": "Last Solved",
+      "autoRefresh": "Auto-refresh (30s)",
+      "lastUpdated": "Last updated",
+      "refreshing": "Refreshing...",
+      "challenges": "challenges"
+    },
+    "Teams": {
+      "title": "Teams",
+      "createTeam": "Create Team",
+      "joinTeam": "Join Team",
+      "teamMembers": "Team Members",
+      "noTeam": "No team"
+    },
+    "Profile": {
+      "title": "Profile",
+      "personalInfo": "Personal Information",
+      "statistics": "Statistics",
+      "achievements": "Achievements"
+    },
+    "Auth": {
+      "login": {
+        "title": "Login",
+        "email": "Email",
+        "password": "Password",
+        "rememberMe": "Remember me",
+        "forgotPassword": "Forgot your password?",
+        "signUp": "Sign Up"
+      },
+      "register": {
+        "title": "Register",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password",
+        "nickname": "Nickname",
+        "agreeTerms": "I agree to the terms of service"
+      }
+    },
+    "Home": {
+      "hero": {
+        "title": "Welcome to CTF Platform",
+        "subtitle": "Test and improve your cybersecurity skills",
+        "startButton": "Get Started"
+      },
+      "features": {
+        "challenges": "Diverse Challenges",
+        "competitions": "Live Competitions",
+        "leaderboard": "Global Rankings"
+      }
+    }
+  }
+}
