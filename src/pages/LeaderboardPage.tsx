@@ -1,10 +1,7 @@
-import { useState, useEffect } from 'react';
-import { Button, Card, MaxWidthContainer, Divider } from '@/+shared/components';
-import { AnimatedBackgroundHeader } from '@/+shared/components';
-import { IcoChart, IcoCryptoLined, IcoGlobalLined, IcoCodeLined, IcoSearchLined, IcoTimerLined2, IcoCrownFilled } from '@/+shared/assets/icons';
-// import CategoryFilter from '@/challenge/components/CategoryFilter';
-
-// Props interface removed - using React Router now
+import { useState, useEffect, useRef } from 'react';
+import { AnimatedBackgroundHeader, Button, Card, MaxWidthContainer, Divider, Switch, Toggle } from '@/+shared/components';
+import { IcoChart, IcoTimerLined2, IcoCrownFilled, IcoReset } from '@/+shared/assets/icons';
+import { getCategoryIcon } from '@/challenge/utils/categoryIcons';
 
 // API 응답 구조에 맞는 인터페이스
 interface ApiLeaderboardResponse {
@@ -110,6 +107,25 @@ const formatLastSolvedTime = (isoString: string): string => {
   }
 };
 
+// 마지막 업데이트 시간 포맷팅 함수
+const formatLastUpdatedTime = (date: Date): string => {
+  const now = new Date();
+  const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
+  
+  if (diffInSeconds < 60) {
+    return `${diffInSeconds} seconds ago`;
+  } else if (diffInSeconds < 3600) {
+    const minutes = Math.floor(diffInSeconds / 60);
+    return `${minutes} minutes ago`;
+  } else if (diffInSeconds < 86400) {
+    const hours = Math.floor(diffInSeconds / 3600);
+    return `${hours} hours ago`;
+  } else {
+    const days = Math.floor(diffInSeconds / 86400);
+    return `${days} days ago`;
+  }
+};
+
 const mockFirstBloods: FirstBloodEntry[] = [
   {
     challengeName: 'Advanced Crypto Challenge',
@@ -161,6 +177,8 @@ export function LeaderboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showAllTeams, setShowAllTeams] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const lastUpdatedRef = useRef<Date | null>(null);
 
   // 데이터 가져오기 함수
   const loadLeaderboardData = async () => {
@@ -172,6 +190,9 @@ export function LeaderboardPage() {
       const transformedData = transformApiDataToTeamEntry(apiResponse.data);
       
       setLeaderboardData(transformedData);
+      const now = new Date();
+      setLastUpdated(now);
+      lastUpdatedRef.current = now;
     } catch (err) {
       setError(err instanceof Error ? err.message : '데이터를 불러오는데 실패했습니다.');
       console.error('Failed to load leaderboard data:', err);
@@ -196,6 +217,18 @@ export function LeaderboardPage() {
     }
   }, [autoRefresh]);
 
+  // 마지막 업데이트 시간 실시간 업데이트
+  useEffect(() => {
+    if (!lastUpdatedRef.current) return;
+
+    const interval = setInterval(() => {
+      // 컴포넌트 리렌더링을 위해 상태 업데이트
+      setLastUpdated(prev => prev ? new Date(prev.getTime()) : null);
+    }, 1000); // 1초마다 업데이트
+
+    return () => clearInterval(interval);
+  }, []); // 빈 의존성 배열로 한 번만 실행
+
   const handleRefresh = () => {
     loadLeaderboardData();
   };
@@ -207,16 +240,6 @@ export function LeaderboardPage() {
   const maxDisplayTeams = showAllTeams ? leaderboardData.length : 10;
   const otherTeams = leaderboardData.slice(3, maxDisplayTeams);
   const hasMoreTeams = leaderboardData.length > 10;
-
-  // 🔍 디버깅용 콘솔 로그
-  console.log('=== 팀 표시 현황 ===');
-  console.log('전체 팀 수:', leaderboardData.length);
-  console.log('Top 3 팀 수:', top3Teams.length);
-  console.log('Other 팀 수:', otherTeams.length);
-  console.log('표시 중인 총 팀 수:', top3Teams.length + otherTeams.length);
-  console.log('더 보기 가능:', hasMoreTeams);
-  console.log('전체 보기 모드:', showAllTeams);
-
   // First Blood 카테고리 데이터
   const firstBloodCategories = [
     { name: 'All', count: mockFirstBloods.length },
@@ -226,7 +249,6 @@ export function LeaderboardPage() {
     { name: 'Reverse', count: mockFirstBloods.filter(fb => fb.category === 'Reverse').length },
     { name: 'Forensics', count: mockFirstBloods.filter(fb => fb.category === 'Forensics').length }
   ].filter(cat => cat.count > 0); // 카운트가 0인 카테고리는 제외
-
 
   // 로딩 중이거나 에러가 있을 때
   if (loading && leaderboardData.length === 0) {
@@ -302,34 +324,77 @@ export function LeaderboardPage() {
         </>
       </AnimatedBackgroundHeader>
 
+      <MaxWidthContainer className='py-5 border-b border-neutral-700'>
+        <div className='flex items-center justify-between gap-4 typo-body-small'>
+          <div className='flex items-center gap-4'>
+            <span className='text-primary-200'>Auto - refresh (30s)</span>
+            <Switch
+              checked={autoRefresh}
+              onCheckedChange={setAutoRefresh}
+            />
+          </div>
+          <div className='flex items-center gap-4'>
+            <span className='text-neutral-200'>
+              Last updated: {lastUpdated ? formatLastUpdatedTime(lastUpdated) : 'Never'}
+            </span>
+            <Button 
+              onClick={handleRefresh} 
+              variant="primary" 
+              size="xsmall"
+              disabled={loading}
+            >
+              <IcoReset className='w-4 h-4' />
+              {loading ? '새로고침 중...' : '새로고침'}
+            </Button>
+          </div>
+          
+        </div>
+      </MaxWidthContainer>
+      
       {/* Leaderboard Section */}
       <section className="py-16">
         <MaxWidthContainer>
-          <div className="flex items-center justify-between mb-14">
-            <div className="flex items-center gap-4">
-              <IcoChart className="w-6 h-6 text-primary-100" />
-              <h2 className="typo-heading-medium text-primary-100">Leaderboard</h2>
-            </div>
-            
-            <div className="flex items-center gap-4">
-              {loading && (
-                <div className="w-4 h-4 border border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
-              )}
-              <Button 
-                onClick={handleRefresh} 
-                variant="primary" 
-                size="small"
-                disabled={loading}
-              >
-                {loading ? '새로고침 중...' : '새로고침'}
-              </Button>
-            </div>
+          <div className="flex items-center gap-4 mb-14">
+            <IcoChart className="w-6 h-6 text-primary" />
+            <h2 className="typo-heading-medium text-primary-200">Leaderboard</h2>
           </div>
 
           {/* Top 3 Teams */}
-          <div className="grid grid-cols-3 gap-6 mb-10">
-            {top3Teams.map((team) => (
-              <Card key={team.teamName} className="bg-neutral-800 border-neutral-700 rounded-radius-lg p-6 pt-16 relative flex flex-col gap-10 items-center">
+          <div className="grid grid-cols-3 gap-6 mb-10 items-end">
+            {top3Teams.map((team) => {
+              // 순위에 따른 높이 조정
+              const getCardHeight = (rank: number) => {
+                switch (rank) {
+                  case 1: return 'h-[540px]'; // 1등: 가장 높음
+                  case 2: return 'h-[480px]'; // 2등: 중간 높이
+                  case 3: return 'h-[440px]'; // 3등: 가장 낮음
+                  default: return 'h-[31rem]';
+                }
+              };
+
+              const getGapSize = (rank: number) => {
+                switch (rank) {
+                  case 1: return 'gap-10'; // 1등: 가장 큰 간격
+                  case 2: return 'gap-6'; // 2등: 중간 간격
+                  case 3: return 'gap-2'; // 3등: 가장 작은 간격
+                  default: return 'gap-4';
+                }
+              };
+
+              const getIconSize = (rank: number) => {
+                switch (rank) {
+                  case 1: return 'w-18 h-18'; // 1등: 가장 높음
+                  case 2: return 'w-16 h-16'; // 2등: 중간 높이
+                  case 3: return 'w-14 h-14'; // 3등: 가장 낮음
+                  default: return 'w-10 h-10';
+                }
+              }
+
+              return (
+                <Card 
+                  key={team.teamName} 
+                  className={`bg-neutral-800 border-2 border-neutral-700 gradient-3-hover rounded-radius-lg p-6 pt-16 relative flex flex-col ${getGapSize(team.rank)} items-center ${getCardHeight(team.rank)} transition-all duration-300 ease-in-out`}
+                >
                 {/* Rank Badge - Absolute positioned at top center */}
                 <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
                   <div className="w-12 h-12 bg-primary rounded-radius-md flex items-center justify-center">
@@ -339,11 +404,11 @@ export function LeaderboardPage() {
 
 
                 {/* 팀 로고 */}
-                <div className="w-18 h-18 bg-primary rounded-radius-rounded mx-auto">
+                <div className={`${getIconSize(team.rank)} bg-primary rounded-radius-rounded mx-auto`}>
                   <img src={team.logo} alt={team.teamName} className="w-full h-full object-cover rounded-radius-rounded" />
                 </div>
 
-                <div className="flex flex-col gap-2 items-center">
+                <div className="flex flex-col gap-2 items-center flex-1">
                   <h3 className="typo-heading-medium text-primary-100">{team.teamName}</h3>
                   <div className="typo-heading-medium text-primary">{team.score.toLocaleString()} pts</div>
                   <span className="bg-primary-900 text-primary-200 typo-body-small-bold rounded-radius-sm px-4 py-1">
@@ -352,32 +417,83 @@ export function LeaderboardPage() {
                   <p className="typo-body-xsmall text-neutral-200">Last solved: {team.lastSolvedAt}</p>
                 </div>
 
-                {/* Team Members Section */}
-                <div className="bg-neutral-700 rounded-radius-md py-4 px-6 w-full flex flex-col gap-4">
-                  <h4 className="typo-body-xsmall-bold text-neutral-300">Team Members</h4>
-                  <div className="flex flex-col gap-2">
-                    {team.members.map((member, memberIndex) => (
-                      <div key={member.nickname}>
-                        <div className="flex justify-between items-center">
-                          <span className="typo-body-xsmall text-primary-100">{member.nickname}</span>
-                          <div className="flex items-center gap-3">
-                            <span className="typo-body-xsmall text-neutral-400 w-10 text-right">{member.contribution.toFixed(1)}%</span>
-                            <span className="typo-body-small-bold text-primary">{member.score.toLocaleString()}</span>
+                {/* Team Members Section - 맨 아래 고정 */}
+                <div className="bg-neutral-700 rounded-radius-md py-4 px-6 w-full flex flex-col gap-4 mt-auto">
+                  <div className="flex items-center justify-between">
+                    <h4 className="typo-body-xsmall-bold text-neutral-300">Team Members</h4>
+                  </div>
+                  <div>
+                    {(() => {
+                      // 3명 이하일 때는 세로 배치
+                      if (team.members.length <= 3) {
+                        return (
+                          <div className="flex flex-col gap-2">
+                            {team.members.map((member, memberIndex) => {
+                              const isLastItem = memberIndex < team.members.length - 1;
+                              
+                              return (
+                                <div key={member.nickname}>
+                                  <div className="flex justify-between items-center">
+                                    <span className="typo-body-xsmall text-primary-100">{member.nickname}</span>
+                                    <span className="typo-body-small-bold text-primary">{member.score.toLocaleString()}</span>
+                                  </div>
+                                  {isLastItem && <Divider className="border-neutral-500 my-2" />}
+                                </div>
+                              );
+                            })}
                           </div>
+                        );
+                      }
+                      
+                      // 4명 이상일 때는 2열 그리드
+                      return (
+                        <div className="flex flex-col gap-2">
+                          {Array.from({ length: Math.ceil(team.members.length / 2) }, (_, rowIndex) => {
+                            const leftMember = team.members[rowIndex * 2];
+                            const rightMember = team.members[rowIndex * 2 + 1];
+                            const isLastRow = rowIndex === Math.ceil(team.members.length / 2) - 1;
+                            
+                            return (
+                              <div key={rowIndex}>
+                                <div className="grid grid-cols-2 gap-4">
+                                  {/* 왼쪽 멤버 */}
+                                  <div className="flex justify-between items-center">
+                                    <span className="typo-body-xsmall text-primary-100 truncate pr-2">{leftMember.nickname}</span>
+                                    <span className="typo-body-small-bold text-primary flex-shrink-0">{leftMember.score.toLocaleString()}</span>
+                                  </div>
+                                  
+                                  {/* 오른쪽 멤버 */}
+                                  <div className="flex justify-between items-center">
+                                    {rightMember ? (
+                                      <>
+                                        <span className="typo-body-xsmall text-primary-100 truncate pr-2">{rightMember.nickname}</span>
+                                        <span className="typo-body-small-bold text-primary flex-shrink-0">{rightMember.score.toLocaleString()}</span>
+                                      </>
+                                    ) : (
+                                      <div></div>
+                                    )}
+                                  </div>
+                                </div>
+                                
+                                {/* 행 사이 구분선 */}
+                                {!isLastRow && <Divider className="border-neutral-500 my-2" />}
+                              </div>
+                            );
+                          })}
                         </div>
-                        {memberIndex < team.members.length - 1 && <Divider className="border-neutral-500 my-2" />}
-                      </div>
-                    ))}
+                      );
+                    })()}
                   </div>
                 </div>
               </Card>
-            ))}
+              );
+            })}
           </div>
 
           {/* Other Teams */}
           <div className="space-y-4 mb-10">
             {otherTeams.map((team) => (
-              <Card key={team.teamName} className="bg-neutral-800 border border-neutral-700 rounded-3xl p-6">
+              <Card key={team.teamName} className="bg-neutral-800 border-2 border-neutral-700 gradient-3-hover rounded-3xl p-6">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 bg-primary-900 rounded-radius-sm flex items-center justify-center">
@@ -460,29 +576,28 @@ export function LeaderboardPage() {
           </div>
 
           {/* First Blood List */}
-          <div className="space-y-4">
+          <div className="flex flex-col gap-4">
             {mockFirstBloods
               .filter(firstBlood => selectedCategory === 'All' || firstBlood.category === selectedCategory)
               .map((firstBlood) => (
-              <Card key={firstBlood.challengeName} className="bg-background border-primary-700 rounded-3xl p-6">
+              <div key={firstBlood.challengeName} className="bg-background border-2 border-neutral-700 rounded-radius-lg p-6">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center gap-4">
-                    <div className="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
-                      {firstBlood.category === 'Crypto' && <IcoCryptoLined className="w-5 h-5 text-primary-900" />}
-                      {firstBlood.category === 'Pwn' && <IcoCodeLined className="w-5 h-5 text-primary-900" />}
-                      {firstBlood.category === 'Web' && <IcoGlobalLined className="w-5 h-5 text-primary-900" />}
-                      {firstBlood.category === 'Reverse' && <IcoCodeLined className="w-5 h-5 text-primary-900" />}
-                      {firstBlood.category === 'Forensics' && <IcoSearchLined className="w-5 h-5 text-primary-900" />}
+                    <div className="w-10 h-10 rounded-radius-sm bg-primary flex items-center justify-center">
+                      {(() => {
+                        const IconComponent = getCategoryIcon(firstBlood.category);
+                        return <IconComponent className="w-6 h-6" />;
+                      })()}
                     </div>
                     <div>
-                      <h3 className="typo-body-large text-primary-100 font-bold">{firstBlood.challengeName}</h3>
-                      <span className="typo-body-small text-primary-50">{firstBlood.category}</span>
+                      <h3 className="typo-heading-small">{firstBlood.challengeName}</h3>
+                      <span className="typo-body-small text-neutral-100">{firstBlood.category}</span>
                     </div>
                   </div>
                   
                   <div className="text-right">
-                    <div className="typo-body-large text-primary-100 font-bold">+{firstBlood.points}</div>
-                    <div className="typo-body-xsmall text-primary-50">points</div>
+                    <div className="typo-body-large text-primary">+{firstBlood.points}</div>
+                    <div className="typo-body-xsmall text-neutral-200">points</div>
                   </div>
                 </div>
 
@@ -491,22 +606,22 @@ export function LeaderboardPage() {
                     <div className="w-8 h-8 bg-primary-100 rounded-full"></div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="typo-body-small text-primary-100 font-bold">{firstBlood.user}</span>
-                        <span className="typo-body-xsmall text-primary-50">from {firstBlood.teamName}</span>
+                        <span className="typo-body-medium-bold text-neutral-50">{firstBlood.user}</span>
+                        <span className="typo-body-small text-primary-300">from {firstBlood.teamName}</span>
                       </div>
-                      <p className="typo-body-xsmall text-primary-50">First Blood Winner</p>
+                      <p className="typo-body-xsmall text-neutral-100">First Blood Winner</p>
                     </div>
                   </div>
                   
                   <div className="flex items-center gap-2">
-                    <IcoTimerLined2 className="w-4 h-4 text-primary-50" />
-                    <div className="text-right">
-                      <div className="typo-body-xsmall text-primary-50">14 : 23 : 45</div>
-                      <div className="typo-body-xsmall text-primary-50">{firstBlood.timestamp}</div>
+                    <IcoTimerLined2 className="w-4 h-4 text-neutral-200" />
+                    <div className="text-right typo-body-xsmall text-neutral-200">
+                      <div>14 : 23 : 45</div>
+                      <div>{firstBlood.timestamp}</div>
                     </div>
                   </div>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         </MaxWidthContainer>
