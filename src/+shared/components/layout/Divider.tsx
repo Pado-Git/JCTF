@@ -6,8 +6,9 @@ export interface DividerProps extends PropsWithChildren {
   width?: string | number;
   height?: string | number;
   dashed?: boolean;
+  dotted?: boolean;
   vertical?: boolean;
-  className?: string; // 커스텀 색상: className="border-primary-300" 등으로 사용
+  className?: string;
 }
 
 export function Divider({
@@ -15,6 +16,7 @@ export function Divider({
   width = '1px',
   height,
   dashed = false,
+  dotted = false,
   vertical = false,
   className,
   children,
@@ -23,18 +25,23 @@ export function Divider({
   const finalWidth = typeof width === 'number' ? `${width}px` : width;
   const finalHeight = typeof height === 'number' ? `${height}px` : height;
 
+  // 색상 클래스 추출 - border-로 시작하는 클래스를 찾음
+  const borderColorClass = className?.split(' ').find(cls => cls.startsWith('border-')) || 'border-neutral-500';
+  const otherClasses = className?.split(' ').filter(cls => !cls.startsWith('border-')).join(' ') || '';
+
   const baseClasses = cn(
-    'flex items-center border-neutral-500', // 기본 색상: neutral-500
+    'flex items-center',
     vertical ? 'flex-col' : 'flex-row',
-    className // 커스텀 색상 오버라이드 가능
+    otherClasses
   );
 
   const lineClasses = cn(
-    'flex-1 border-neutral-500', // 기본 색상: neutral-500
-    dashed ? 'border-dashed' : 'border-solid',
+    'flex-1',
+    dashed ? 'border-dashed' : dotted ? 'border-dotted' : 'border-solid',
     vertical ? 'border-l' : 'border-t',
     'min-w-8',
-    vertical ? 'min-h-8' : 'min-w-8'
+    vertical ? 'min-h-8' : 'min-w-8',
+    borderColorClass
   );
 
   const contentClasses = cn(

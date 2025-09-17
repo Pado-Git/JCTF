@@ -9,7 +9,7 @@ import { RegisterPage } from '@/pages/RegisterPage';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { CompetitionsPage } from '@/pages/CompetitionsPage';
 import { ChallengesPage } from '@/pages/ChallengesPage';
-import { LeaderboardPage } from '@/pages/LeaderboardPage';
+import { LeaderboardPage } from '@/pages/Leaderboard';
 import { ProfilePage } from '@/pages/ProfilePage';
 import { TeamsPage } from '@/pages/TeamsPage';
 import { RootLayout } from '@/+shared/components';

@@ -32,7 +32,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
   };
 
   return (
-    <div className="flex items-center bg-neutral-800 rounded-radius-md border-neutral-700 p-8 gap-4 border-2 card-hover">
+    <div className="flex items-center bg-neutral-800 rounded-radius-md border-neutral-700 p-8 gap-4 border-2 gradient-3-hover">
       <div className='p-2 gradient-1 rounded-full'>
         {getActivityIcon(activity.type)}
       </div>

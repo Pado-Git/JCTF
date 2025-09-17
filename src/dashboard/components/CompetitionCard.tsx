@@ -32,7 +32,7 @@ export function CompetitionCard({ competition: comp }: CompetitionCardProps) {
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-neutral-800 border-2 border-neutral-700 card-hover">
+    <Card className="bg-neutral-800 border-2 border-neutral-700 gradient-3-hover">
       <CardHeader className='flex justify-between align-start'>
         <div className='flex flex-col gap-2'>
           <span className="typo-heading-medium text-primary-100 mb-2">{comp.name}</span>
