@@ -7,7 +7,7 @@ import { HomePage } from '@/pages/HomePage';
 import { LoginPage } from '@/pages/LoginPage';
 import { RegisterPage } from '@/pages/RegisterPage';
 import { DashboardPage } from '@/pages/DashboardPage';
-import { CompetitionsPage } from '@/pages/CompetitionsPage';
+import { Competitions } from '@/pages/Competitions';
 import { ChallengesPage } from '@/pages/ChallengesPage';
 import { LeaderboardPage } from '@/pages/Leaderboard';
 import { ProfilePage } from '@/pages/ProfilePage';
@@ -23,7 +23,7 @@ const router = createBrowserRouter(
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/challenges" element={<ChallengesPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
-      <Route path="/competitions" element={<CompetitionsPage />} />
+      <Route path="/competitions" element={<Competitions />} />
       <Route path="/teams" element={<TeamsPage />} />
       <Route path="/leaderboard" element={<LeaderboardPage />} />
     </Route>
