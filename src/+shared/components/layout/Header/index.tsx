@@ -73,26 +73,10 @@ export function Header({ className }: HeaderProps) {
               <Button 
                 variant="text" 
                 size="small"
-                onClick={() => handleNavigation('/leaderboard')}
-                className={isActivePath('/leaderboard') ? 'text-primary' : 'text-primary-100'}
-              >
-                Leaderboard
-              </Button>
-              <Button 
-                variant="text" 
-                size="small"
                 onClick={() => handleNavigation('/profile')}
                 className={isActivePath('/profile') ? 'text-primary' : 'text-primary-100'}
               >
                 Profile
-              </Button>
-              <Button 
-                variant="text" 
-                size="small"
-                onClick={() => handleNavigation('/teams')}
-                className={isActivePath('/teams') ? 'text-primary' : 'text-primary-100'}
-              >
-                Teams
               </Button>
             </div>
             <div className="flex items-center space-x-4">
