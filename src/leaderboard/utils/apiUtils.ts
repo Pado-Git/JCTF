@@ -36,11 +36,8 @@ export const fetchLeaderboardData = async (): Promise<ApiLeaderboardResponse> =>
   return data;
 };
 
-// API 데이터를 그대로 사용 (중복 제거만)
+// API 데이터를 score 기준으로 정렬하고 중복 제거
 export const transformApiDataToTeamEntry = (apiData: TeamEntry[]): TeamEntry[] => {
-  console.log('🔍 Raw API data length:', apiData.length);
-  console.log('🔍 First 5 teams:', apiData.slice(0, 5).map(t => ({ rank: t.rank, name: t.name })));
-  
   // 중복 제거: name 기준으로 중복 제거
   const uniqueTeams = apiData.reduce((acc, team) => {
     const existingTeam = acc.find(t => t.name === team.name);
@@ -52,11 +49,28 @@ export const transformApiDataToTeamEntry = (apiData: TeamEntry[]): TeamEntry[] =
     return acc;
   }, [] as TeamEntry[]);
   
-  console.log('✅ After deduplication:', uniqueTeams.length);
-  console.log('✅ Top 3 teams:', uniqueTeams.slice(0, 3).map(t => ({ rank: t.rank, name: t.name })));
+  // Score 기준으로 내림차순 정렬 (높은 점수부터)
+  const sortedTeams = uniqueTeams.sort((a, b) => {
+    // 1차: score 내림차순
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+    // 2차: solvedCount 내림차순 (score가 같으면 solvedCount로)
+    if (b.solvedCount !== a.solvedCount) {
+      return b.solvedCount - a.solvedCount;
+    }
+    // 3차: lastSolvedAt 오름차순 (score, solvedCount가 같으면 마지막 해결 시간이 빠른 순)
+    return new Date(a.lastSolvedAt).getTime() - new Date(b.lastSolvedAt).getTime();
+  });
   
-  // API 데이터를 그대로 사용하되, lastSolvedAt만 포맷팅
-  return uniqueTeams.map((team) => ({
+  // 정렬 후 rank 재할당
+  const rankedTeams = sortedTeams.map((team, index) => ({
+    ...team,
+    rank: index + 1
+  }));
+
+  // lastSolvedAt 포맷팅 및 내 팀 설정
+  return rankedTeams.map((team) => ({
     ...team,
     lastSolvedAt: formatLastSolvedTime(team.lastSolvedAt),
     isMyTeam: team.name === 'CyberNinjas' // 예시: 특정 팀을 내 팀으로 설정
