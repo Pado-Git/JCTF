@@ -29,7 +29,7 @@ interface CompetitionCardProps {
   onSelect?: (competitionId: string) => void;
 }
 
-export function CompetitionCard({ competition, isSelected, onSelect }: CompetitionCardProps) {
+export function CompetitionCard({ competition, onSelect }: CompetitionCardProps) {
   const navigate = useNavigate();
   const statusInfo = useCompetitionStatus(competition);
 
@@ -140,7 +140,7 @@ export function CompetitionCard({ competition, isSelected, onSelect }: Competiti
             {competition.registered ? (
               <div className="flex gap-2 w-full">
                 <Button
-                  className="flex-[2]" // 왼쪽 버튼: 2/3
+                  className="flex-[2]"
                   onClick={(e) => {
                     e.stopPropagation();
                     navigate?.("challenges");
@@ -150,7 +150,7 @@ export function CompetitionCard({ competition, isSelected, onSelect }: Competiti
                   Enter
                 </Button>
                 <Button
-                  className="flex-[1]" // 오른쪽 버튼: 1/3
+                  className="flex-[1]"
                   variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
