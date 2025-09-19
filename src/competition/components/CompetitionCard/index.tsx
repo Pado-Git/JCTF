@@ -2,8 +2,9 @@
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, CardDescription, CardTitle, Badge, Progress, BadgeVariant } from '@/+shared/components';
 import { getCompetitionStatus } from '@/+shared/utils';
-import { formatDate, handleRegister } from './index.hooks';
+import { useCompetitionCard } from './index.hooks';
 import { IcoCalendarLined, IcoChart, IcoTeamLined, IcoTrophyLined } from '@/+shared/assets';
+import { LINKS } from '@/+shared/constants';
 
 interface Competition {
   id: string;
@@ -26,17 +27,18 @@ interface Competition {
 interface CompetitionCardProps {
   competition: Competition;
   isSelected?: boolean;
-  onSelect?: (competitionId: string) => void;
 }
 
-export function CompetitionCard({ competition, onSelect }: CompetitionCardProps) {
+export function CompetitionCard({ competition }: CompetitionCardProps) {
   const navigate = useNavigate();
   const statusInfo = getCompetitionStatus(competition);
 
+  const { registerModalOpen, setRegisterModalOpen, formatDate, handleRegister } = useCompetitionCard();
+  
   return (
     <Card
       className="h-[600px] border border-neutral-700 hover:border-primary/50 transition-all duration-300 cursor-pointer p-8 relative overflow-hidden"
-      onClick={() => onSelect?.(competition.id)}
+      onClick={() => setRegisterModalOpen(true)}
       style={{
         backgroundImage: `url(${competition.backgroundImg})`,
         backgroundSize: 'cover',
@@ -143,7 +145,7 @@ export function CompetitionCard({ competition, onSelect }: CompetitionCardProps)
                   className="flex-[2]"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate?.("challenges");
+                    navigate?.(LINKS.challenges.replace(':competitionId', competition.id));
                   }}
                 >
                   <IcoTrophyLined />
@@ -154,7 +156,7 @@ export function CompetitionCard({ competition, onSelect }: CompetitionCardProps)
                   variant="secondary"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate?.("leaderboard");
+                    navigate?.(LINKS.leaderboard.replace(':competitionId', competition.id));
                   }}
                 >
                   <IcoChart />
@@ -167,7 +169,7 @@ export function CompetitionCard({ competition, onSelect }: CompetitionCardProps)
                 variant="secondary"
                 onClick={(e) => {
                   e.stopPropagation();
-                  navigate?.("leaderboard");
+                  navigate?.(LINKS.leaderboard.replace(':competitionId', competition.id));
                 }}
               >
                 Leaderboard
@@ -182,7 +184,7 @@ export function CompetitionCard({ competition, onSelect }: CompetitionCardProps)
             variant="secondary"
             onClick={(e) => {
               e.stopPropagation();
-              navigate?.("leaderboard");
+              navigate?.(LINKS.leaderboard.replace(':competitionId', competition.id));
             }}
           >
             View Results
