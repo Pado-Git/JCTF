@@ -6,10 +6,8 @@ export function Competitions() {
   const {
     selectedTab,
     setSelectedTab,
-    selectedCompetition,
     filteredCompetitions,
     statusCategories,
-    handleCompetitionSelect,
     competitionsWithStatus,
   } = useCompetitions();
   
@@ -31,8 +29,6 @@ export function Competitions() {
           <CompetitionCard
             key={competition.id}
             competition={competition}
-            isSelected={selectedCompetition === competition.id}
-            onSelect={handleCompetitionSelect}
           />
         ))}
       </div>
