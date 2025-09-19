@@ -5,6 +5,7 @@ import { Badge } from '@/+shared/components/feedback/badge';
 import { Progress } from '@/+shared/components/feedback/progress';
 import { IcoIndividualLined, IcoTeamLined } from '@/+shared/assets';
 import { IcoChallengeFilled, IcoChart, IcoStarLined, IcoTimerLined2, IcoTrophyLined } from '@/+shared/assets/icons';
+import { LINKS } from '@/+shared/constants';
 
 interface CompetitionEntry {
   id: string;
@@ -129,7 +130,7 @@ export function CompetitionCard({ competition: comp }: CompetitionCardProps) {
             <div className="flex gap-2 flex-[2] justify-end">
               <Button
                 variant="primary" size="small"
-                onClick={() => navigate('/challenges')}
+                onClick={() => navigate(LINKS.challenges.replace(':competitionId', comp.id))}
                 disabled={comp.status === 'ended'}
               >
                 <IcoTrophyLined />
@@ -139,7 +140,7 @@ export function CompetitionCard({ competition: comp }: CompetitionCardProps) {
               {comp.status === 'live' && (
                 <Button 
                   variant="secondary" size="small"
-                  onClick={() => navigate('/leaderboard')}
+                  onClick={() => navigate(LINKS.leaderboard.replace(':competitionId', comp.id))}
                 >
                   <IcoChart />
                   Leaderboard

@@ -7,10 +7,11 @@ import {
 import { 
   Challenge, 
   mockCompetition, 
-  mockChallenges
+  mockChallenges,
 } from '@/challenge/data';
 import { bannerBg } from '@/challenge/assets';
-import { ChallengeModal, CategoryFilter, ChallengeCard } from '@/challenge/components';
+import { ChallengeModal, ChallengeCard } from '@/challenge/components';
+import { CategoryFilter } from '@/+shared/components';
 import { IcoCheckboxCircleLined, IcoStarLined, IcoTrophyFilled, IcoChart } from '@/+shared/assets';
 import {
   calculateScore,
@@ -18,15 +19,12 @@ import {
   getProgressPercentage
 } from '@/challenge/utils';
 
-
-
-
 export function ChallengesPage() {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
+  const [_user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
 
   const filteredChallenges = mockChallenges.filter(challenge => {
     const matchesCategory = selectedCategory === 'All' || challenge.category.name === selectedCategory;
@@ -37,6 +35,8 @@ export function ChallengesPage() {
 
   const solvedCount = getSolvedCount(mockChallenges);
   const totalPoints = calculateScore(mockChallenges);
+
+  const categories = mockChallenges.map(challenge => challenge.category.name).filter((category, index, self) => self.indexOf(category) === index);
 
   return (
     <>
@@ -116,8 +116,11 @@ export function ChallengesPage() {
         </div>
         
         <CategoryFilter 
+          categories={categories}
+          data={mockChallenges}
           selected={selectedCategory}
           onSelect={setSelectedCategory}
+          getItemCategory={(challenge) => challenge.category.name}
         />
 
         {/* Challenges Grid */}
