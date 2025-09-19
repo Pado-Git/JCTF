@@ -1,7 +1,7 @@
 
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, CardDescription, CardTitle, Badge, Progress, BadgeVariant } from '@/+shared/components';
-import { useCompetitionStatus } from '@/+shared/components';
+import { getCompetitionStatus } from '@/+shared/utils';
 import { formatDate, handleRegister } from './index.hooks';
 import { IcoCalendarLined, IcoChart, IcoTeamLined, IcoTrophyLined } from '@/+shared/assets';
 
@@ -31,7 +31,7 @@ interface CompetitionCardProps {
 
 export function CompetitionCard({ competition, onSelect }: CompetitionCardProps) {
   const navigate = useNavigate();
-  const statusInfo = useCompetitionStatus(competition);
+  const statusInfo = getCompetitionStatus(competition);
 
   return (
     <Card
