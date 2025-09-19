@@ -52,7 +52,7 @@ export function CategoryFilter<T>({
                 isActive ? 'text-primary-100' : 'text-neutral-400'
               }`}
             >
-              {category.slice(0,1).toUpperCase() + category.slice(1)}
+              {category === 'All' ? 'All' : category.slice(0,1).toUpperCase() + category.slice(1)}
             </span>
 
             <div
