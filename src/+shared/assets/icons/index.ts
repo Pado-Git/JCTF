@@ -16,6 +16,7 @@ export { default as IcoCodeLined } from './ico_code-lined.svg?react';
 export { default as IcoCrownFilled } from './ico_crown-filled.svg?react';
 export { default as IcoCrownLined } from './ico_crown-lined.svg?react';
 export { default as IcoCryptoLined } from './ico_crypto-lined.svg?react';
+export { default as IcoDiamondFilled } from './ico_diamond-filled.svg?react';
 export { default as IcoDownloadLined } from './ico_download-lined.svg?react';
 export { default as IcoEyeLined } from './ico_eye-lined.svg?react';
 export { default as IcoFileFilled } from './ico_file-filled.svg?react';
@@ -29,6 +30,10 @@ export { default as IcoLoginLined } from './ico_login-lined.svg?react';
 export { default as IcoLogoutFilled } from './ico_logout-filled.svg?react';
 export { default as IcoLogoutLined } from './ico_logout-lined.svg?react';
 export { default as IcoMedalFilled } from './ico_medal-filled.svg?react';
+export { default as IcoMiscLined } from './ico_misc-lined.svg?react';
+export { default as IcoShakeHandsFilled } from './ico_shake-hands-filled.svg?react';
+export { default as IcoThumbsUpFilled } from './ico_thumb-up-filled.svg?react';
+
 export { default as IcoReset } from './ico_reset.svg?react';
 export { default as IcoSearchLined } from './ico_search-lined.svg?react';
 export { default as IcoServerFilled } from './ico_server-filled.svg?react';
