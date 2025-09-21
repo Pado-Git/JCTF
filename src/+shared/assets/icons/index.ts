@@ -50,3 +50,5 @@ export { default as IcoTrophyFilled } from './ico_trophy-filled.svg?react';
 export { default as IcoTrophyLined } from './ico_trophy-lined.svg?react';
 export { default as IcoUnlockFilled } from './ico_unlock-filled.svg?react';
 export { default as IcoUnlockLined } from './ico_unlock-lined.svg?react';
+export { default as IcoKeyLined } from './ico_key-lined.svg?react';
+export { default as IcoNotificationLined } from './ico_notification-lined.svg?react';
