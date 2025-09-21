@@ -1,60 +1,72 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Badge } from '@/+shared/components';
-import { Key, Bell, Eye } from 'lucide-react';
+import { IcoSettingLined, IcoLockLined, IcoEyeLined } from '@/+shared/assets';
+import { TitleWIcon } from '@/+shared/components';
+import { SettingBox } from '@/profile/components';
+import { Bell } from 'lucide-react';
 
 interface AccountSettingsProps {
   onNavigate?: (path: string) => void;
 }
 
+interface SettingItem {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  buttonText: string;
+  path: string;
+}
+
 export function AccountSettings({ onNavigate }: AccountSettingsProps) {
+  const settingsData: SettingItem[] = [
+    {
+      id: 'change-password',
+      title: 'Change Password',
+      description: 'Update your login credentials',
+      icon: <IcoLockLined className="w-8 h-8 text-primary-200" />,
+      buttonText: 'Change',
+      path: '/change-password'
+    },
+    {
+      id: 'email-notifications',
+      title: 'Email Notifications',
+      description: 'Competition updates and announcements',
+      icon: <Bell className="w-8 h-8 text-primary-200" />,
+      buttonText: 'Configure',
+      path: '/notifications'
+    },
+    {
+      id: 'profile-visibility',
+      title: 'Profile Visibility',
+      description: 'Control who can see your profile',
+      icon: <IcoEyeLined className="w-8 h-8 text-primary-200" />,
+      buttonText: 'Public',
+      path: '/privacy'
+    }
+  ];
+
   return (
-    <Card className="bg-card/50 backdrop-blur-sm border-warning/30">
-      <CardHeader>
-        <CardTitle className="text-foreground">Account Settings</CardTitle>
-        <CardDescription className="text-muted-foreground">
-          Manage your account preferences and security
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <div className="flex items-center justify-between p-4 rounded-lg bg-muted/20 border border-border">
-          <div className="flex items-center space-x-3">
-            <Key className="h-5 w-5 text-warning" />
-            <div>
-              <h4 className="font-semibold text-foreground">Change Password</h4>
-              <p className="text-sm text-muted-foreground">Update your login credentials</p>
-            </div>
-          </div>
-          <Button variant="secondary" className="border-warning text-warning hover:bg-warning hover:text-warning-foreground">
-            Change
-          </Button>
-        </div>
-        
-        <div className="flex items-center justify-between p-4 rounded-lg bg-muted/20 border border-border">
-          <div className="flex items-center space-x-3">
-            <Bell className="h-5 w-5 text-primary" />
-            <div>
-              <h4 className="font-semibold text-foreground">Email Notifications</h4>
-              <p className="text-sm text-muted-foreground">Competition updates and announcements</p>
-            </div>
-          </div>
-          <Button variant="secondary" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-            Configure
-          </Button>
-        </div>
-        
-        <div className="flex items-center justify-between p-4 rounded-lg bg-muted/20 border border-border">
-          <div className="flex items-center space-x-3">
-            <Eye className="h-5 w-5 text-accent" />
-            <div>
-              <h4 className="font-semibold text-foreground">Profile Visibility</h4>
-              <p className="text-sm text-muted-foreground">Control who can see your profile</p>
-            </div>
-          </div>
-          <Badge variant="primary" className="border-accent text-accent">
-            Public
-          </Badge>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="space-y-10">
+      {/* Header */}
+      <TitleWIcon
+        title="Account Settings"
+        icon={<IcoSettingLined />}
+        description="Manage your account preferences and security"
+      />
+
+      {/* Settings Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {settingsData.map((setting) => (
+          <SettingBox
+            key={setting.id}
+            title={setting.title}
+            description={setting.description}
+            icon={setting.icon}
+            onClick={() => onNavigate?.(setting.path)}
+            buttonText={setting.buttonText}
+          />
+        ))}
+      </div>
+    </div>
   );
 }
 
