@@ -1,14 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, MaxWidthContainer, CategoryFilter } from '@/+shared/components';
+import { MaxWidthContainer, CategoryFilter } from '@/+shared/components';
 import { toast } from 'sonner';
 import { 
   ProfileHeader, 
   Overview, 
-  PersonalInfo, 
+  EditProfile, 
   AccountSettings, 
   Achievements, 
-  RecentActivity 
+  RecentActivity,
+  TeamInvitation
 } from '@/profile/layout';
 
 // Props interface removed - using React Router now
@@ -41,10 +42,11 @@ interface UserProfile {
   }>;
   recentActivity: Array<{
     id: string;
-    type: 'solve' | 'join' | 'rank_up' | 'first_blood';
+    type: 'solve' | 'join' | 'rank_up';
     description: string;
     timestamp: string;
     points?: number;
+    isFirstBlood?: boolean;
   }>;
   currentTeam?: {
     id: string;
@@ -108,10 +110,11 @@ const mockProfile: UserProfile = {
   recentActivity: [
     {
       id: 'act-001',
-      type: 'first_blood',
-      description: 'Achieved first blood in "SQL Injection Master"',
+      type: 'solve',
+      description: 'Solved "SQL Injection Master"',
       timestamp: '2 hours ago',
-      points: 450
+      points: 450,
+      isFirstBlood: true
     },
     {
       id: 'act-002',
@@ -146,7 +149,7 @@ export function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState<UserProfile>(mockProfile);
   const [editedProfile, setEditedProfile] = useState<UserProfile>(mockProfile);
-  const [isLoading, setIsLoading] = useState(false);
+  const [_isLoading, setIsLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState('Overview');
 
   const handleSave = async () => {
@@ -185,11 +188,12 @@ export function ProfilePage() {
         return <Overview profile={profile} onNavigate={navigate} />;
       case 'Edit Profile':
         return (
-          <div className="grid md:grid-cols-2 gap-6">
-            <PersonalInfo 
+          <div className="space-y-10">
+            <EditProfile 
               profile={isEditing ? editedProfile : profile} 
               isEditing={isEditing}
               onProfileChange={handleProfileChange}
+              onSave={handleSave}
             />
             <AccountSettings onNavigate={navigate} />
           </div>
@@ -198,6 +202,19 @@ export function ProfilePage() {
         return <Achievements achievements={profile.achievements} />;
       case 'Activity':
         return <RecentActivity activities={profile.recentActivity} />;
+      case 'Team Invitations':
+        return (
+          <TeamInvitation 
+            onAccept={(invitationId) => {
+              console.log('Accept invitation:', invitationId);
+              toast.success('Team invitation accepted!');
+            }}
+            onDecline={(invitationId) => {
+              console.log('Decline invitation:', invitationId);
+              toast.success('Team invitation declined.');
+            }}
+          />
+        );
       default:
         return <Overview profile={profile} onNavigate={navigate} />;
     }
@@ -227,25 +244,6 @@ export function ProfilePage() {
         <>
           {renderContent()}
         </>
-
-        {/* Edit mode buttons */}
-        {selectedTab === 'Edit Profile' && (
-          <div className="flex justify-end gap-4">
-            <Button
-              variant="secondary"
-              onClick={handleCancel}
-              disabled={isLoading}
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={isEditing ? handleSave : () => setIsEditing(true)}
-              disabled={isLoading}
-            >
-              {isEditing ? (isLoading ? 'Saving...' : 'Save Changes') : 'Edit Profile'}
-            </Button>
-          </div>
-        )}
       </MaxWidthContainer>
     </>
   );
