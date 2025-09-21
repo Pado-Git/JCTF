@@ -4,3 +4,4 @@ export * from './PersonalInfo';
 export * from './AccountSettings';
 export * from './Achievements';
 export * from './RecentActivity';
+export * from './TeamInvitation';
