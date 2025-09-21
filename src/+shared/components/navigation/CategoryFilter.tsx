@@ -5,6 +5,7 @@ interface CategoryFilterProps<T> {
   onSelect: (category: string) => void;
   getItemCategory: (item: T) => string | string[];
   isAll?: boolean;
+  isCountExist?: boolean;
 }
 
 export function CategoryFilter<T>({
@@ -13,7 +14,8 @@ export function CategoryFilter<T>({
   selected,
   onSelect,
   getItemCategory,
-  isAll = true
+  isAll = true,
+  isCountExist = true
 }: CategoryFilterProps<T>) {
 
   const finalCategories = isAll ? ["All", ...categories] : categories;
@@ -55,18 +57,20 @@ export function CategoryFilter<T>({
               {category === 'All' ? 'All' : category.slice(0,1).toUpperCase() + category.slice(1)}
             </span>
 
-            <div
-              className={`
-                w-6 h-6 rounded-radius-sm flex items-center justify-center typo-body-small
-                ${
-                  isActive
-                    ? 'bg-primary-800 border border-primary-500 text-primary-100'
-                    : 'bg-neutral-600 border border-neutral-600 text-neutral-400'
-                }
-              `}
-            >
-              {count}
-            </div>
+            {isCountExist &&
+              <div
+                className={`
+                  w-6 h-6 rounded-radius-sm flex items-center justify-center typo-body-small
+                  ${
+                    isActive
+                      ? 'bg-primary-800 border border-primary-500 text-primary-100'
+                      : 'bg-neutral-600 border border-neutral-600 text-neutral-400'
+                  }
+                `}
+              >
+                {count}
+              </div>
+            }
           </button>
         );
       })}
