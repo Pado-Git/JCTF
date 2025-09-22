@@ -54,6 +54,11 @@
   --text-heading-xxsmall-height: 1.5;
   --text-heading-xxsmall-spacing: 0px;
   
+  --text-heading-3xsmall: 11px;
+  --text-heading-3xsmall-weight: 700;
+  --text-heading-3xsmall-height: 1.5;
+  --text-heading-3xsmall-spacing: 0px;
+  
   /* Body Text */
   --text-body-large: 19px;
   --text-body-large-weight: 400;
@@ -74,6 +79,11 @@
   --text-body-xsmall-weight: 400;
   --text-body-xsmall-height: 1.3;
   --text-body-xsmall-spacing: 0px;
+  
+  --text-body-xxsmall: 11px;
+  --text-body-xxsmall-weight: 400;
+  --text-body-xxsmall-height: 1.3;
+  --text-body-xxsmall-spacing: 0px;
   
   /* JCTF Design System Colors - Based on Figma */
   --color-background: #0A0A0C;
@@ -300,6 +310,13 @@ html {
     letter-spacing: var(--text-heading-xxsmall-spacing);
   }
   
+  .typo-heading-3xsmall {
+    font-size: var(--text-heading-3xsmall);
+    font-weight: var(--text-heading-3xsmall-weight);
+    line-height: var(--text-heading-3xsmall-height);
+    letter-spacing: var(--text-heading-3xsmall-spacing);
+  }
+  
   /* Body Text */
   .typo-body-large {
     font-size: var(--text-body-large);
@@ -356,6 +373,20 @@ html {
     font-weight: 700;
     line-height: var(--text-body-xsmall-height);
     letter-spacing: var(--text-body-xsmall-spacing);
+  }
+  
+  .typo-body-xxsmall {
+    font-size: var(--text-body-xxsmall);
+    font-weight: var(--text-body-xxsmall-weight);
+    line-height: var(--text-body-xxsmall-height);
+    letter-spacing: var(--text-body-xxsmall-spacing);
+  }
+  
+  .typo-body-xxsmall-bold {
+    font-size: var(--text-body-xxsmall);
+    font-weight: 700;
+    line-height: var(--text-body-xxsmall-height);
+    letter-spacing: var(--text-body-xxsmall-spacing);
   }
 
   /* Shadow Utility Classes - Figma Design System */

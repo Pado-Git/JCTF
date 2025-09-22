@@ -4,5 +4,6 @@ export * from './drawer';
 export * from './dropdown-menu';
 export * from './hover-card';
 export * from './popover';
+export * from './Portal';
 export * from './sheet';
 export * from './tooltip';

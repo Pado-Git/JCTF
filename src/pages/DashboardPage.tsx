@@ -1,7 +1,7 @@
 import { Card, MaxWidthContainer, AnimatedBackground } from '@/+shared/components';
 import { IcoTrophyFilled, IcoChallengeFilled, IcoStarFilled, IcoCrownFilled, IcoTimerLined1, IcoMedalFilled } from '@/+shared/assets/icons';
 import { leaderBg1, leaderBg2, leaderBg3 } from '@/home/assets';
-import { headerInfo, mockCompetitions } from '@/dashboard/data/mockData';
+import { mockCompetitions } from '@/dashboard/data/mockData';
 import { ActivityCard, CompetitionCard, StatCard } from '@/dashboard/components';
 import { useAuthStore } from '@/+shared/stores/authStore';
 
@@ -103,16 +103,6 @@ export function DashboardPage() {
                 <p className="text-primary-100 typo-body-medium">
                   Ready to hack some challenges? Let's see what's new.
                 </p>
-              </div>
-              <div className='flex items-center gap-10'>
-                {headerInfo.map((info) => {
-                  return (
-                    <div className='flex flex-col items-center gap-1'>
-                      <span className='typo-heading-xsmall text-primary-50'>{info.value}</span>
-                      <span className='text-primary-200 typo-body-small'>{info.label}</span>
-                    </div>
-                  )
-                })}
               </div>
             </div>
           </div>

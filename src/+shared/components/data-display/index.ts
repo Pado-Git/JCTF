@@ -11,3 +11,4 @@ export * from './countUp';
 export * from './scroll-area';
 export * from './table';
 export * from './tabs';
+export * from './TitleWIcon';
