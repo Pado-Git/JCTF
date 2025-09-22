@@ -23,7 +23,10 @@ export function SettingBox({ title, description, icon, onClick, buttonText }: Se
         <Button
           variant="primary"
           size="small"
-          onClick={onClick}
+          onClick={() => {
+            console.log('SettingBox button clicked:', title);
+            onClick();
+          }}
         >
           {buttonText}
           <IcoArrowRightSLined className="w-4 h-4" />
