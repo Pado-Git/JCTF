@@ -188,7 +188,7 @@ export function ProfilePage() {
         return <Overview profile={profile} onNavigate={navigate} />;
       case 'Edit Profile':
         return (
-          <div className="space-y-10">
+          <div className="flex flex-col gap-20">
             <EditProfile 
               profile={isEditing ? editedProfile : profile} 
               isEditing={isEditing}
