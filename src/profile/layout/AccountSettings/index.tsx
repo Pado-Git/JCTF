@@ -45,7 +45,7 @@ export function AccountSettings({ onNavigate }: AccountSettingsProps) {
   ];
 
   return (
-    <div className="space-y-10">
+    <div className="flex flex-col gap-10">
       {/* Header */}
       <TitleWIcon
         title="Account Settings"
@@ -54,7 +54,7 @@ export function AccountSettings({ onNavigate }: AccountSettingsProps) {
       />
 
       {/* Settings Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {settingsData.map((setting) => (
           <SettingBox
             key={setting.id}

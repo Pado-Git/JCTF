@@ -31,7 +31,7 @@ export function RecentActivity({ activities }: RecentActivityProps) {
   };
 
   return (
-    <>
+    <div className='flex flex-col gap-10'>
       <TitleWIcon 
         title="Recent Activity"
         icon={<IcoTimerLined1 />}
@@ -47,7 +47,7 @@ export function RecentActivity({ activities }: RecentActivityProps) {
           ))}
         </div>
       </Card>
-    </>
+    </div>
   );
 }
 

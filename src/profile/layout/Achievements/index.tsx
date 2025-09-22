@@ -17,7 +17,7 @@ interface AchievementsProps {
 
 export function Achievements({ achievements }: AchievementsProps) {
   return (
-    <div className="space-y-10">
+    <div className="flex flex-col gap-10">
       {/* Header */}
       <TitleWIcon 
         title="Achievements"
