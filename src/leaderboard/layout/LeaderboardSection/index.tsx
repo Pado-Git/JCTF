@@ -125,7 +125,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
         </div>
 
         {/* Other Teams */}
-        <div className="space-y-4 mb-10">
+        <div className="flex flex-col gap-4 mb-10">
           {otherTeams.map((team) => (
             <Card key={team.name} className="bg-neutral-800 border-2 border-neutral-700 gradient-3-hover rounded-3xl p-6">
               <div className="flex justify-between items-center">
