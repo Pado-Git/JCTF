@@ -6,6 +6,16 @@ export const formatLastSolvedTime = (isoString: string): string => {
   const lastSolved = new Date(isoString);
   const diffInMinutes = Math.floor((now.getTime() - lastSolved.getTime()) / (1000 * 60));
   
+  // 음수 시간 차이 처리 (미래 시간인 경우)
+  if (diffInMinutes < 0) {
+    return 'N/A';
+  }
+  
+  // 0분인 경우
+  if (diffInMinutes === 0) {
+    return 'just now';
+  }
+  
   if (diffInMinutes < 60) {
     return `${diffInMinutes} minutes ago`;
   } else if (diffInMinutes < 1440) {

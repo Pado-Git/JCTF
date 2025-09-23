@@ -43,7 +43,8 @@ interface UserProfile {
   recentActivity: Array<{
     id: string;
     type: 'solve' | 'join' | 'rank_up';
-    description: string;
+    challengeName?: string;
+    competitionName: string;
     timestamp: string;
     points?: number;
     isFirstBlood?: boolean;
@@ -111,29 +112,31 @@ const mockProfile: UserProfile = {
     {
       id: 'act-001',
       type: 'solve',
-      description: 'Solved "SQL Injection Master"',
-      timestamp: '2 hours ago',
+      challengeName: 'SQL Injection Master',
+      competitionName: 'Winter CTF 2024',
+      timestamp: "2025-09-23T09:21:14+00:00",
       points: 450,
       isFirstBlood: true
     },
     {
       id: 'act-002',
       type: 'rank_up',
-      description: 'Moved up to rank #12 in Winter CTF 2024',
-      timestamp: '3 hours ago'
+      competitionName: 'Winter CTF 2024',
+      timestamp: "2025-09-23T07:32:05+00:00"
     },
     {
       id: 'act-003',
       type: 'solve',
-      description: 'Solved "Buffer Overflow Basics"',
-      timestamp: '1 day ago',
+      challengeName: 'Buffer Overflow Basics',
+      competitionName: 'Winter CTF 2024',
+      timestamp: "2025-09-23T09:21:14+00:00",
       points: 200
     },
     {
       id: 'act-004',
       type: 'join',
-      description: 'Joined Advanced Pwning Tournament',
-      timestamp: '2 days ago'
+      competitionName: 'Advanced Pwning Tournament',
+      timestamp: "2025-09-23T09:21:14+00:00"
     }
   ],
   currentTeam: {

@@ -1,8 +1,9 @@
-import { Card, MaxWidthContainer, AnimatedBackground } from '@/+shared/components';
-import { IcoTimerLined1, IcoMedalFilled } from '@/+shared/assets/icons';
+import { MaxWidthContainer, AnimatedBackground } from '@/+shared/components';
+import { IcoMedalFilled } from '@/+shared/assets/icons';
 import { leaderBg1, leaderBg2, leaderBg3 } from '@/home/assets';
-import { ActivityCard, CompetitionCard, StatCard } from '@/dashboard/components';
+import { CompetitionCard, StatCard } from '@/dashboard/components';
 import { useDashboard } from './index.hooks';
+import { RecentActivity } from '@/profile/layout';
 
 export function DashboardPage() {
   const { user, dashboardMocks, mockCompetitions, mockActivities } = useDashboard();
@@ -64,23 +65,7 @@ export function DashboardPage() {
 
       <section className='py-20 bg-neutral-800'>
         <MaxWidthContainer>
-          <div className='flex flex-col gap-2 mb-10'>
-            <div className='flex items-center gap-4'>
-              <IcoTimerLined1 className='text-primary size-6' />
-              <span className='text-primary-200 typo-heading-medium'>Recent Activity</span>
-            </div>
-            <span className='text-primary-100 typo-body-medium'>
-              Your latest achievements and competition updates
-            </span>
-          </div>
-
-          <Card className="border-neutral-600 bg-neutral-900">
-            <div className="grid grid-cols-1 gap-4 p-4">
-              {mockActivities.map((activity) => (
-                <ActivityCard key={activity.id} activity={activity} />
-              ))}
-            </div>
-          </Card>
+          <RecentActivity activities={mockActivities} />
         </MaxWidthContainer>
       </section>
     </>
