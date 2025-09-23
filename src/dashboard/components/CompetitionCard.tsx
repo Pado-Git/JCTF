@@ -128,22 +128,23 @@ export function CompetitionCard({ competition: comp }: CompetitionCardProps) {
             </div>
 
             <div className="flex gap-2 flex-[2] justify-end">
-              <Button
-                variant="primary" size="small"
-                onClick={() => navigate(LINKS.challenges.replace(':competitionId', comp.id))}
-                disabled={comp.status === 'ended'}
-              >
-                <IcoTrophyLined />
-                {comp.status === 'live' ? 'Continue' : comp.status === 'upcoming' ? 'View Details' : 'View Results'}
-              </Button>
-              
               {comp.status === 'live' && (
+                <Button
+                  variant="primary" size="small"
+                  onClick={() => navigate(LINKS.challenges.replace(':competitionId', comp.id))}
+                >
+                  <IcoTrophyLined />
+                  Continue
+                </Button>
+              )}
+              
+              {(comp.status === 'live' || comp.status === 'ended') && (
                 <Button 
                   variant="secondary" size="small"
                   onClick={() => navigate(LINKS.leaderboard.replace(':competitionId', comp.id))}
                 >
                   <IcoChart />
-                  Leaderboard
+                  {comp.status === 'ended' ? 'View Results' : 'Leaderboard'}
                 </Button>
               )}
             </div>
