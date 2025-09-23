@@ -3,6 +3,7 @@ import { IcoCrownFilled, IcoTimerLined2 } from '@/+shared/assets/icons';
 import { getCategoryIcon } from '@/challenge/utils/categoryIcons';
 import { useFirstBloodSection } from './index.hooks';
 import { mockFirstBloods } from '@/leaderboard/utils';
+import { formatDate } from '@/challenge/utils';
 
 export function FirstBloodSection() {
   const { 
@@ -65,12 +66,9 @@ export function FirstBloodSection() {
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-2">
-                  <IcoTimerLined2 className="w-4 h-4 text-neutral-200" />
-                  <div className="text-right typo-body-xsmall text-neutral-200">
-                    <div>14 : 23 : 45</div>
-                    <div>{firstBlood.timestamp}</div>
-                  </div>
+                <div className="flex items-center gap-2 text-neutral-200">
+                  <IcoTimerLined2 className="w-4 h-4" />
+                  <div className="typo-body-xsmall">{formatDate(firstBlood.timestamp)}</div>
                 </div>
               </div>
             </div>

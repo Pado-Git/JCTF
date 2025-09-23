@@ -15,7 +15,7 @@ export const mockFirstBloods: FirstBloodEntry[] = [
     category: 'Crypto',
     teamName: 'CyberWarriors',
     user: 'Alice',
-    timestamp: '5 minutes ago',
+    timestamp: "2025-09-11T09:21:14+00:00",
     points: 750
   },
   {
@@ -23,7 +23,7 @@ export const mockFirstBloods: FirstBloodEntry[] = [
     category: 'Pwn',
     teamName: 'Binary Ninjas',
     user: 'Dave',
-    timestamp: '23 minutes ago',
+    timestamp: "2025-09-25T09:41:14+00:00",
     points: 650
   },
   {
@@ -31,7 +31,7 @@ export const mockFirstBloods: FirstBloodEntry[] = [
     category: 'Web',
     teamName: 'Hack The Planet',
     user: 'Grace',
-    timestamp: '1 hour ago',
+    timestamp: "2025-01-11T09:21:14+00:00",
     points: 500
   },
   {
@@ -39,7 +39,7 @@ export const mockFirstBloods: FirstBloodEntry[] = [
     category: 'Reverse',
     teamName: 'Code Breakers',
     user: 'John',
-    timestamp: '2 hours ago',
+    timestamp: "2025-09-23T09:21:14+00:00",
     points: 900
   },
   {
@@ -47,7 +47,7 @@ export const mockFirstBloods: FirstBloodEntry[] = [
     category: 'Forensics',
     teamName: 'Digital Detectives',
     user: 'Sarah',
-    timestamp: '3 hours ago',
+    timestamp: "2025-06-13T09:11:14+00:00",
     points: 600
   }
 ];
