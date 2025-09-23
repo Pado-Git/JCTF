@@ -90,6 +90,25 @@ export const mockCompetitions: CompetitionEntry[] = [
     solvedChallenges: 0,
     totalChallenges: 20,
     timeLeft: '3d 12h 45m'
+  },
+  {
+    id: 'comp-004',
+    name: '종료된 대회',
+    backgroundImg: ChallengeBg3,
+    description: '종료된 대회',
+    status: 'ended',
+    startTime: '2024-01-25T14:00:00Z',
+    endTime: '2024-01-27T14:00:00Z',
+    participants: 0,
+    challenges: 20,
+    type: 'team',
+    myRank: 0,
+    totalTeams: 0,
+    myScore: 0,
+    maxScore: 3000,
+    solvedChallenges: 0,
+    totalChallenges: 20,
+    timeLeft: '0d 0h 0m'
   }
 ];
 

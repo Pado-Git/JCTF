@@ -102,7 +102,7 @@ export function Header({ className }: HeaderProps) {
             <Button
               variant="text"
               size="small"
-              onClick={() => handleBack('/dashboard')}
+              onClick={() => handleBack()}
             >
               <IcoArrowLeftLined />
               Back
@@ -122,7 +122,7 @@ export function Header({ className }: HeaderProps) {
           <Button
             variant="text"
             size="small"
-            onClick={() => handleBack('/dashboard')}
+            onClick={() => handleBack()}
             className='text-neutral-100'
           >
             <IcoArrowLeftLined />
