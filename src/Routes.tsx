@@ -11,7 +11,7 @@ import { Competitions } from '@/pages/Competitions';
 import { ChallengesPage } from '@/pages/ChallengesPage';
 import { LeaderboardPage } from '@/pages/Leaderboard';
 import { ProfilePage } from '@/pages/ProfilePage';
-import { TeamsPage } from '@/pages/TeamsPage';
+import { TeamsPage } from '@/pages/Teams';
 import { RootLayout } from '@/+shared/components';
 import { LINKS } from '@/+shared/constants';
 
