@@ -1,2 +1,4 @@
 export { LeaderboardPage } from './Leaderboard';
-export { CompetitionsPage } from './Competitions';
+export { Competitions } from './Competitions';
+export { DashboardPage } from './Dashboard';
+export { TeamsPage } from './Teams';

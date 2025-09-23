@@ -1,87 +1,11 @@
 import { Card, MaxWidthContainer, AnimatedBackground } from '@/+shared/components';
-import { IcoTrophyFilled, IcoChallengeFilled, IcoStarFilled, IcoCrownFilled, IcoTimerLined1, IcoMedalFilled } from '@/+shared/assets/icons';
+import { IcoTimerLined1, IcoMedalFilled } from '@/+shared/assets/icons';
 import { leaderBg1, leaderBg2, leaderBg3 } from '@/home/assets';
-import { mockCompetitions } from '@/dashboard/data/mockData';
 import { ActivityCard, CompetitionCard, StatCard } from '@/dashboard/components';
-import { useAuthStore } from '@/+shared/stores/authStore';
-
-// Props interface removed - using React Router now
-
-// CompetitionEntry interface removed - using mock data directly
-
-interface RecentActivity {
-  id: string;
-  type: 'solve' | 'join' | 'rank_up';
-  challengeName?: string;
-  competitionName: string;
-  points?: number;
-  timestamp: string;
-  isFirstBlood?: boolean;
-}
-
-
-const dashboardMocks = [
-  {
-    id: 'competitions',
-    value: 15,
-    label: 'Competitions',
-    icon: IcoTrophyFilled,
-  },
-  {
-    id: 'solved',
-    value: 127,
-    label: 'Challenges Solved',
-    icon: IcoChallengeFilled,
-  },
-  {
-    id: 'points',
-    value: 18650,
-    label: 'Total Points',
-    icon: IcoStarFilled,
-  },
-  {
-    id: 'firstbloods',
-    value: 12,
-    label: 'First Bloods',
-    icon: IcoCrownFilled,
-    }
-];
-
-const mockActivities: RecentActivity[] = [
-  {
-    id: 'act-001',
-    type: 'solve',
-    challengeName: 'SQL Injection Master',
-    competitionName: 'Winter CTF 2024',
-    points: 450,
-    timestamp: '2 hours ago',
-    isFirstBlood: true
-  },
-  {
-    id: 'act-002',
-    type: 'rank_up',
-    competitionName: 'Winter CTF 2024',
-    timestamp: '3 hours ago'
-  },
-  {
-    id: 'act-003',
-    type: 'solve',
-    challengeName: 'Buffer Overflow Basics',
-    competitionName: 'Winter CTF 2024',
-    points: 200,
-    timestamp: '1 day ago'
-  },
-  {
-    id: 'act-004',
-    type: 'join',
-    competitionName: 'Advanced Pwning Tournament',
-    timestamp: '2 days ago'
-  }
-];
-
+import { useDashboard } from './index.hooks';
 
 export function DashboardPage() {
-  const { user } = useAuthStore();
+  const { user, dashboardMocks, mockCompetitions, mockActivities } = useDashboard();
 
   return (
     <>
