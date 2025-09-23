@@ -10,38 +10,38 @@ export function DashboardPage() {
   return (
     <>
       <MaxWidthContainer className="relative z-10">
-          {/* Welcome Header */}
-          <div className="p-4">
-            <div className="absolute inset-0 z-0">
-              <AnimatedBackground
-                images={[leaderBg1, leaderBg2, leaderBg3]}
-                interval={400}
-                opacity={1}
-              />
-            </div>
-            <div className='relative z-10 mt-20 mb-14 flex items-center justify-between'>
-              <div>
-                <h1 className="typo-heading-large text-primary-50 mb-2">
-                  Welcome back <span className="text-primary">{user?.nickname || user?.email || 'User'}</span>
-                </h1>
-                <p className="text-primary-100 typo-body-medium">
-                  Ready to hack some challenges? Let's see what's new.
-                </p>
-              </div>
+        {/* Welcome Header */}
+        <div className="p-4">
+          <div className="absolute inset-0 z-0">
+            <AnimatedBackground
+              images={[leaderBg1, leaderBg2, leaderBg3]}
+              interval={400}
+              opacity={1}
+            />
+          </div>
+          <div className='relative z-10 mt-20 mb-14 flex items-center justify-between'>
+            <div>
+              <h1 className="typo-heading-large text-primary-50 mb-2">
+                Welcome back <span className="text-primary">{user?.nickname || user?.email || 'User'}</span>
+              </h1>
+              <p className="text-primary-100 typo-body-medium">
+                Ready to hack some challenges? Let's see what's new.
+              </p>
             </div>
           </div>
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
-            {dashboardMocks.map((stat) => (
-              <StatCard
-                key={stat.id}
-                id={stat.id}
-                value={stat.value}
-                label={stat.label}
-                icon={stat.icon}
-              />
-            ))}
-          </div>
+        </div>
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+          {dashboardMocks.map((stat) => (
+            <StatCard
+              key={stat.id}
+              id={stat.id}
+              value={stat.value}
+              label={stat.label}
+              icon={stat.icon}
+            />
+          ))}
+        </div>
       </MaxWidthContainer>
 
       {/* Main Content */}
