@@ -50,7 +50,7 @@ export function Header({ className }: HeaderProps) {
       return (
         <MaxWidthContainer className="flex items-center justify-between" innerProps={{ className: "flex items-center justify-between" }}>
           <div className="w-full flex items-center justify-between">
-            <div className="flex items-center">
+            <div className="flex items-center cursor-pointer" onClick={() => handleNavigation('/dashboard')}>
               <Logo />
             </div>
             <div className="flex items-center gap-10">
@@ -91,27 +91,6 @@ export function Header({ className }: HeaderProps) {
             </div>
           </div>
         </MaxWidthContainer>
-      );
-    }
-
-    // 챌린지 페이지 (경쟁 중인 페이지)
-    if (currentPath.startsWith('/challenges')) {
-      return (
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <Button
-              variant="text"
-              size="small"
-              onClick={() => handleBack()}
-            >
-              <IcoArrowLeftLined />
-              Back
-            </Button>
-            <div className="flex items-center space-x-2">
-              <Logo />
-            </div>
-          </div>
-        </div>
       );
     }
 
