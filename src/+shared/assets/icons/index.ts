@@ -54,3 +54,4 @@ export { default as IcoKeyLined } from './ico_key-lined.svg?react';
 export { default as IcoNotificationLined } from './ico_notification-lined.svg?react';
 export { default as IcoMailLined } from './ico_mail-lined.svg?react';
 export { default as IcoExitFilled } from './ico_exit-filled.svg?react';
+export { default as IcoEditFilled } from './ico_edit-filled.svg?react';
