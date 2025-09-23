@@ -1,11 +1,13 @@
 import { IcoTimerLined1 } from '@/+shared/assets';
 import { Card, TitleWIcon } from '@/+shared/components';
-import { ActivityCard } from '@/dashboard/components';
+import { ActivityCard } from '@/profile/components';
 
+// ActivityCard와 동일한 인터페이스 사용
 interface Activity {
   id: string;
   type: 'solve' | 'join' | 'rank_up';
-  description: string;
+  challengeName?: string;
+  competitionName: string;
   timestamp: string;
   points?: number;
   isFirstBlood?: boolean;
@@ -16,19 +18,6 @@ interface RecentActivityProps {
 }
 
 export function RecentActivity({ activities }: RecentActivityProps) {
-  // Activity 타입을 ActivityCard가 기대하는 RecentActivity 타입으로 변환
-  const convertToActivityCardFormat = (activity: Activity) => {
-    return {
-      id: activity.id,
-      type: activity.type,
-      challengeName: activity.type === 'solve' ? activity.description.split('"')[1] : undefined,
-      competitionName: activity.type === 'join' ? activity.description.split(' ')[1] : 
-                      activity.type === 'rank_up' ? activity.description.split(' ')[3] : 'Competition',
-      points: activity.points,
-      timestamp: activity.timestamp,
-      isFirstBlood: activity.isFirstBlood
-    };
-  };
 
   return (
     <div className='flex flex-col gap-10'>
@@ -42,7 +31,7 @@ export function RecentActivity({ activities }: RecentActivityProps) {
           {activities.map((activity) => (
             <ActivityCard 
               key={activity.id} 
-              activity={convertToActivityCardFormat(activity)} 
+              activity={activity} 
             />
           ))}
         </div>

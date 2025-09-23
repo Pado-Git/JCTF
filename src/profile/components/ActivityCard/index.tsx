@@ -1,6 +1,7 @@
 
 import { IcoChallengeFilled, IcoChartIncreaseLined, IcoTeamLined } from '@/+shared/assets';
 import { Badge } from '@/+shared/components';
+import { formatLastSolvedTime } from '@/leaderboard/utils';
 import { Activity } from 'lucide-react';
 
 interface RecentActivity {
@@ -18,6 +19,7 @@ interface ActivityCardProps {
 }
 
 export function ActivityCard({ activity }: ActivityCardProps) {
+
   const getActivityIcon = (type: string) => {
     switch (type) {
       case 'solve':
@@ -64,7 +66,7 @@ export function ActivityCard({ activity }: ActivityCardProps) {
         </div>
         <div className="flex items-center space-x-4 mt-1 text-primary-300 typo-body-xsmall">
           <span>{activity.competitionName}</span>
-          <span>{activity.timestamp}</span>
+          <span>{formatLastSolvedTime(activity.timestamp)}</span>
         </div>
       </div>
       {activity.points && (
