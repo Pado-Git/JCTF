@@ -1,6 +1,6 @@
 import { Button, Card, MaxWidthContainer, Divider } from '@/+shared/components';
 import { IcoChart } from '@/+shared/assets/icons';
-import { TeamEntry, getCardHeight, getGapSize, getIconSize } from '@/leaderboard/utils';
+import { TeamEntry, formatLastSolvedTime, getCardHeight, getGapSize, getIconSize } from '@/leaderboard/utils';
 import { useLeaderboardSection } from './index.hooks';
 
 export interface LeaderboardSectionProps {
@@ -49,7 +49,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
                 <span className="bg-primary-900 text-primary-200 typo-body-small-bold rounded-radius-sm px-4 py-1">
                   {team.solvedCount} challenges
                 </span>
-                <p className="typo-body-xsmall text-neutral-200">Last solved: {team.lastSolvedAt}</p>
+                <p className="typo-body-xsmall text-neutral-200">Last solved: {formatLastSolvedTime(team.lastSolvedAt)}</p>
               </div>
 
               {/* Team Members Section - 맨 아래 고정 */}
@@ -138,7 +138,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
                     <div className="flex items-center gap-2 typo-body-xsmall text-primary-300">
                       <span>{team.solvedCount} challenges</span>
                       <div className="w-1 h-1 bg-primary-500 rounded-full"></div>
-                      <span>Last solved: {team.lastSolvedAt}</span>
+                      <span>Last solved: {formatLastSolvedTime(team.lastSolvedAt)}</span>
                     </div>
                   </div>
                 </div>
