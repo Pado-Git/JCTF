@@ -4,12 +4,9 @@ import { useTeamsPage } from './index.hooks';
 
 export function TeamsPage() {
   const {
-    // State
     myTeam,
     activeTab,
     tabCategories,
-    
-    // Handlers
     changeActiveTab,
   } = useTeamsPage();
 
@@ -30,7 +27,7 @@ export function TeamsPage() {
       <div className='bg-neutral-800 py-16'>
       <MaxWidthContainer>
         <div className="flex flex-col gap-14 bg-neutral-900 rounded-radius-lg border border-neutral-600 p-10">
-          <MyTeam team={myTeam!} className="mb-14" />
+          <MyTeam team={myTeam!} />
           <CategoryFilter
             categories={tabCategories}
             data={[]}
@@ -43,7 +40,7 @@ export function TeamsPage() {
 
           {activeTab === 'Members' && <TeamMember team={myTeam!} />}
 
-          {activeTab === 'Competitions' && <Competitions team={myTeam!  } />}
+          {activeTab === 'Competitions' && <Competitions team={myTeam!} />}
         </div>
       </MaxWidthContainer>
       </div>
