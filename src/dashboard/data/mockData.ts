@@ -104,6 +104,38 @@ export const mockCompetitions: CompetitionEntry[] = [
   }
 ];
 
+export const mockActivities: RecentActivity[] = [
+  {
+    id: 'act-001',
+    type: 'solve',
+    challengeName: 'SQL Injection Master',
+    competitionName: 'Winter CTF 2024',
+    points: 450,
+    timestamp: "2025-09-21T09:11:14+00:00",
+    isFirstBlood: true
+  },
+  {
+    id: 'act-002',
+    type: 'rank_up',
+    competitionName: 'Winter CTF 2024',
+    timestamp: "2025-09-22T07:32:05+00:00"
+  },
+  {
+    id: 'act-003',
+    type: 'solve',
+    challengeName: 'Buffer Overflow Basics',
+    competitionName: 'Winter CTF 2024',
+    points: 200,
+    timestamp: "2025-09-23T17:21:14+00:00"
+  },
+  {
+    id: 'act-004',
+    type: 'join',
+    competitionName: 'Advanced Pwning Tournament',
+    timestamp: "2025-09-23T09:21:14+00:00"
+  }
+];
+
 export const mockStats: UserStats = {
   totalCompetitions: 15,
   totalSolved: 127,
