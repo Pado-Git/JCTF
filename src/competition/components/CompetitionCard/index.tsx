@@ -1,5 +1,6 @@
 
 import { useNavigate } from 'react-router-dom';
+import { useEffect, useState, useMemo } from 'react';
 import { Button, Card, CardDescription, CardTitle, Badge, Progress, BadgeVariant } from '@/+shared/components';
 import { getCompetitionStatus } from '@/+shared/utils';
 import { useCompetitionCard } from './index.hooks';
@@ -31,7 +32,20 @@ interface CompetitionCardProps {
 
 export function CompetitionCard({ competition }: CompetitionCardProps) {
   const navigate = useNavigate();
-  const statusInfo = getCompetitionStatus(competition);
+  const [currentTime, setCurrentTime] = useState(Date.now());
+  
+  // 실시간 업데이트를 위한 useEffect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 1000); // 1초마다 업데이트
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  const statusInfo = useMemo(() => {
+    return getCompetitionStatus(competition);
+  }, [competition, currentTime]);
 
   const { registerModalOpen, setRegisterModalOpen, formatDate, handleRegister } = useCompetitionCard();
   

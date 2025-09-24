@@ -1,2 +1,9 @@
+export { ProfilePage } from './Profile';
+export { RegisterPage } from './Register';
+export { LoginPage } from './Login';
+export { HomePage } from './Home';
+export { ChallengesPage } from './Challenges';
 export { LeaderboardPage } from './Leaderboard';
-export { CompetitionsPage } from './Competitions';
+export { Competitions } from './Competitions';
+export { DashboardPage } from './Dashboard';
+export { TeamsPage } from './Teams';

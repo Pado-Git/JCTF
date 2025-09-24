@@ -3,9 +3,9 @@ export interface CompetitionEntry {
   name: string;
   backgroundImg: string;
   description?: string;
-  status: 'live' | 'upcoming' | 'ended';
-  startTime?: string;
-  endTime?: string;
+  status?: 'live' | 'upcoming' | 'ended'; // optional since it's calculated
+  startDate: string;
+  endDate: string;
   participants?: number;
   challenges?: number;
   type?: 'team' | 'individual';
@@ -15,7 +15,6 @@ export interface CompetitionEntry {
   maxScore: number;
   solvedChallenges: number;
   totalChallenges: number;
-  timeLeft?: string;
   team?: {
     name: string;
     rank: number;

@@ -1,4 +1,3 @@
-
 import { Card } from '@/+shared/components/data-display/card';
 
 interface StatCardProps {

@@ -13,8 +13,8 @@ export const useHeaderLogic = () => {
     navigate('/');
   };
 
-  const handleBack = (backPath: string) => {
-    navigate(backPath);
+  const handleBack = () => {
+    navigate(-1);
   };
 
   const handleNavigation = (path: string) => {

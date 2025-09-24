@@ -3,15 +3,7 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import { HomePage } from '@/pages/HomePage';
-import { LoginPage } from '@/pages/LoginPage';
-import { RegisterPage } from '@/pages/RegisterPage';
-import { DashboardPage } from '@/pages/DashboardPage';
-import { Competitions } from '@/pages/Competitions';
-import { ChallengesPage } from '@/pages/ChallengesPage';
-import { LeaderboardPage } from '@/pages/Leaderboard';
-import { ProfilePage } from '@/pages/ProfilePage';
-import { TeamsPage } from '@/pages/TeamsPage';
+import { HomePage, LoginPage, RegisterPage, ProfilePage, ChallengesPage, DashboardPage, Competitions, LeaderboardPage, TeamsPage } from '@/pages';
 import { RootLayout } from '@/+shared/components';
 import { LINKS } from '@/+shared/constants';
 
@@ -29,7 +21,12 @@ const router = createBrowserRouter(
       <Route path={LINKS.leaderboard} element={<LeaderboardPage />} />
     </Route>
   ),
-  { basename: '/' }
+  { 
+    basename: '/',
+    future: {
+      v7_startTransition: true,
+    },
+  }
 );
 
 export default router;

@@ -35,9 +35,8 @@ export const mockCompetitions: CompetitionEntry[] = [
     name: 'Winter CTF 2024',
     backgroundImg: ChallengeBg1,
     description: 'Test your skills in web exploitation, cryptography, and reverse engineering',
-    status: 'live',
-    startTime: '2024-01-15T09:00:00Z',
-    endTime: '2024-01-17T21:00:00Z',
+    startDate: '2024-01-15T09:00:00+09:00',
+    endDate: '2025-09-24T18:00:00+09:00',
     participants: 234,
     challenges: 25,
     type: 'team',
@@ -47,7 +46,6 @@ export const mockCompetitions: CompetitionEntry[] = [
     maxScore: 2500,
     solvedChallenges: 8,
     totalChallenges: 25,
-    timeLeft: '1d 5h 23m',
     team: {
       name: 'CyberNinjas',
       rank: 12
@@ -58,9 +56,8 @@ export const mockCompetitions: CompetitionEntry[] = [
     name: 'Beginner Crypto Challenge',
     backgroundImg: ChallengeBg2,
     description: 'Perfect for newcomers to cryptography',
-    status: 'upcoming',
-    startTime: '2024-01-20T10:00:00Z',
-    endTime: '2024-01-20T18:00:00Z',
+    startDate: '2026-01-20T10:00:00+09:00',
+    endDate: '2026-01-22T18:00:00+09:00',
     participants: 89,
     challenges: 15,
     type: 'individual',
@@ -70,16 +67,14 @@ export const mockCompetitions: CompetitionEntry[] = [
     maxScore: 1500,
     solvedChallenges: 0,
     totalChallenges: 15,
-    timeLeft: '5d 2h 15m'
   },
   {
     id: 'comp-003',
     name: 'Advanced Pwning Tournament',
     backgroundImg: ChallengeBg3,
     description: 'Binary exploitation and reverse engineering challenges',
-    status: 'upcoming',
-    startTime: '2024-01-25T14:00:00Z',
-    endTime: '2024-01-27T14:00:00Z',
+    startDate: '2024-01-25T14:00:00+09:00',
+    endDate: '2024-01-27T14:00:00+09:00',
     participants: 156,
     challenges: 20,
     type: 'team',
@@ -89,7 +84,23 @@ export const mockCompetitions: CompetitionEntry[] = [
     maxScore: 3000,
     solvedChallenges: 0,
     totalChallenges: 20,
-    timeLeft: '3d 12h 45m'
+  },
+  {
+    id: 'comp-004',
+    name: '종료된 대회',
+    backgroundImg: ChallengeBg3,
+    description: '종료된 대회',
+    startDate: '2024-01-25T14:00:00+09:00',
+    endDate: '2024-01-27T14:00:00+09:00',
+    participants: 80,
+    challenges: 20,
+    type: 'team',
+    myRank: 3,
+    totalTeams: 10,
+    myScore: 1234,
+    maxScore: 3000,
+    solvedChallenges: 36,
+    totalChallenges: 60,
   }
 ];
 
@@ -100,14 +111,14 @@ export const mockActivities: RecentActivity[] = [
     challengeName: 'SQL Injection Master',
     competitionName: 'Winter CTF 2024',
     points: 450,
-    timestamp: '2 hours ago',
+    timestamp: "2025-09-21T09:11:14+00:00",
     isFirstBlood: true
   },
   {
     id: 'act-002',
     type: 'rank_up',
     competitionName: 'Winter CTF 2024',
-    timestamp: '3 hours ago'
+    timestamp: "2025-09-22T07:32:05+00:00"
   },
   {
     id: 'act-003',
@@ -115,13 +126,13 @@ export const mockActivities: RecentActivity[] = [
     challengeName: 'Buffer Overflow Basics',
     competitionName: 'Winter CTF 2024',
     points: 200,
-    timestamp: '1 day ago'
+    timestamp: "2025-09-23T17:21:14+00:00"
   },
   {
     id: 'act-004',
     type: 'join',
     competitionName: 'Advanced Pwning Tournament',
-    timestamp: '2 days ago'
+    timestamp: "2025-09-23T09:21:14+00:00"
   }
 ];
 

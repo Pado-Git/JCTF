@@ -1,5 +1,3 @@
-import { formatLastSolvedTime } from './timeUtils';
-
 // API 응답 구조
 export interface ApiLeaderboardResponse {
   timezone: string;
@@ -72,7 +70,6 @@ export const transformApiDataToTeamEntry = (apiData: TeamEntry[]): TeamEntry[] =
   // lastSolvedAt 포맷팅 및 내 팀 설정
   return rankedTeams.map((team) => ({
     ...team,
-    lastSolvedAt: formatLastSolvedTime(team.lastSolvedAt),
     isMyTeam: team.name === 'CyberNinjas' // 예시: 특정 팀을 내 팀으로 설정
   }));
 };

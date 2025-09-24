@@ -1,6 +1,6 @@
 import { Button, Card, MaxWidthContainer, Divider } from '@/+shared/components';
 import { IcoChart } from '@/+shared/assets/icons';
-import { TeamEntry, getCardHeight, getGapSize, getIconSize } from '@/leaderboard/utils';
+import { TeamEntry, formatLastSolvedTime, getCardHeight, getGapSize, getIconSize } from '@/leaderboard/utils';
 import { useLeaderboardSection } from './index.hooks';
 
 export interface LeaderboardSectionProps {
@@ -49,7 +49,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
                 <span className="bg-primary-900 text-primary-200 typo-body-small-bold rounded-radius-sm px-4 py-1">
                   {team.solvedCount} challenges
                 </span>
-                <p className="typo-body-xsmall text-neutral-200">Last solved: {team.lastSolvedAt}</p>
+                <p className="typo-body-xsmall text-neutral-200">Last solved: {formatLastSolvedTime(team.lastSolvedAt)}</p>
               </div>
 
               {/* Team Members Section - 맨 아래 고정 */}
@@ -125,7 +125,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
         </div>
 
         {/* Other Teams */}
-        <div className="space-y-4 mb-10">
+        <div className="flex flex-col gap-4 mb-10">
           {otherTeams.map((team) => (
             <Card key={team.name} className="bg-neutral-800 border-2 border-neutral-700 gradient-3-hover rounded-3xl p-6">
               <div className="flex justify-between items-center">
@@ -138,7 +138,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
                     <div className="flex items-center gap-2 typo-body-xsmall text-primary-300">
                       <span>{team.solvedCount} challenges</span>
                       <div className="w-1 h-1 bg-primary-500 rounded-full"></div>
-                      <span>Last solved: {team.lastSolvedAt}</span>
+                      <span>Last solved: {formatLastSolvedTime(team.lastSolvedAt)}</span>
                     </div>
                   </div>
                 </div>
