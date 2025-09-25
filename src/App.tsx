@@ -3,7 +3,7 @@ import { Toaster } from '@/+shared/components/feedback/sonner';
 import router from './Routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-export default function App() {
+function App() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
@@ -13,4 +13,6 @@ export default function App() {
       </div>
     </QueryClientProvider>
   );
-}
+};
+
+export default App;
