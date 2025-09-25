@@ -11,6 +11,7 @@ export default defineConfig({
     tailwindcss(),
     svgr()
   ],
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -23,10 +24,6 @@ export default defineConfig({
       '@home': path.resolve(__dirname, './src/home'),
     },
   },
-  build: {
-    target: 'esnext',
-    outDir: 'build',
-  },
   server: {
     host: '127.0.0.1',   // ★ IPv4 강제
     port: 8080,
@@ -35,7 +32,8 @@ export default defineConfig({
       host: '127.0.0.1', // ★ HMR도 IPv4로 고정
       port: 8081,
       protocol: 'ws'
-    }
+    },
+    allowedHosts: ['*.ngrok-free.app']
   },
   preview: {
     host: '127.0.0.1',   // 미리보기도 같은 정책

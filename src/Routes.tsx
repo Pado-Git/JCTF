@@ -10,6 +10,7 @@ import { LINKS } from '@/+shared/constants';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RootLayout />}>
+      <Route index element={<HomePage />} />
       <Route path={LINKS.home} element={<HomePage />} />
       <Route path={LINKS.login} element={<LoginPage />} />
       <Route path={LINKS.register} element={<RegisterPage />} />
