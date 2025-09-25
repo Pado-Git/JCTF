@@ -30,7 +30,7 @@ export const competitions: Competition[] = [
     backgroundImg: ChallengeBg1,
     description: "Annual autumn competition featuring advanced cyber security challenges",
     startDate: "2025-09-01T09:00:00Z",
-    endDate: "2025-09-30T18:00:00Z",
+    endDate: "2025-10-30T18:00:00Z",
     participants: 2847,
     maxParticipants: 5000,
     difficulty: "advanced",
