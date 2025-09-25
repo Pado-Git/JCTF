@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { SquareBg } from '@/home/assets/images';
 import { mockCompetitions } from '@/dashboard/data/mockData';
 import { CompetitionCard } from '@/home/components';
+import { LINKS } from '@/+shared/constants';
 
 export function CurrentCompetitions() {
 
@@ -65,7 +66,7 @@ export function CurrentCompetitions() {
       <Button 
         variant="secondary" 
         className="w-fit h-12 px-6 text-primary"
-        onClick={() => navigate('/competitions')}
+        onClick={() => navigate(LINKS.competitions)}
       >
         View All Competitions
         <IcoArrowRightSLined />

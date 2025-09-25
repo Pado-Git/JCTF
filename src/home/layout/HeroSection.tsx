@@ -1,8 +1,9 @@
 import { MaxWidthContainer, Button } from '@/+shared/components';
 import { useAuthStore } from '@/+shared/stores/authStore';
-import { Trophy } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import {Galaxy} from '@/home/components';
+import { IcoTrophyFilled } from '@/+shared/assets';
+import { LINKS } from '@/+shared/constants';
 
 export function HeroSection() {
   const navigate = useNavigate();
@@ -48,15 +49,14 @@ export function HeroSection() {
       
       <div className="flex flex-col md:flex-row gap-6 justify-center items-center mb-12">
         <Button 
-          size="large" 
-          onClick={() => navigate(isAuthenticated ? '/competitions' : '/login')}
-          className="bg-primary hover:bg-primary/80 text-primary-foreground px-6 py-3 text-[17px] font-bold h-12"
+          size="medium" 
+          onClick={() => navigate(isAuthenticated ? LINKS.dashboard : LINKS.login)}
+          variant='primary'
           style={{
             boxShadow: '0px 0px 16px rgba(99, 102, 241, 1)',
-            lineHeight: '1.3em'
           }}
         >
-          <Trophy className="mr-2 h-6 w-6" fill="currentColor" />
+          <IcoTrophyFilled />
           {user ? 'My Competitions' : 'Join Competition'}
         </Button>
       </div>
