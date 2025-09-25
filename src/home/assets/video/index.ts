@@ -1,1 +1,0 @@
-export * from './universe-background.mp4';

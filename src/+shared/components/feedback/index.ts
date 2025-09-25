@@ -1,6 +1,0 @@
-export * from './alert';
-export * from './badge';
-export * from './Modal';
-export * from './progress';
-export * from './skeleton';
-export * from './sonner';
