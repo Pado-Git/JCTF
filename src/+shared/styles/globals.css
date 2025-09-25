@@ -221,6 +221,7 @@
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
+    height: 8px;
   }
   
   ::-webkit-scrollbar-track {
@@ -228,12 +229,12 @@
   }
   
   ::-webkit-scrollbar-thumb {
-    background: #6366F1;
+    background: var(--color-primary-500);
     border-radius: 4px;
   }
   
   ::-webkit-scrollbar-thumb:hover {
-    background: #309956;
+    background: var(--color-primary-800);
   }
 }
 
