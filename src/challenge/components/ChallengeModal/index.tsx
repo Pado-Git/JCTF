@@ -1,98 +1,28 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/+shared/components/form/button';
-import { Badge, BadgeVariant } from '@/+shared/components/feedback/badge';
-import { Input } from '@/+shared/components/form/input';
-import { Label } from '@/+shared/components/form/label';
-import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/+shared/components/overlay/dialog';
-import { toast } from 'sonner';
-import { Challenge } from '@/challenge/data';
-import { validateFlag, getCategoryIcon } from '@/challenge/utils';
+import { Button, Badge, BadgeVariant, Divider, Input, Label, Dialog, DialogContent, DialogDescription, DialogTitle } from '@/+shared/components';
+import { getCategoryIcon } from '@/challenge/utils';
 import { IcoChatSmileFilled, IcoCheckboxCircleLined, IcoCrownLined, IcoDownloadLined, IcoEyeLined, IcoFileFilled, IcoLockLined, IcoServerFilled, IcoSubmitFilled, IcoUnlockLined } from '@/+shared/assets';
-import { Divider } from '@/+shared/components';
+import { useChallengeModal } from './index.hooks';
 
 interface ChallengeModalProps {
-  challenge: Challenge;
+  challenge: any;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalProps) {
-  const [flag, setFlag] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
-  const [timeLeft, setTimeLeft] = useState(0);
-  const [hintRevealed, setHintRevealed] = useState(false);
-  const [showHintModal, setShowHintModal] = useState(false);
-  const [userPoints, setUserPoints] = useState(1000); // Mock user points
-
-  useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-  }, [timeLeft]);
-
-  const handleHintReveal = () => {
-    setShowHintModal(true);
-  };
-
-  const confirmHintReveal = () => {
-    const hintCost = 50;
-    if (userPoints >= hintCost) {
-      setUserPoints(userPoints - hintCost);
-      setHintRevealed(true);
-      setShowHintModal(false);
-      toast.success(`Hint revealed! -${hintCost} points`);
-    } else {
-      toast.error('Not enough points to reveal hint');
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const now = Date.now();
-    if (now - lastSubmitTime < 5000) {
-      const remaining = Math.ceil((5000 - (now - lastSubmitTime)) / 1000);
-      setTimeLeft(remaining);
-      toast.error(`Too fast! Wait ${remaining} more seconds`);
-      return;
-    }
-
-    setIsSubmitting(true);
-    setLastSubmitTime(now);
-
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
-    // Mock flag validation
-    const isCorrect = validateFlag(flag, challenge.name);
-
-    if (isCorrect) {
-      // Success with potential first blood
-      const isFirstBlood = Math.random() < 0.1; // 10% chance of first blood
-      
-      toast.success(
-        isFirstBlood 
-          ? `🏆 FIRST BLOOD! Correct! +${challenge.score} pts`
-          : `✅ Correct! +${challenge.score} pts`
-      );
-      
-      if (isFirstBlood) {
-        // Add confetti or special effects here
-        console.log('FIRST BLOOD ACHIEVED!');
-      }
-      
-      setTimeout(() => {
-        onClose();
-      }, 2000);
-    } else {
-      toast.error('❌ Incorrect flag');
-      setTimeLeft(5);
-    }
-
-    setIsSubmitting(false);
-  };
+  const {
+    flag,
+    setFlag,
+    isSubmitting,
+    timeLeft,
+    hintRevealed,
+    showHintModal,
+    setShowHintModal,
+    userPoints,
+    handleHintReveal,
+    confirmHintReveal,
+    handleSubmit,
+  } = useChallengeModal(challenge, onClose);
 
   return (
     <>
@@ -152,7 +82,7 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
           <div className='flex flex-col gap-4'>
             <h3 className="typo-heading-xsmall text-primary-100">Tag</h3>
             <div className="flex flex-wrap gap-2">
-              {challenge.tags.map((tag) => (
+              {challenge.tags.map((tag: string) => (
                 <Badge key={tag} variant='greyTag'>
                   {tag}
                 </Badge>
@@ -170,7 +100,7 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
                   <span className='typo-body-xsmall-bold'>Files</span>
                 </div>
                 <div className="flex flex-col gap-2">
-                  {challenge.files.map((file) => (
+                  {challenge.files.map((file: string) => (
                     <Button
                       variant="secondary"
                       key={file}
@@ -278,7 +208,7 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
           <div className='flex flex-col gap-4'>
             <h3 className="typo-heading-xsmall text-primary-100">Recent 3 Solvers</h3>
             <div className="flex flex-wrap gap-2">
-              {['CryptoMaster', 'MathWiz', 'NumberCruncher'].map((solver) => (
+              {['CryptoMaster', 'MathWiz', 'NumberCruncher'].map((solver: string) => (
                 <Badge key={solver} variant='greyTag' className='border border-neutral-400 flex gap-1'>
                   <IcoCrownLined className='size-3' />
                   {solver}
