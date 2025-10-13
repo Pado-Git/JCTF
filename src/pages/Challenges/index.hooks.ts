@@ -28,12 +28,16 @@ export function useChallenges() {
         setError(null);
 
         const response = await fetcher<any>({
-          url: `/participant/competitions/${competitionId}`,
-          method: 'get'
+          url: `/participant/competitions/${competitionId}/challenges`,
+          method: 'get',
+          query: {
+            categoryId: ''
+          }
         });
 
         if (response.resultCode === 200 && response.result?.success) {
-          setChallengesList(response.result.data.challenges || []);
+          setChallengesList(response.result.data || []);
+          // api 수정 후 확인 필요
           setCompetitionName(response.result.data.name);
         } else {
           setError('Failed to fetch challenges');
