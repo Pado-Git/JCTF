@@ -63,14 +63,9 @@ export function useChallengeCard({ challenge, onClick, isLocked = false, lockPro
     }
   };
 
-  const getPointsDisplay = () => {
-    return challenge.scoreType === 'DYNAMIC' ? challenge.currentScore : challenge.score;
-  };
-
   return {
     status,
     getCardStyles,
-    getButtonContent,
-    getPointsDisplay,
+    getButtonContent
   };
 }

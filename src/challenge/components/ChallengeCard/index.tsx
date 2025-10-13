@@ -12,7 +12,7 @@ interface ChallengeCardProps {
 }
 
 export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgress }: ChallengeCardProps) {
-  const { status, getCardStyles, getButtonContent, getPointsDisplay } = useChallengeCard({
+  const { status, getCardStyles, getButtonContent } = useChallengeCard({
     challenge,
     onClick,
     isLocked,
@@ -35,7 +35,7 @@ export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgre
           })()}
         </div>
         <div className="typo-body-large-bold text-primary locked:text-neutral-600">
-          +{getPointsDisplay()}
+          +{challenge.baseScore}
           <span className="typo-body-small text-primary-400 locked:text-neutral-600"> pts</span>
         </div>
       </div>

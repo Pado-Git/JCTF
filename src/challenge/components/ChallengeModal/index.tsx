@@ -222,7 +222,9 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
       {/* Hint Confirmation Modal */}
       <Dialog open={showHintModal} onOpenChange={setShowHintModal}>
         <DialogContent className="text-center w-fit p-10 flex flex-col items-center gap-2 bg-neutral-800 border-2 border-neutral-500 rounded-radius-md">
-          <DialogTitle className="typo-heading-medium text-neutral-0">Reveal Hint?</DialogTitle>
+          <DialogTitle className="typo-heading-medium text-neutral-0">
+            Reveal Hint?
+          </DialogTitle>
           <DialogDescription className="text-neutral-50 typo-body-medium">
             Revealing this hint will deduct <span className="typo-body-medium-bold text-primary-500">50 points</span> from your total score.
             <br />Are you sure you want to reveal the hint?
