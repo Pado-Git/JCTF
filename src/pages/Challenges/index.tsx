@@ -15,7 +15,7 @@ export function ChallengesPage() {
     selectedChallenge,
     searchQuery,
     setSearchQuery,
-    competition,
+    competitionName,
     filteredChallenges,
     categories,
     solvedCount,
@@ -24,6 +24,7 @@ export function ChallengesPage() {
     isLoading,
     error,
     challengesList,
+    user,
     handleLeaderboardClick,
     handleChallengeClick,
     handleCloseModal,
@@ -77,11 +78,11 @@ export function ChallengesPage() {
         >
           <div className='flex flex-col gap-2'>
             <h1 className="text-primary-50 typo-heading-large">
-              {competition.name} <span className="text-primary">Challenges</span>
+              {competitionName} <span className="text-primary">Challenges</span>
           </h1>
             <p className="typo-body-small text-primary-300">
               Team
-              <span className="typo-body-small-bold text-neutral-0 ml-2">{competition.myTeam.name}</span>
+              <span className="typo-body-small-bold text-neutral-0 ml-2">{user?.teamName || user?.nickname}</span>
           </p>
           </div>
           
