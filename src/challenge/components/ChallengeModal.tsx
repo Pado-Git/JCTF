@@ -3,7 +3,7 @@ import { Button } from '@/+shared/components/form/button';
 import { Badge, BadgeVariant } from '@/+shared/components/feedback/badge';
 import { Input } from '@/+shared/components/form/input';
 import { Label } from '@/+shared/components/form/label';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/+shared/components/overlay/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/+shared/components/overlay/dialog';
 import { toast } from 'sonner';
 import { Challenge } from '@/challenge/data';
 import { validateFlag, getCategoryIcon } from '@/challenge/utils';
@@ -117,10 +117,12 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
               <div className='flex flex-1 justify-between'>
                 <div className="flex items-center gap-2">
                   <span className="typo-body-small text-neutral-100">{challenge.category.name}</span>
-                  <Badge variant={challenge.difficulty.toLowerCase() as BadgeVariant}
+                  {challenge.difficulty && (
+                  <Badge variant={challenge.difficulty?.toLowerCase() as BadgeVariant}
                   >
                     {challenge.difficulty}
                   </Badge>
+                  )}
                 </div>
                 <div className="text-primary typo-body-large-bold">
                   +{challenge.score}
