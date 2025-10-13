@@ -109,14 +109,16 @@ export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgre
 
       {/* Difficulty Badge */}
       <div className="flex justify-start">
-        <Badge variant={status === 'locked' ? 'disabled' : (challenge.difficulty.toLowerCase() as BadgeVariant)}>
-          {challenge.difficulty}
-        </Badge>
+        {challenge.difficulty && (
+          <Badge variant={status === 'locked' ? 'disabled' : (challenge.difficulty.toLowerCase() as BadgeVariant)}>
+            {challenge.difficulty}
+          </Badge>
+        )}
       </div>
 
       {/* Tags */}
       <div className="flex flex-wrap gap-2">
-        {challenge.tags.slice(0, 3).map((tag) => (
+        {challenge.tags.map((tag) => (
           <Badge 
             key={tag} 
             variant={status === 'locked' ? 'disabled' : 'tag'}
