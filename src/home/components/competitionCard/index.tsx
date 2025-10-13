@@ -2,7 +2,7 @@ import { Badge, Button, Card } from '@/+shared/components';
 import { IcoChallengeFilled, IcoTeamFilled } from '@/+shared/assets/icons';
 import { getCompetitionStatus, getContestStatusMessage } from "@/+shared/utils";
 import { useNavigate } from "react-router-dom";
-import { useAuthStore } from "@/+shared/stores/authStore";
+import { useAuthStore } from "@/+shared/stores/useAuthStore";
 
 interface CompetitionCardProps {
   competition: {

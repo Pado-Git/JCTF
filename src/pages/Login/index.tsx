@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/+shared/components/form/button';
-import { useAuthStore } from '@/+shared/stores/authStore';
+import { useAuthStore } from '@/+shared/stores/useAuthStore';
 import { Input } from '@/+shared/components/form/input';
 import { Label } from '@/+shared/components/form/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';

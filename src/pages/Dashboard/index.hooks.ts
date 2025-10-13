@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/+shared/stores/authStore';
+import { useAuthStore } from '@/+shared/stores/useAuthStore';
 import { dashboardMocks, mockCompetitions, mockActivities } from '@/dashboard/data/mockData';
 
 export function useDashboard() {
