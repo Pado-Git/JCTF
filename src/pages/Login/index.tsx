@@ -1,79 +1,23 @@
-import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button } from '@/+shared/components/form/button';
-import { useAuthStore } from '@/+shared/stores/useAuthStore';
-import { Input } from '@/+shared/components/form/input';
-import { Label } from '@/+shared/components/form/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/+shared/components/data-display/card';
-import { Checkbox } from '@/+shared/components/form/checkbox';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, Input, Label, MatrixRain } from '@/+shared/components';
 import { Shield, Eye, EyeOff } from 'lucide-react';
-
-interface MatrixRainProps {
-  className?: string;
-}
-
-function MatrixRain({ className = '' }: MatrixRainProps) {
-  const [chars, setChars] = useState<string[]>([]);
-  
-  useEffect(() => {
-    const characters = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-    const charArray = [];
-    
-    for (let i = 0; i < 100; i++) {
-      charArray.push(characters[Math.floor(Math.random() * characters.length)]);
-    }
-    
-    setChars(charArray);
-    
-    const interval = setInterval(() => {
-      setChars(prev => 
-        prev.map(() => characters[Math.floor(Math.random() * characters.length)])
-      );
-    }, 150);
-    
-    return () => clearInterval(interval);
-  }, []);
-  
-  return (
-    <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
-      <div className="flex justify-between h-full">
-        {chars.map((char, i) => (
-          <div
-            key={i}
-            className="text-primary/20 text-sm font-mono animate-pulse"
-            style={{
-              animationDelay: `${Math.random() * 2}s`,
-              transform: `translateY(${Math.random() * 100}vh)`
-            }}
-          >
-            {char}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
+import { useLogin } from './index.hooks'; 
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { login, isLoading } = useAuthStore();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    
-    try {
-      await login(email, password);
-      navigate('/dashboard');
-    } catch (err) {
-      setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
-    }
-  };
+  const {
+    email,
+    setEmail,
+    password,
+    setPassword,
+    showPassword,
+    setShowPassword,
+    rememberMe,
+    setRememberMe,
+    error,
+    isLoading,
+    handleSubmit,
+  } = useLogin();
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center relative overflow-hidden">
