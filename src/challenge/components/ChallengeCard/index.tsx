@@ -2,6 +2,7 @@ import { Badge, BadgeVariant, Button, Card } from '@/+shared/components';
 import { Challenge } from '@/challenge/data';
 import { getCategoryIcon } from '@/challenge/utils';
 import { IcoCheckboxCircleLined, IcoUnlockFilled, IcoArrowRightSLined, IcoCrownLined, IcoTeamLined } from '@/+shared/assets';
+import { useChallengeCard } from './index.hooks';
 
 interface ChallengeCardProps {
   challenge: Challenge;
@@ -11,70 +12,12 @@ interface ChallengeCardProps {
 }
 
 export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgress }: ChallengeCardProps) {
-  const getCardStatus = () => {
-    if (challenge.solved) return 'solved';
-    if (isLocked) return 'locked';
-    return 'unlocked';
-  };
-
-  const status = getCardStatus();
-
-  const getCardStyles = () => {
-    switch (status) {
-      case 'solved':
-        return 'bg-neutral-800 border-neutral-700';
-      case 'locked':
-        return 'bg-neutral-800 border-neutral-700';
-      case 'unlocked':
-        return 'gradient-2 border-primary-900 hover:border-primary-800';
-      default:
-        return 'bg-neutral-800 border-neutral-700';
-    }
-  };
-
-  const getButtonContent = () => {
-    switch (status) {
-      case 'solved':
-        return (
-          <Button
-            variant="secondary"
-            size="small"
-            className='w-full'
-            onClick={onClick}
-          >
-            <IcoCheckboxCircleLined />
-            Solved!
-          </Button>
-        );
-      case 'locked':
-        return (
-          <Button
-            variant="primary"
-            size="small"
-            className="w-full"
-            disabled
-          >
-            <IcoUnlockFilled />
-            Lock {lockProgress && `(${lockProgress})`}
-          </Button>
-        );
-      case 'unlocked':
-        return (
-          <Button
-            variant="primary"
-            size="small"
-            className='w-full'
-            onClick={onClick}
-          >
-            <IcoUnlockFilled />
-            Solve Challenge
-            <IcoArrowRightSLined />
-          </Button>
-        );
-      default:
-        return null;
-    }
-  };
+  const { status, getCardStyles, getButtonContent, getPointsDisplay } = useChallengeCard({
+    challenge,
+    onClick,
+    isLocked,
+    lockProgress
+  });
 
   return (
     <Card 
@@ -92,7 +35,7 @@ export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgre
           })()}
         </div>
         <div className="typo-body-large-bold text-primary locked:text-neutral-600">
-          +{challenge.scoreType === 'DYNAMIC' ? challenge.currentScore : challenge.score}
+          +{getPointsDisplay()}
           <span className="typo-body-small text-primary-400 locked:text-neutral-600"> pts</span>
         </div>
       </div>
@@ -153,7 +96,41 @@ export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgre
       </div>
 
       {/* Button */}
-      {getButtonContent()}
+      {(() => {
+        const buttonConfig = getButtonContent();
+        if (!buttonConfig) return null;
+
+        const getIcon = () => {
+          switch (buttonConfig.icon) {
+            case 'check':
+              return <IcoCheckboxCircleLined />;
+            case 'unlock':
+              return <IcoUnlockFilled />;
+            case 'unlock-arrow':
+              return (
+                <>
+                  <IcoUnlockFilled />
+                  <IcoArrowRightSLined />
+                </>
+              );
+            default:
+              return null;
+          }
+        };
+
+        return (
+          <Button
+            variant={buttonConfig.variant}
+            size={buttonConfig.size}
+            className={buttonConfig.className}
+            onClick={buttonConfig.onClick}
+            disabled={buttonConfig.disabled}
+          >
+            {getIcon()}
+            {buttonConfig.content}
+          </Button>
+        );
+      })()}
     </Card>
   );
 }
