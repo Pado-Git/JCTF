@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/+shared/stores/useAuthStore';
 import { fetcher } from '@/+shared/libs/fetch';
+import { User, useUserStore } from '@/auth/apis/auth';
 
 // API 응답 타입
 interface LoginResponse {
@@ -21,6 +22,7 @@ interface LoginResponse {
 export function useLogin() {
   const navigate = useNavigate();
   const { login: setAuthToken } = useAuthStore();
+  const { setUser } = useUserStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -45,6 +47,20 @@ export function useLogin() {
         
         localStorage.setItem('refreshToken', refreshToken);
         setAuthToken(accessToken);
+
+        try {
+          const userData = await fetcher<User>({
+            url: '/auth/me',
+            method: 'get',
+          });
+
+          if (userData.resultCode === 200 && userData.result) {
+            const user = userData.result;
+            setUser(user);
+          }
+        } catch (err) {
+          setError('Failed to get user data.');
+        }
         
         navigate('/dashboard');
       } else {
