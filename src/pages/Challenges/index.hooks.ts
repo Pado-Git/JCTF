@@ -11,9 +11,8 @@ import { useUserStore } from '@/+shared/stores';
 export function useChallenges() {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
+  const [selectedChallenge, setSelectedChallenge] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [_user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [challengesList, setChallengesList] = useState<any[]>([]);
@@ -51,14 +50,16 @@ export function useChallenges() {
   }, [competitionId]);
 
   const filteredChallenges = useMemo(() => {
-    return challengesList.filter(challenge => {
-      // 대소문자 구분 없이 카테고리 비교
-      const matchesCategory = selectedCategory === 'All' || 
-        challenge.category.name.toLowerCase() === selectedCategory.toLowerCase();
-      const matchesSearch = challenge.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           challenge.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-      return matchesCategory && matchesSearch;
-    });
+    return challengesList
+      .filter(challenge => {
+        // 대소문자 구분 없이 카테고리 비교
+        const matchesCategory = selectedCategory === 'All' || 
+          challenge.category.name.toLowerCase() === selectedCategory.toLowerCase();
+        const matchesSearch = challenge.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                             challenge.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
+        return matchesCategory && matchesSearch;
+      })
+      .sort((a, b) => a.name.localeCompare(b.name)); // ABC 순서로 정렬
   }, [challengesList, selectedCategory, searchQuery]);
 
   const solvedCount = getSolvedCount(filteredChallenges);
@@ -75,7 +76,7 @@ export function useChallenges() {
     navigate('leaderboard');
   };
 
-  const handleChallengeClick = (challenge: Challenge) => {
+  const handleChallengeClick = (challenge: any) => {
     setSelectedChallenge(challenge);
   };
 
