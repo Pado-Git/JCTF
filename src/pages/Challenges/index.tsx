@@ -21,10 +21,39 @@ export function ChallengesPage() {
     solvedCount,
     totalPoints,
     progressPercentage,
+    isLoading,
+    error,
+    challengesList,
     handleLeaderboardClick,
     handleChallengeClick,
     handleCloseModal,
   } = useChallenges();
+
+  // 로딩 상태
+  if (isLoading) {
+    return (
+      <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading challenges...</p>
+        </div>
+      </MaxWidthContainer>
+    );
+  }
+
+  // 에러 상태
+  if (error) {
+    return (
+      <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
+        <div className="text-center py-12">
+          <h3 className="text-lg font-medium text-destructive mb-2">Failed to load challenges</h3>
+          <p className="text-muted-foreground">
+            Please try refreshing the page or contact support if the problem persists.
+          </p>
+        </div>
+      </MaxWidthContainer>
+    );
+  }
 
   return (
     <>
@@ -105,10 +134,10 @@ export function ChallengesPage() {
         
         <CategoryFilter 
           categories={categories}
-          data={filteredChallenges}
+          data={challengesList}
           selected={selectedCategory}
           onSelect={setSelectedCategory}
-          getItemCategory={(challenge) => challenge.category.name}
+          getItemCategory={(challenge: any) => challenge.category.name}
         />
 
         {/* Challenges Grid */}
