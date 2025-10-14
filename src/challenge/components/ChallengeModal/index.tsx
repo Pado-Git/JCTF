@@ -9,27 +9,72 @@ interface ChallengeModalProps {
   onClose: () => void;
 }
 
-export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalProps) {
+export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }: ChallengeModalProps) {
   const {
     flag,
     setFlag,
     isSubmitting,
     timeLeft,
-    hintRevealed,
     showHintModal,
     setShowHintModal,
-    userPoints,
+    challenge,
+    isLoadingDetail,
+    detailError,
     handleHintReveal,
     confirmHintReveal,
     handleSubmit,
-  } = useChallengeModal(challenge, onClose);
+    nextHint,
+  } = useChallengeModal(initialChallenge, onClose);
+
+  const handleFileDownload = (fileUrl: string) => {
+    try {
+      const link = document.createElement('a');
+      link.href = fileUrl;
+      // 파일명을 URL에서 추출하거나 기본값 사용
+      const fileName = fileUrl.split('/').pop() || 'download';
+      link.download = fileName;
+      link.target = '_blank';
+      
+      // CORS 문제를 방지하기 위해 rel="noopener" 추가
+      link.rel = 'noopener noreferrer';
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error('Download failed:', error);
+      // 다운로드 실패 시 새 탭에서 열기
+      window.open(fileUrl, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <>
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="overflow-y-auto bg-neutral-800 border border-neutral-700 p-8 flex flex-col gap-8 w-[800px] sm:max-w-6xl max-h-[90vh]">
-          {/* Header */}
-          <div className="flex gap-4">
+          {/* 로딩 상태 */}
+          {isLoadingDetail && (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading challenge details...</p>
+            </div>
+          )}
+
+          {/* 에러 상태 */}
+          {detailError && (
+            <div className="text-center py-12">
+              <h3 className="text-lg font-medium text-destructive mb-2">Failed to load challenge details</h3>
+              <p className="text-muted-foreground">
+                Please try again or contact support if the problem persists.
+              </p>
+            </div>
+          )}
+
+          {/* 챌린지 상세 정보가 로드된 경우에만 표시 */}
+          {!isLoadingDetail && !detailError && challenge && (
+            <>
+              {/* Header */}
+              <div className="flex gap-4">
             <div className='w-10 h-10 rounded-radius-sm flex items-center justify-center bg-primary'>
               {(() => {
                 const IconComponent = getCategoryIcon(challenge.category.name);
@@ -42,27 +87,35 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
                 <DialogTitle className="typo-heading-medium text-neutral-0">
                   {challenge.name}
                 </DialogTitle>
-                {challenge.solved ? <IcoCheckboxCircleLined className="size-6 text-primary" /> : <IcoUnlockLined className="size-6 text-primary" />}
+                {challenge.isSolved ? <IcoCheckboxCircleLined className="size-6 text-primary" /> : <IcoUnlockLined className="size-6 text-primary" />}
               </div>
               <div className='flex flex-1 justify-between'>
                 <div className="flex items-center gap-2">
-                  <span className="typo-body-small text-neutral-100">{challenge.category.name}</span>
-                  {challenge.difficulty && (
+                  <span className="typo-body-small text-neutral-100">{challenge.category?.name}</span>
+                  {/* difficulty 추가 후 수정 필요 */}
+                  <Badge variant="easy" />
+                  {/* {challenge.difficulty && (
                   <Badge variant={challenge.difficulty?.toLowerCase() as BadgeVariant}
                   >
                     {challenge.difficulty}
                   </Badge>
-                  )}
+                  )} */}
                 </div>
                 <div className="text-primary typo-body-large-bold">
-                  +{challenge.score}
+                  +{challenge.baseScore}
                   <span className='typo-body-small text-neutral-400'> pts</span>
                 </div>
               </div>
               <div className="typo-body-xsmall text-primary-300 flex items-center gap-2">
-                <IcoCrownLined className="size-4 text-primary-300" />
-                First Blood Winner: Alice from CyberWarriors
-                <span className='typo-body-xsmall text-neutral-100 ml-2'> teams solved</span>
+                {challenge.firstBloodTeam ? (
+                  <>
+                    <IcoCrownLined className="size-4 text-primary-300" />
+                    {`First Blood Winner: ${challenge.firstBloodTeam}`}
+                    <span className='typo-body-xsmall text-neutral-100 ml-2'> teams solved</span>
+                  </>
+                ) : (
+                  <span className='typo-body-xsmall text-neutral-100'>No first blood yet</span>
+                )}
               </div>
             </div>
           </div>
@@ -72,9 +125,15 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
           {/* Description */}
           <div className='flex flex-col gap-4'>
             <h3 className="typo-heading-xsmall text-primary-100">Description</h3>
-            <div className="bg-neutral-900 border border-neutral-700 p-6 rounded-radius-md">
-              <p className="typo-body-small text-neutral-50 mb-4 whitespace-pre-wrap">{challenge.description}</p>
-              <p className="bg-neutral-800 border border-neutral-700 p-4 rounded-radius-sm typo-body-medium text-neutral-50 whitespace-pre-wrap">The flag is hidden somewhere in the database structure.</p>
+            <div className="bg-neutral-900 border border-neutral-700 p-6 rounded-radius-md flex flex-col gap-4">
+              <p className="typo-body-small text-neutral-50 whitespace-pre-wrap">
+                {challenge.description}
+              </p>
+              {challenge.flagFormat && (
+                <p className="bg-neutral-800 border border-neutral-700 p-4 rounded-radius-sm typo-body-medium text-neutral-50 whitespace-pre-wrap">
+                  Flag format: {challenge.flagFormat}
+                </p>
+              )}
             </div>
           </div>
 
@@ -82,7 +141,7 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
           <div className='flex flex-col gap-4'>
             <h3 className="typo-heading-xsmall text-primary-100">Tag</h3>
             <div className="flex flex-wrap gap-2">
-              {challenge.tags.map((tag: string) => (
+              {(challenge.tags || []).map((tag: string) => (
                 <Badge key={tag} variant='greyTag'>
                   {tag}
                 </Badge>
@@ -93,69 +152,90 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
           {/* Resources */}
           <div className="flex gap-6">
             {/* Files */}
-            {challenge.files && (
-              <div className='flex flex-col gap-2'>
+            {challenge.fileUrl && (
+              <div className='flex flex-col gap-2 flex-1 min-w-0'>
                 <div className="text-primary-300 flex items-center gap-2">
                   <IcoFileFilled className='size-4 text-primary' />
                   <span className='typo-body-xsmall-bold'>Files</span>
                 </div>
                 <div className="flex flex-col gap-2">
-                  {challenge.files.map((file: string) => (
+                  {challenge.fileUrl && (
                     <Button
                       variant="secondary"
-                      key={file}
+                      key={challenge.fileUrl}
                       size='small'
-                      className='w-fit'
+                      className='w-full break-all text-left justify-start'
+                      onClick={() => handleFileDownload(challenge.fileUrl)}
                     >
                       <IcoDownloadLined className='size-4' />
-                      {file}
+                      <span className='truncate'>{challenge.fileUrl}</span>
                     </Button>
-                  ))}
+                  )}
                 </div>
               </div>
             )}
-
             {/* Server */}
-            {challenge.server && (
-              <div className='flex flex-col gap-2'>
+            {challenge.serverUrl && (
+              <div className='flex flex-col gap-2 flex-1'>
               <div className="text-primary-300 flex items-center gap-2">
                 <IcoServerFilled className='size-4 text-primary' />
                 <span className='typo-body-xsmall-bold'>Server</span>
               </div>
-              <div className="bg-neutral-600 p-4 rounded-radius-sm typo-body-small text-primary-300">
-                {challenge.server}
+              <div 
+                className="bg-neutral-600 p-4 rounded-radius-sm typo-body-small text-primary-300 cursor-pointer hover:bg-neutral-500 transition-colors"
+                onClick={() => window.open(challenge.serverUrl, '_blank', 'noopener,noreferrer')}
+              >
+                {challenge.serverUrl}
               </div>
             </div>
             )}
 
-            {/* Hint */}
-            <div className='flex flex-col gap-2'>
-              <div className="text-primary-300 flex items-center gap-2">
-                <IcoChatSmileFilled className='size-4 text-primary' />
-                <span className='typo-body-xsmall-bold'>Hint</span>
-              </div>
-              {hintRevealed ? (
-                <div className="bg-neutral-600 rounded-radius-sm p-3 typo-body-small text-primary-300 p-4">
-                  {challenge.hint}
+            {/* Hints */}
+            {challenge.hints && challenge.hints.length > 0 && (
+              <div className='flex flex-col gap-2 flex-1'>
+                <div className="text-primary-300 flex items-center gap-2">
+                  <IcoChatSmileFilled className='size-4 text-primary' />
+                  <span className='typo-body-xsmall-bold'>Hints</span>
                 </div>
-              ) : (
-                <Button
-                  onClick={handleHintReveal}
-                  variant="secondary"
-                  size='small'
-                  className='w-fit gradient-3-deg border border-primary-900 hover:[background:var(--gradient-2)] hover:border-primary-900 hover:text-primary-300 typo-body-small'
-                >
-                  <IcoLockLined className='size-4' />
-                  Reveal Hint (-50 points)
-                </Button>
-              )}
-            </div>
+                <div className="flex flex-col gap-3">
+                  {challenge.hints
+                    .sort((a: any, b: any) => a.order - b.order)
+                    .map((hint: any, index: number) => {
+                      const isRevealed = hint.isRevealed;
+                      const isNextAvailable = index === 0 || challenge.hints[index - 1]?.isRevealed;
+                      
+                      return (
+                        <div key={hint.id} className="flex flex-col gap-2">
+                          {isRevealed ? (
+                            <div className="bg-neutral-600 rounded-radius-sm typo-body-small text-primary-300 p-4">
+                              {hint.content}
+                            </div>
+                          ) : isNextAvailable ? (
+                            <Button
+                              onClick={handleHintReveal}
+                              variant="secondary"
+                              size='small'
+                              className='w-fit gradient-3-deg border border-primary-900 hover:[background:var(--gradient-2)] hover:border-primary-900 hover:text-primary-300 typo-body-small'
+                            >
+                              <IcoLockLined className='size-4' />
+                              Reveal Hint ({hint.cost} points)
+                            </Button>
+                          ) : (
+                            <></>
+                          )}
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
+            )}
+
           </div>
 
           {/* Submit Flag */}
           <div className='flex flex-col gap-4'>
             <h3 className="typo-heading-xsmall text-primary-100">Submit Flag</h3>
-            {challenge.solved ? (
+            {challenge.isSolved ? (
               <div className="h-14 gradient-3-deg border border-gradient-2 p-4 rounded-radius-sm flex items-center gap-2">
                 <IcoCheckboxCircleLined className='text-primary size-6' />
                 <h4 className="typo-body-medium-bold text-primary">Challenge Solved!</h4>
@@ -164,9 +244,6 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
             ) : (
               <form onSubmit={handleSubmit} className="flex gap-4 items-end">
                 <div className='flex flex-col gap-2 w-full'>
-                  <Label htmlFor="flag" className="typo-body-xsmall text-neutral-50">
-                    Flag
-                  </Label>
                   <Input
                     id="flag"
                     type="text"
@@ -205,17 +282,22 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
           </div>
 
           {/* Recent Solvers */}
-          <div className='flex flex-col gap-4'>
-            <h3 className="typo-heading-xsmall text-primary-100">Recent 3 Solvers</h3>
-            <div className="flex flex-wrap gap-2">
-              {['CryptoMaster', 'MathWiz', 'NumberCruncher'].map((solver: string) => (
-                <Badge key={solver} variant='greyTag' className='border border-neutral-400 flex gap-1'>
-                  <IcoCrownLined className='size-3' />
-                  {solver}
-                </Badge>
-              ))}
+          {challenge.recentSolvers && (
+            <div className='flex flex-col gap-4'>
+              <h3 className="typo-heading-xsmall text-primary-100">Recent 3 Solvers</h3>
+              <div className="flex flex-wrap gap-2">
+                {challenge.recentSolvers.map((solver: string) => (
+                  <Badge key={solver} variant='greyTag' className='border border-neutral-400 flex gap-1'>
+                    <IcoCrownLined className='size-3' />
+                    {solver}
+                  </Badge>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
+          
+            </>
+          )}
         </DialogContent>  
       </Dialog>
 
@@ -226,7 +308,7 @@ export function ChallengeModal({ challenge, isOpen, onClose }: ChallengeModalPro
             Reveal Hint?
           </DialogTitle>
           <DialogDescription className="text-neutral-50 typo-body-medium">
-            Revealing this hint will deduct <span className="typo-body-medium-bold text-primary-500">50 points</span> from your total score.
+            Revealing this hint will deduct <span className="typo-body-medium-bold text-primary-500">{nextHint?.cost || 0} points</span> from your total score.
             <br />Are you sure you want to reveal the hint?
           </DialogDescription>
           <div className="flex justify-end mt-6 gap-2">
