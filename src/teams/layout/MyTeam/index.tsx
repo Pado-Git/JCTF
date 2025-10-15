@@ -1,16 +1,15 @@
 import { Button } from '@/+shared/components/form/button';
 import { useMyTeam } from './index.hooks';
-import { type Team } from '@/teams/data';
 import { Divider } from '@/+shared/components';
 import { IcoEditFilled, IcoTeamLined } from '@/+shared/assets';
 
 interface MyTeamProps {
-  team: Team;
+  team: any;
   className?: string;
 }
 
 export function MyTeam({ team, className }: MyTeamProps) {
-  const { isTeamLeader, teamStats, handleEditTeam } = useMyTeam(team);
+  const { isTeamLeader, handleEditTeam } = useMyTeam(team);
 
   return (
     <div className={`flex flex-col gap-12 ${className || ''}`}>
@@ -18,7 +17,7 @@ export function MyTeam({ team, className }: MyTeamProps) {
         <div className="flex items-start gap-6">
           <div className="w-18 h-18 rounded-full gradient-2 flex items-center justify-center">
             <span className="typo-heading-medium text-primary-50">
-              {team.name.slice(0, 2).toUpperCase()}
+              {team.name.slice(0, 2)}
             </span>
           </div>
           
@@ -58,7 +57,7 @@ export function MyTeam({ team, className }: MyTeamProps) {
       <Divider className='border-neutral-700' />
 
       {/* Team Statistics */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {/* <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
         {teamStats.map((stat, index) => (
           <div key={index} className="bg-neutral-800 rounded-radius-lg px-4 py-6 text-center flex flex-col gap-2">
             <div className="typo-heading-large text-primary">
@@ -69,7 +68,7 @@ export function MyTeam({ team, className }: MyTeamProps) {
             </div>
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }

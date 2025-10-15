@@ -1,42 +1,41 @@
 import { useState, useMemo } from 'react';
 import { useAuthStore } from '@/+shared/stores/useAuthStore';
-import { type Team } from '@/teams/data';
 
-interface StatItem {
-  value: string;
-  label: string;
-}
+// interface StatItem {
+//   value: string;
+//   label: string;
+// }
 
-export function useMyTeam(team?: Team) {
+export function useMyTeam(team?: any) {
   const { user } = useAuthStore();
-  const [myTeam, setMyTeam] = useState<Team | null>(null);
+  const [myTeam, setMyTeam] = useState<any | null>(null);
 
   const currentTeam = team || myTeam;
-  const isTeamLeader = currentTeam?.members.find(m => m.email === user?.email)?.role === 'leader';
+  const isTeamLeader = currentTeam?.members.find((m: any) => m.email === user?.email)?.role === 'leader';
 
   // 통계 데이터를 훅에서 생성
-  const teamStats: StatItem[] = useMemo(() => {
-    if (!currentTeam) return [];
+  // const teamStats: StatItem[] = useMemo(() => {
+  //   if (!currentTeam) return [];
 
-    return [
-      {
-        value: currentTeam.stats.totalPoints.toLocaleString(),
-        label: 'Total Points'
-      },
-      {
-        value: currentTeam.stats.totalCompetitions.toString(),
-        label: 'Competitions'
-      },
-      {
-        value: currentTeam.stats.bestRank.toString(),
-        label: 'Best Rank'
-      },
-      {
-        value: Math.round(currentTeam.stats.averageRank).toString(),
-        label: 'Avg Rank'
-      }
-    ];
-  }, [currentTeam]);
+  //   return [
+  //     {
+  //       value: currentTeam.stats.totalPoints.toLocaleString(),
+  //       label: 'Total Points'
+  //     },
+  //     {
+  //       value: currentTeam.stats.totalCompetitions.toString(),
+  //       label: 'Competitions'
+  //     },
+  //     {
+  //       value: currentTeam.stats.bestRank.toString(),
+  //       label: 'Best Rank'
+  //     },
+  //     {
+  //       value: Math.round(currentTeam.stats.averageRank).toString(),
+  //       label: 'Avg Rank'
+  //     }
+  //   ];
+  // }, [currentTeam]);
 
   const handleEditTeam = () => {
     // TODO: 팀 편집 로직 구현
@@ -53,7 +52,7 @@ export function useMyTeam(team?: Team) {
     myTeam,
     setMyTeam,
     isTeamLeader,
-    teamStats,
+    // teamStats,
     handleEditTeam,
     handleCopyInviteCode,
   };

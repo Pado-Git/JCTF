@@ -8,3 +8,4 @@ export * from './libs';
 export * from './providers';
 export * from './stores';
 export * from './types';
+export * from './utils';
