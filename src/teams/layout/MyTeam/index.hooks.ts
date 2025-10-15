@@ -1,5 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useAuthStore } from '@/+shared/stores/useAuthStore';
+import { showToast, useUserStore } from '@/+shared';
+import { fetcher } from '@/+shared/libs';
 
 // interface StatItem {
 //   value: string;
@@ -8,10 +10,31 @@ import { useAuthStore } from '@/+shared/stores/useAuthStore';
 
 export function useMyTeam(team?: any) {
   const { user } = useAuthStore();
+  const userData = useUserStore(state => state.user?.data);
   const [myTeam, setMyTeam] = useState<any | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedDescription, setEditedDescription] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const currentTeam = team || myTeam;
-  const isTeamLeader = currentTeam?.members.find((m: any) => m.email === user?.email)?.role === 'leader';
+  
+  // Profile Overview와 동일한 로직 사용
+  const isTeamLeader = (() => {
+    const userEmail = userData?.email;
+    
+    if (!userEmail || !currentTeam?.members) {
+      return false;
+    }
+    
+    const matchingMember = currentTeam.members.find((member: any) => {
+      return member.participant?.user?.email === userEmail;
+    });
+    
+    const isLeader = matchingMember?.role === 'LEADER';
+    
+    return isLeader;
+  })();
+
 
   // 통계 데이터를 훅에서 생성
   // const teamStats: StatItem[] = useMemo(() => {
@@ -38,22 +61,75 @@ export function useMyTeam(team?: any) {
   // }, [currentTeam]);
 
   const handleEditTeam = () => {
-    // TODO: 팀 편집 로직 구현
-    console.log('Edit team clicked');
+    if (isEditing) {
+      // 편집 모드 종료
+      setIsEditing(false);
+      setEditedDescription('');
+    } else {
+      // 편집 모드 시작
+      setIsEditing(true);
+      setEditedDescription(currentTeam?.description || '');
+    }
   };
 
-  const handleCopyInviteCode = (inviteCode: string) => {
-    navigator.clipboard.writeText(inviteCode);
-    // TODO: 토스트 메시지 표시
-    console.log('Invite code copied:', inviteCode);
+  const handleSaveDescription = async () => {
+    if (!currentTeam?.id) {
+      console.error('No team ID available');
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      const response = await fetcher({
+        url: `/participant/teams/${currentTeam.id}`,
+        method: 'patch',
+        body: {
+          description: editedDescription
+        }
+      });
+
+      if (response.resultCode === 200) {
+        // 성공 시 팀 정보 업데이트
+        if (team) {
+          team.description = editedDescription;
+        }
+        setIsEditing(false);
+        setEditedDescription('');
+        showToast('Team description updated successfully', 'active');
+      } else {
+        console.error('Failed to update team description:', response);
+        showToast('Failed to update team description', 'error');
+      }
+    } catch (error) {
+      console.error('Error updating team description:', error);
+      showToast('Error updating team description', 'error');
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditedDescription('');
+  };
+
+  // const handleCopyInviteCode = (inviteCode: string) => {
+  //   navigator.clipboard.writeText(inviteCode);
+  //   showToast('Invite code copied successfully', 'active');
+  // };
 
   return {
     myTeam,
     setMyTeam,
     isTeamLeader,
     // teamStats,
+    isEditing,
+    editedDescription,
+    isLoading,
     handleEditTeam,
-    handleCopyInviteCode,
+    handleSaveDescription,
+    handleCancelEdit,
+    // handleCopyInviteCode,
+    setEditedDescription,
   };
 }
