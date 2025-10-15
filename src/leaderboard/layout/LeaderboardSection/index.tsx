@@ -28,7 +28,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
         <div className="grid grid-cols-3 gap-6 mb-10 items-end">
           {top3Teams.map((team) => (
             <Card 
-              key={team.name} 
+              key={team.name}
               className={`bg-neutral-800 border-2 border-neutral-700 gradient-3-hover rounded-radius-lg p-6 pt-16 relative flex flex-col ${getGapSize(team.rank)} items-center ${getCardHeight(team.rank)} transition-all duration-300 ease-in-out`}
             >
               {/* Rank Badge - Absolute positioned at top center */}
@@ -40,16 +40,16 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
 
               {/* 팀 로고 */}
               <div className={`${getIconSize(team.rank)} bg-primary rounded-radius-rounded mx-auto`}>
-                <img src={team.logo} alt={team.name} className="w-full h-full object-cover rounded-radius-rounded" />
+                {/* <img src={team.team?.logo} alt={team.team?.name} className="w-full h-full object-cover rounded-radius-rounded" /> */}
               </div>
 
               <div className="flex flex-col gap-2 items-center flex-1">
-                <h3 className="typo-heading-medium text-primary-100">{team.name}</h3>
-                <div className="typo-heading-medium text-primary">{team.score.toLocaleString()} pts</div>
+                <h3 className="typo-heading-medium text-primary-100">{team.team?.name}</h3>
+                <div className="typo-heading-medium text-primary">{team.totalScore?.toLocaleString()} pts</div>
                 <span className="bg-primary-900 text-primary-200 typo-body-small-bold rounded-radius-sm px-4 py-1">
-                  {team.solvedCount} challenges
+                  {team.solvedChallenges} challenges
                 </span>
-                <p className="typo-body-xsmall text-neutral-200">Last solved: {formatLastSolvedTime(team.lastSolvedAt)}</p>
+                <p className="typo-body-xsmall text-neutral-200">Last solved: {formatLastSolvedTime(team.lastSolveAt)}</p>
               </div>
 
               {/* Team Members Section - 맨 아래 고정 */}
@@ -67,10 +67,10 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
                             const isLastItem = memberIndex < team.members.length - 1;
                             
                             return (
-                              <div key={member.name}>
+                              <div key={member.nickname}>
                                 <div className="flex justify-between items-center">
-                                  <span className="typo-body-xsmall text-primary-100">{member.name}</span>
-                                  <span className="typo-body-small-bold text-primary">{member.score.toLocaleString()}</span>
+                                  <span className="typo-body-xsmall text-primary-100">{member.nickname}</span>
+                                  <span className="typo-body-small-bold text-primary">{member.individualScore.toLocaleString()}</span>
                                 </div>
                                 {isLastItem && <Divider className="border-neutral-500 my-2" />}
                               </div>
@@ -93,16 +93,16 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
                               <div className="grid grid-cols-2 gap-4">
                                 {/* 왼쪽 멤버 */}
                                 <div className="flex justify-between items-center">
-                                  <span className="typo-body-xsmall text-primary-100 truncate pr-2">{leftMember.name}</span>
-                                  <span className="typo-body-small-bold text-primary flex-shrink-0">{leftMember.score.toLocaleString()}</span>
+                                  <span className="typo-body-xsmall text-primary-100 truncate pr-2">{leftMember.nickname}</span>
+                                  <span className="typo-body-small-bold text-primary flex-shrink-0">{leftMember.individualScore.toLocaleString()}</span>
                                 </div>
                                 
                                 {/* 오른쪽 멤버 */}
                                 <div className="flex justify-between items-center">
                                   {rightMember ? (
                                     <>
-                                      <span className="typo-body-xsmall text-primary-100 truncate pr-2">{rightMember.name}</span>
-                                      <span className="typo-body-small-bold text-primary flex-shrink-0">{rightMember.score.toLocaleString()}</span>
+                                      <span className="typo-body-xsmall text-primary-100 truncate pr-2">{rightMember.nickname}</span>
+                                      <span className="typo-body-small-bold text-primary flex-shrink-0">{rightMember.individualScore.toLocaleString()}</span>
                                     </>
                                   ) : (
                                     <div></div>
@@ -136,13 +136,13 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
                   <div>
                     <h3 className="typo-heading-small">{team.name}</h3>
                     <div className="flex items-center gap-2 typo-body-xsmall text-primary-300">
-                      <span>{team.solvedCount} challenges</span>
+                      <span>{team.timeline.length} challenges</span>
                       <div className="w-1 h-1 bg-primary-500 rounded-full"></div>
-                      <span>Last solved: {formatLastSolvedTime(team.lastSolvedAt)}</span>
+                      <span>Last solved: {formatLastSolvedTime(team.lastSolveAt)}</span>
                     </div>
                   </div>
                 </div>
-                <div className="typo-body-large-bold text-primary">{team.score.toLocaleString()} pts</div>
+                <div className="typo-body-large-bold text-primary">{team.totalScore?.toLocaleString()} pts</div>
               </div>
             </Card>
           ))}
