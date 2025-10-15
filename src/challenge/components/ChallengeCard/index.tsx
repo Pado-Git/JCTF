@@ -35,7 +35,7 @@ export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgre
           })()}
         </div>
         <div className="typo-body-large-bold text-primary locked:text-neutral-600">
-          +{challenge.baseScore}
+          +{challenge.currentScore}
           <span className="typo-body-small text-primary-400 locked:text-neutral-600"> pts</span>
         </div>
       </div>

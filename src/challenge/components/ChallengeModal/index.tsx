@@ -102,7 +102,7 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
                   )} */}
                 </div>
                 <div className="text-primary typo-body-large-bold">
-                  +{challenge.baseScore}
+                  +{challenge.currentScore}
                   <span className='typo-body-small text-neutral-400'> pts</span>
                 </div>
               </div>
@@ -181,12 +181,13 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
                 <IcoServerFilled className='size-4 text-primary' />
                 <span className='typo-body-xsmall-bold'>Server</span>
               </div>
-              <div 
-                className="bg-neutral-600 p-4 rounded-radius-sm typo-body-small text-primary-300 cursor-pointer hover:bg-neutral-500 transition-colors"
+              <Button
+                size='small'
+                className="text-left justify-start bg-neutral-600 p-4 rounded-radius-sm typo-body-small text-primary-300 cursor-pointer hover:bg-neutral-500 transition-colors"
                 onClick={() => window.open(challenge.serverUrl, '_blank', 'noopener,noreferrer')}
               >
                 {challenge.serverUrl}
-              </div>
+              </Button>
             </div>
             )}
 
