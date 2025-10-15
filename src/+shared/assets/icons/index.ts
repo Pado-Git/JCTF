@@ -33,7 +33,6 @@ export { default as IcoMedalFilled } from './ico_medal-filled.svg?react';
 export { default as IcoMiscLined } from './ico_misc-lined.svg?react';
 export { default as IcoShakeHandsFilled } from './ico_shake-hands-filled.svg?react';
 export { default as IcoThumbsUpFilled } from './ico_thumb-up-filled.svg?react';
-
 export { default as IcoReset } from './ico_reset.svg?react';
 export { default as IcoSearchLined } from './ico_search-lined.svg?react';
 export { default as IcoServerFilled } from './ico_server-filled.svg?react';
@@ -52,6 +51,7 @@ export { default as IcoUnlockFilled } from './ico_unlock-filled.svg?react';
 export { default as IcoUnlockLined } from './ico_unlock-lined.svg?react';
 export { default as IcoKeyLined } from './ico_key-lined.svg?react';
 export { default as IcoNotificationLined } from './ico_notification-lined.svg?react';
+export { default as IcoPinFilled } from './ico_pin-filled.svg?react';
 export { default as IcoMailLined } from './ico_mail-lined.svg?react';
 export { default as IcoExitFilled } from './ico_exit-filled.svg?react';
 export { default as IcoEditFilled } from './ico_edit-filled.svg?react';
