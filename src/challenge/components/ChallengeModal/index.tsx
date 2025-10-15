@@ -240,7 +240,7 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
               <div className="h-14 gradient-3-deg border border-gradient-2 p-4 rounded-radius-sm flex items-center gap-2">
                 <IcoCheckboxCircleLined className='text-primary size-6' />
                 <h4 className="typo-body-medium-bold text-primary">Challenge Solved!</h4>
-                <p className="typo-body-xsmall text-neutral-100">Solved in 15m</p>
+                {/* <p className="typo-body-xsmall text-neutral-100">Solved in 15m</p> */}
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="flex gap-4 items-end">
