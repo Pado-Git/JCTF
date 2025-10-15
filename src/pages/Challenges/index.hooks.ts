@@ -19,6 +19,7 @@ export function useChallenges() {
   const [challengesList, setChallengesList] = useState<any[]>([]);
   const competitionId = useAuthStore(state => state.competitionId);
   const [competitionName, setCompetitionName] = useState('');
+  const [myTeam, setMyTeam] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchChallenges = async () => {
@@ -38,8 +39,6 @@ export function useChallenges() {
 
         if (response.resultCode === 200 && response.result?.success) {
           setChallengesList(response.result.data || []);
-          // api 수정 후 확인 필요
-          setCompetitionName(response.result.data.name);
         } else {
           setError('Failed to fetch challenges');
         }
@@ -53,6 +52,38 @@ export function useChallenges() {
 
     fetchChallenges();
   }, [competitionId]);
+
+  useEffect(() => {
+    const fetchMyTeam = async () => {
+      if (!competitionId) return;
+      
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const response = await fetcher<any>({
+          url: `/participant/teams/${competitionId}/my-team`,
+          method: 'get',
+          query: {
+            competitionId: competitionId
+          }
+        });
+
+        if (response.resultCode === 200 && response.result?.success) {
+          setMyTeam(response.result.data || []);
+        } else {
+          setError('Failed to fetch my team');
+        }
+      } catch (err) {
+        setError('Failed to fetch my team');
+        console.error('API Error:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMyTeam();
+  }, []);
 
   const filteredChallenges = useMemo(() => {
     return challengesList
@@ -103,6 +134,7 @@ export function useChallenges() {
     
     // Data
     competitionName,
+    myTeam,
     filteredChallenges,
     categories,
     

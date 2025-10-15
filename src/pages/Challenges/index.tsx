@@ -16,6 +16,7 @@ export function ChallengesPage() {
     searchQuery,
     setSearchQuery,
     competitionName,
+    myTeam,
     filteredChallenges,
     categories,
     solvedCount,
@@ -78,11 +79,11 @@ export function ChallengesPage() {
         >
           <div className='flex flex-col gap-2'>
             <h1 className="text-primary-50 typo-heading-large">
-              {competitionName} <span className="text-primary">Challenges</span>
+              {myTeam.competition.name} <span className="text-primary">Challenges</span>
           </h1>
             <p className="typo-body-small text-primary-300">
               Team
-              <span className="typo-body-small-bold text-neutral-0 ml-2">{user?.teamName || user?.nickname}</span>
+              <span className="typo-body-small-bold text-neutral-0 ml-2">{myTeam?.name || '-'}</span>
           </p>
           </div>
           
@@ -104,7 +105,7 @@ export function ChallengesPage() {
             <div className="flex items-center space-x-2">
                 <IcoStarLined className='size-4 text-primary' />
                 <span className="typo-body-small text-neutral-50">
-                  Points: <span className="text-primary">{totalPoints.toLocaleString()}</span>
+                  Points: <span className="text-primary">{myTeam?.totalScore?.toLocaleString() || '-'}</span>
               </span>
             </div>
             </div>
