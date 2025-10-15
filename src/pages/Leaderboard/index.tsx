@@ -7,6 +7,8 @@ export function LeaderboardPage() {
     autoRefresh,
     setAutoRefresh,
     leaderboardData,
+    myTeam,
+    myRank,
     loading,
     error,
     handleRefresh,
@@ -41,7 +43,7 @@ export function LeaderboardPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header Section - Your Team 정보 */}
-      <HeaderSection leaderboardData={leaderboardData} />
+      <HeaderSection myTeam={myTeam} myRank={myRank} />
 
       {/* Controls Section - Auto-refresh, Last updated */}
       <ControlsSection 

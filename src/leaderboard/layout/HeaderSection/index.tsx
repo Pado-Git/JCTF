@@ -1,11 +1,12 @@
 import { AnimatedBackgroundHeader, Divider } from '@/+shared/components';
-import { useHeaderSection } from './index.hooks';
 import { formatLastSolvedTime } from '@/leaderboard/utils';
 
-export interface HeaderSectionProps {}
+interface HeaderSectionProps {
+  myTeam?: any;
+  myRank?: any;
+}
 
-export function HeaderSection({}: HeaderSectionProps) {
-  const { myTeam, myRank } = useHeaderSection();
+export function HeaderSection({ myTeam, myRank }: HeaderSectionProps) {
 
   return (
     <AnimatedBackgroundHeader 
