@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/+shared/stores/useAuthStore';
 import { fetcher } from '@/+shared/libs/fetch';
 import { User, useUserStore } from '@/auth/apis/auth';
+import { LINKS } from '@/+shared';
 
 // API 응답 타입
 interface LoginResponse {
@@ -21,7 +22,7 @@ interface LoginResponse {
 
 export function useLogin() {
   const navigate = useNavigate();
-  const { login: setAuthToken } = useAuthStore();
+  const { login: setAuthToken, setCompetitionId } = useAuthStore();
   const { setUser } = useUserStore();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,6 +49,7 @@ export function useLogin() {
         localStorage.setItem('refreshToken', refreshToken);
         setAuthToken(accessToken);
 
+        // 사용자 정보와 competitions 가져오기
         try {
           const userData = await fetcher<User>({
             url: '/auth/me',
@@ -58,11 +60,26 @@ export function useLogin() {
             const user = userData.result;
             setUser(user);
           }
+
+          // competitions 가져와서 첫 번째 competitionId 사용
+          const competitionsData = await fetcher<{
+            success: boolean;
+            data: Array<{ id: string; name: string; status: string }>;
+          }>({
+            url: '/participant/competitions',
+            method: 'get',
+          });
+
+          if (competitionsData.resultCode === 200 && competitionsData.result?.data?.length > 0) {
+            const competitionId = competitionsData.result.data[0].id;
+            // 전역 상태에 competitionId 저장
+            setCompetitionId(competitionId);
+          }
         } catch (err) {
           setError('Failed to get user data.');
         }
         
-        navigate('/dashboard');
+        navigate(LINKS.challenges);
       } else {
         setError('Failed to login. Please check your email and password.');
       }
