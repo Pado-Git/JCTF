@@ -1,31 +1,52 @@
-
+import { useAuthStore } from "@/+shared";
+import { fetcher } from "@/+shared/libs";
+import { useEffect, useState } from "react";
 
 export function useNoticesPage() {
-  const notices = [
-    {
-      id: 1,
-      title: '2025 CTF Tournament Schedule Notice',
-      description: 'Corporate Security CThe schedule for the 2025 CTF Tournament has been confirmed. Preliminary Round: November 1 – November 3, 2025 Final Round: November 20 – November 22, 2025 Participant registration is open until October 25, 2025. Each team must consist of a minimum of 1 and a maximum of 4 members. For more details, please refer to the Tournament Rules page.',
-      author: 'Admin',
-      date: '2025-01-01',
-    },
-    {
-      id: 2,
-      title: '2025 CTF Tournament Schedule Notice 2025 CTF Tournament Schedule Notice 2025 CTF Tournament Schedule Notice',
-      description: 'Corporate Security CThe schedule for the 2025 CTF Tournament has been confirmed. Preliminary Round: November 1 – November 3, 2025 Final Round: November 20 – November 22, 2025 Participant registration is open until October 25, 2025. Each team must consist of a minimum of 1 and a maximum of 4 members. For more details, please refer to the Tournament Rules page.',
-      author: 'Admin',
-      date: '2025-01-01',
-    },
-    {
-      id: 3,
-      title: 'Notice 1',
-      description: 'Corporate Security CThe schedule for the 2025 CTF Tournament has been confirmed. Preliminary Round: November 1 – November 3, 2025 Final Round: November 20 – November 22, 2025 Participant registration is open until October 25, 2025. Each team must consist of a minimum of 1 and a maximum of 4 members. For more details, please refer to the Tournament Rules page.',
-      author: 'Admin',
-      date: '2025-01-01',
-    },
-  ];
+  const [notices, setNotices] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const competitionId = useAuthStore((state: any) => state.competitionId);
 
+  useEffect(() => {
+    const fetchNotices = async () => {
+      setLoading(true);
+      try {
+        const response = await fetcher({
+          url: `/participant/competitions/${competitionId}/announcements`,
+          method: 'get',
+          query: {
+            competitionId: competitionId
+          }
+        });
+        
+        if (response.resultCode === 200) {
+          const noticesData = response.result?.data || [];
+          // isPinned 정렬
+          const sortedNotices = noticesData.sort((a: any, b: any) => {
+            if (a.isPinned && !b.isPinned) return -1;
+            if (!a.isPinned && b.isPinned) return 1;
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+          });
+          setNotices(sortedNotices);
+        } else {
+          throw new Error('Failed to fetch notices');
+        }
+      } catch (error) {
+        console.error('Failed to fetch notices:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNotices();
+  }, [competitionId]);
+
+  const handleNoticeClick = (notice: any) => {
+    console.log(notice);
+  }
+  
   return {
-    notices
+    notices,
+    loading,
+    handleNoticeClick
   }
 }
