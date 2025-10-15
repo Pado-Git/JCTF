@@ -16,7 +16,7 @@ export function useTeamMember() {
   };
 
   const getMemberInitials = (nickname: string) => {
-    return nickname.slice(0, 2).toUpperCase();
+    return nickname.slice(0, 2);
   };
 
   return {
