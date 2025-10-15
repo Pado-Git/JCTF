@@ -1,6 +1,5 @@
 import { useAuthStore, useUserStore } from '@/+shared';
 import { fetcher } from '@/+shared/libs';
-import { competitions } from '@/competition/data';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -145,6 +144,41 @@ export function useProfilePage() {
   const [editedProfile, setEditedProfile] = useState<UserProfile>(mockProfile);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState('Overview');
+  const [error, setError] = useState<string | null>(null);
+  const [myTeam, setMyTeam] = useState<any>(null);
+
+  const competitionId = useAuthStore(state => state.competitionId);
+
+  // 프로필 정보 가져오기
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const response = await fetcher<any>({
+          url: `/participant/teams/${competitionId}/my-team`,
+          method: 'get',
+          query: {
+            competitionId: competitionId
+          }
+        });
+
+        if (response.resultCode === 200 && response.result?.data) {
+          setMyTeam(response.result.data);
+        } else {
+          setError('Failed to fetch my team');
+        }
+      } catch (err) {
+        setError('Failed to fetch my team');
+        console.error('API Error:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleSave = async () => {
     setIsLoading(true);
@@ -176,6 +210,8 @@ export function useProfilePage() {
     // { id: 'invitations', name: 'Team Invitations' },
   ];
 
+  const user = useUserStore(state => state.user);
+
   return {
     // State
     isEditing,
@@ -184,6 +220,8 @@ export function useProfilePage() {
     isLoading,
     selectedTab,
     profileTabs,
+    myTeam,
+    user,
 
     // Actions
     setIsEditing,

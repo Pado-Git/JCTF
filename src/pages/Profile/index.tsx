@@ -18,6 +18,8 @@ export function ProfilePage() {
     editedProfile,
     selectedTab,
     profileTabs,
+    myTeam,
+    user,
     setSelectedTab,
     handleSave,
     navigate
@@ -26,7 +28,7 @@ export function ProfilePage() {
   const renderContent = () => {
     switch (selectedTab) {
       case 'Overview':
-        return <Overview profile={profile} onNavigate={navigate} />;
+        return <Overview myTeam={myTeam} onNavigate={navigate} />;
       case 'Edit Profile':
         return (
           <div className="flex flex-col gap-20">
@@ -62,9 +64,9 @@ export function ProfilePage() {
   return (
     <>
       <ProfileHeader
-        title={profile.nickname}
-        coloredTitle={profile.nickname}
-        description={profile.bio}
+        title={myTeam?.name}
+        coloredTitle={user?.data?.nickname}
+        description={myTeam?.description}
       />
 
       <MaxWidthContainer innerProps={{ className: 'flex flex-col gap-16 mt-14' }}>
