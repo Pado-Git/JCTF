@@ -1,10 +1,8 @@
-import { useNavigate } from 'react-router-dom';
-import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, Input, Label, MatrixRain } from '@/+shared/components';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Input, Label, MatrixRain } from '@/+shared/components';
 import { Shield, Eye, EyeOff } from 'lucide-react';
 import { useLogin } from './index.hooks'; 
 
 export function LoginPage() {
-  const navigate = useNavigate();
   const {
     email,
     setEmail,
@@ -12,8 +10,6 @@ export function LoginPage() {
     setPassword,
     showPassword,
     setShowPassword,
-    rememberMe,
-    setRememberMe,
     error,
     isLoading,
     handleSubmit,
