@@ -47,7 +47,7 @@ export function HeroSection() {
         </p>
       </div>
       
-      <div className="flex flex-col md:flex-row gap-6 justify-center items-center mb-12">
+      {/* <div className="flex flex-col md:flex-row gap-6 justify-center items-center mb-12">
         <Button 
           size="medium" 
           onClick={() => navigate(isAuthenticated ? LINKS.dashboard : LINKS.login)}
@@ -59,7 +59,7 @@ export function HeroSection() {
           <IcoTrophyFilled />
           {user ? 'My Competitions' : 'Join Competition'}
         </Button>
-      </div>
+      </div> */}
     </MaxWidthContainer>
     </section>
   )
