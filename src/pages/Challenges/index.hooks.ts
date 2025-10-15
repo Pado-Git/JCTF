@@ -1,12 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   calculateScore,
   getSolvedCount,
   getProgressPercentage
 } from '@/challenge/utils';
 import { fetcher } from '@/+shared/libs';
-import { useUserStore } from '@/+shared/stores';
+import { useAuthStore, useUserStore } from '@/+shared/stores';
 import { LINKS } from '@/+shared/constants';
 
 export function useChallenges() {
@@ -17,7 +17,7 @@ export function useChallenges() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [challengesList, setChallengesList] = useState<any[]>([]);
-  const { competitionId } = useParams<{ competitionId: string }>();
+  const competitionId = useAuthStore(state => state.competitionId);
   const [competitionName, setCompetitionName] = useState('');
 
   useEffect(() => {
@@ -32,7 +32,7 @@ export function useChallenges() {
           url: `/participant/competitions/${competitionId}/challenges`,
           method: 'get',
           query: {
-            categoryId: ''
+            competitionId: competitionId
           }
         });
 
@@ -78,7 +78,8 @@ export function useChallenges() {
   }, [challengesList]);
 
   const handleLeaderboardClick = () => {
-    navigate(LINKS.leaderboard.replace(':competitionId', competitionId || ''));
+    // navigate(LINKS.leaderboard.replace(':competitionId', competitionId || ''));
+    navigate(LINKS.leaderboard);
   };
 
   const handleChallengeClick = (challenge: any) => {

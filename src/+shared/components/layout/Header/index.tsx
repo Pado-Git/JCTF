@@ -2,6 +2,7 @@ import { Button } from '@/+shared/components/form/button';
 import { AcdcLogo, IcoArrowLeftLined, IcoLoginLined, IcoLogoutLined, Logo } from '@/+shared/assets';
 import { useHeaderLogic } from './index.hooks';
 import { MaxWidthContainer } from '@/+shared/components';
+import { LINKS } from '@/+shared/constants/links';
 
 interface HeaderProps {
   className?: string;
@@ -59,18 +60,26 @@ export function Header({ className }: HeaderProps) {
               <Button 
                 variant="text"
                 size="small"
-                onClick={() => handleNavigation('/dashboard')}
-                className={isActivePath('/dashboard') ? 'text-primary' : 'text-primary-100'}
+                onClick={() => handleNavigation(LINKS.challenges)}
+                className={isActivePath('/challenges') ? 'text-primary' : 'text-primary-100'}
               >
-                Dashboard
+                Challenges
               </Button>
               <Button 
                 variant="text" 
                 size="small"
-                onClick={() => handleNavigation('/competitions')}
-                className={isActivePath('/competitions') ? 'text-primary' : 'text-primary-100'}
+                onClick={() => handleNavigation(LINKS.leaderboard)}
+                className={isActivePath('/leaderboard') ? 'text-primary' : 'text-primary-100'}
               >
-                Competitions
+                Leaderboard
+              </Button>
+              <Button 
+                variant="text" 
+                size="small"
+                onClick={() => handleNavigation(LINKS.notices)}
+                className={isActivePath('/notices') ? 'text-primary' : 'text-primary-100'}
+              >
+                Notices
               </Button>
               <Button 
                 variant="text" 
