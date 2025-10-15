@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     svgr()
   ],
-  base: import.meta.env.VITE_BASE_URL || '/',
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
