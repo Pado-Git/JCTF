@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 export function useNoticesPage() {
   const [notices, setNotices] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedNotice, setSelectedNotice] = useState<any>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const competitionId = useAuthStore((state: any) => state.competitionId);
 
   useEffect(() => {
@@ -41,12 +43,21 @@ export function useNoticesPage() {
   }, [competitionId]);
 
   const handleNoticeClick = (notice: any) => {
-    console.log(notice);
-  }
+    setSelectedNotice(notice);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedNotice(null);
+  };
   
   return {
     notices,
     loading,
-    handleNoticeClick
+    selectedNotice,
+    isModalOpen,
+    handleNoticeClick,
+    closeModal
   }
 }

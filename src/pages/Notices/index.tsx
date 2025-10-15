@@ -1,10 +1,10 @@
 import { IcoPinFilled, MaxWidthContainer } from "@/+shared";
 import { IcoCalendarLined } from '@/+shared/assets';
-import { IcoIndividualLined } from '@/+shared/assets/icons';
+import { IcoIndividualLined, IcoCloseFilled, IcoExitFilled } from '@/+shared/assets/icons';
 import { useNoticesPage } from "./index.hooks";
 
 export function NoticesPage() {
-  const { notices, loading, handleNoticeClick } = useNoticesPage();
+  const { notices, loading, selectedNotice, isModalOpen, handleNoticeClick, closeModal } = useNoticesPage();
 
   return (
     <>
@@ -43,7 +43,7 @@ export function NoticesPage() {
             notices.map((notice, index) => (
               <div
                 key={index}
-                className="flex flex-col gap-4 p-8 bg-neutral-800 border border-neutral-500 rounded-radius-md"
+                className="flex flex-col gap-4 p-8 bg-neutral-800 border hover:bg-neutral-700 border-neutral-500 rounded-radius-md cursor-pointer hover:bg-neutral-750 hover:border-neutral-400 transition-all duration-200"
                 onClick={() => handleNoticeClick(notice)}
               >
                 <div className="flex items-center gap-4">
@@ -56,18 +56,63 @@ export function NoticesPage() {
                   </div>
                   <div className="flex items-center gap-1 text-neutral-100 typo-body-xsmall">
                     <IcoIndividualLined className="w-4 h-4" />
-                    <span>{notice.author}</span>
+                    <span>{notice.admin.name}</span>
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <h2 className="typo-heading-small">{notice.title}</h2>
-                  <span className="text-neutral-100 typo-body-small">{notice.content}</span>
+                  <span className="text-neutral-100 typo-body-small line-clamp-3">{notice.content}</span>
                 </div>
               </div>
             ))
           )}
         </section>
       </MaxWidthContainer>
+
+      {/* 공지사항 상세 모달 */}
+      {isModalOpen && selectedNotice && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-neutral-800 border-2 border-neutral-500 rounded-radius-md max-w-2xl w-full max-h-[80vh] overflow-hidden p-10">
+            {/* 모달 헤더 */}
+            <div className="flex items-start justify-between">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-3">
+                  {selectedNotice.isPinned && (
+                    <IcoPinFilled className="w-5 h-5 text-primary" />
+                  )}
+                  <h2 className="typo-heading-medium break-all">{selectedNotice.title}</h2>
+                </div>
+                <div className="flex flex-col gap-2 mb-4 text-neutral-100 typo-body-small">
+                  <div className="flex items-center gap-2">
+                    <IcoCalendarLined className="w-4 h-4" />
+                    <span>{new Date(selectedNotice.createdAt).toLocaleDateString()}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <IcoIndividualLined className="w-4 h-4" />
+                    <span>{selectedNotice.admin.name}</span>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                onClick={closeModal}
+                className="p-2 hover:bg-neutral-800 rounded-radius-sm transition-colors"
+              >
+                <IcoExitFilled className="w-5 h-5 text-neutral-100" />
+              </button>
+            </div>
+
+            {/* 모달 내용 */}
+            <div className="overflow-y-auto max-h-[60vh] bg-neutral-700 rounded-radius-md p-6">
+              <div className="prose prose-invert max-w-none">
+                <p className="typo-body-medium whitespace-pre-wrap leading-relaxed">
+                  {selectedNotice.content}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   )
 }
