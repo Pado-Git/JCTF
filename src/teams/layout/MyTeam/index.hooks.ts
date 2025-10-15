@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { useAuthStore } from '@/+shared/stores/authStore';
+import { useAuthStore } from '@/+shared/stores/useAuthStore';
 import { type Team } from '@/teams/data';
 
 interface StatItem {

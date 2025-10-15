@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     svgr()
   ],
-  base: '/',
+  base: import.meta.env.VITE_BASE_URL || '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -25,15 +25,15 @@ export default defineConfig({
     },
   },
   server: {
-    host: '127.0.0.1',   // ★ IPv4 강제
+    host: '0.0.0.0',   // 모든 인터페이스에서 접근 허용
     port: 8080,
     strictPort: false,
     hmr: {
-      host: '127.0.0.1', // ★ HMR도 IPv4로 고정
+      host: 'localhost', // HMR은 localhost로 설정
       port: 8081,
       protocol: 'ws'
     },
-    allowedHosts: ['*.ngrok-free.app']
+    allowedHosts: ['*.ngrok-free.app', '*.ngrok.io', 'localhost', '127.0.0.1']
   },
   preview: {
     host: '127.0.0.1',   // 미리보기도 같은 정책

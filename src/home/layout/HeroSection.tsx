@@ -1,5 +1,5 @@
 import { MaxWidthContainer, Button } from '@/+shared/components';
-import { useAuthStore } from '@/+shared/stores/authStore';
+import { useAuthStore } from '@/+shared/stores/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import {Galaxy} from '@/home/components';
 import { IcoTrophyFilled } from '@/+shared/assets';

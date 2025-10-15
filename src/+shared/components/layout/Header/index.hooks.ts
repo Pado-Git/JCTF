@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuthStore } from '@/+shared/stores/authStore';
+import { useAuthStore } from '@/+shared/stores/useAuthStore';
 
 export const useHeaderLogic = () => {
   const navigate = useNavigate();

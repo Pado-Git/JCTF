@@ -1,42 +1,60 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Button, MaxWidthContainer, SearchInput, Progress } from '@/+shared/components';
 import { 
   Target,
 } from 'lucide-react';
-import { 
-  Challenge, 
-  mockCompetition, 
-  mockChallenges,
-} from '@/challenge/data';
 import { bannerBg } from '@/challenge/assets';
 import { ChallengeModal, ChallengeCard } from '@/challenge/components';
 import { CategoryFilter } from '@/+shared/components';
 import { IcoCheckboxCircleLined, IcoStarLined, IcoTrophyFilled, IcoChart } from '@/+shared/assets';
-import {
-  calculateScore,
-  getSolvedCount,
-  getProgressPercentage
-} from '@/challenge/utils';
+import { useChallenges } from './index.hooks';
 
 export function ChallengesPage() {
-  const navigate = useNavigate();
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedChallenge, setSelectedChallenge] = useState<Challenge | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [_user] = useState({ email: 'user@example.com', nickname: 'CyberHacker' });
+  const {
+    selectedCategory,
+    setSelectedCategory,
+    selectedChallenge,
+    searchQuery,
+    setSearchQuery,
+    competitionName,
+    filteredChallenges,
+    categories,
+    solvedCount,
+    totalPoints,
+    progressPercentage,
+    isLoading,
+    error,
+    challengesList,
+    user,
+    handleLeaderboardClick,
+    handleChallengeClick,
+    handleCloseModal,
+  } = useChallenges();
 
-  const filteredChallenges = mockChallenges.filter(challenge => {
-    const matchesCategory = selectedCategory === 'All' || challenge.category.name === selectedCategory;
-    const matchesSearch = challenge.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         challenge.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesSearch;
-  });
+  // 로딩 상태
+  if (isLoading) {
+    return (
+      <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading challenges...</p>
+        </div>
+      </MaxWidthContainer>
+    );
+  }
 
-  const solvedCount = getSolvedCount(mockChallenges);
-  const totalPoints = calculateScore(mockChallenges);
-
-  const categories = mockChallenges.map(challenge => challenge.category.name).filter((category, index, self) => self.indexOf(category) === index);
+  // 에러 상태
+  if (error) {
+    return (
+      <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
+        <div className="text-center py-12">
+          <h3 className="text-lg font-medium text-destructive mb-2">Failed to load challenges</h3>
+          <p className="text-muted-foreground">
+            Please try refreshing the page or contact support if the problem persists.
+          </p>
+        </div>
+      </MaxWidthContainer>
+    );
+  }
 
   return (
     <>
@@ -60,11 +78,11 @@ export function ChallengesPage() {
         >
           <div className='flex flex-col gap-2'>
             <h1 className="text-primary-50 typo-heading-large">
-              {mockCompetition.name} <span className="text-primary">Challenges</span>
+              {competitionName} <span className="text-primary">Challenges</span>
           </h1>
             <p className="typo-body-small text-primary-300">
               Team
-              <span className="typo-body-small-bold text-neutral-0 ml-2">{mockCompetition.myTeam.name}</span>
+              <span className="typo-body-small-bold text-neutral-0 ml-2">{user?.teamName || user?.nickname}</span>
           </p>
           </div>
           
@@ -75,12 +93,12 @@ export function ChallengesPage() {
             </div>
           <div className="flex items-center space-x-6 text-sm">
               <div className="flex-1">
-                <Progress value={getProgressPercentage(solvedCount, mockChallenges.length)} className="h-2 bg-neutral-900" />
+                <Progress value={progressPercentage} className="h-2 bg-neutral-900" />
               </div>
             <div className="flex items-center space-x-2">
                 <IcoCheckboxCircleLined className='size-4 text-primary' />
                 <span className="typo-body-small text-neutral-50">
-                  Solved: <span className="text-primary">{solvedCount}</span> / {mockChallenges.length}
+                  Solved: <span className="text-primary">{solvedCount}</span> / {filteredChallenges.length}
               </span>
             </div>
             <div className="flex items-center space-x-2">
@@ -108,7 +126,7 @@ export function ChallengesPage() {
           <Button 
             variant="secondary"
             size="small"
-            onClick={() => navigate?.('leaderboard')}
+            onClick={handleLeaderboardClick}
           >
             <IcoChart className='size-4' />
             Leaderboard
@@ -117,10 +135,10 @@ export function ChallengesPage() {
         
         <CategoryFilter 
           categories={categories}
-          data={mockChallenges}
+          data={challengesList}
           selected={selectedCategory}
           onSelect={setSelectedCategory}
-          getItemCategory={(challenge) => challenge.category.name}
+          getItemCategory={(challenge: any) => challenge.category.name}
         />
 
         {/* Challenges Grid */}
@@ -129,7 +147,7 @@ export function ChallengesPage() {
             <ChallengeCard
               key={challenge.id}
               challenge={challenge}
-              onClick={() => setSelectedChallenge(challenge)}
+              onClick={() => handleChallengeClick(challenge)}
               isLocked={challenge.tags.includes('locked')}
               lockProgress={challenge.tags.includes('locked') ? '2/3' : undefined}
             />
@@ -152,7 +170,7 @@ export function ChallengesPage() {
         <ChallengeModal
           challenge={selectedChallenge}
           isOpen={!!selectedChallenge}
-          onClose={() => setSelectedChallenge(null)}
+          onClose={handleCloseModal}
         />
       )}
     </>

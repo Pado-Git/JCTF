@@ -1,5 +1,6 @@
 import { RouterProvider } from 'react-router-dom';
-import { Toaster } from '@/+shared/components/feedback/sonner';
+import { ToastContainer } from '@/+shared/providers/ToastContainer';
+import 'react-toastify/dist/ReactToastify.css';
 import router from './Routes';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -9,7 +10,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <div className="size-full">
         <RouterProvider router={router} />
-        <Toaster />
+        <ToastContainer />
       </div>
     </QueryClientProvider>
   );

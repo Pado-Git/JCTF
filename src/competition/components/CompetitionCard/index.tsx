@@ -2,27 +2,30 @@
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState, useMemo } from 'react';
 import { Button, Card, CardDescription, CardTitle, Badge, Progress, BadgeVariant } from '@/+shared/components';
-import { getCompetitionStatus } from '@/+shared/utils';
 import { useCompetitionCard } from './index.hooks';
 import { IcoCalendarLined, IcoChart, IcoTeamLined, IcoTrophyLined } from '@/+shared/assets';
 import { LINKS } from '@/+shared/constants';
+import { ChallengeBg1 } from '@/dashboard/assets';
 
 interface Competition {
   id: string;
   name: string;
-  backgroundImg: string;
   description: string;
+  status: 'UPCOMING' | 'RUNNING' | 'ENDED';
+  competitionType: 'TEAM' | 'INDIVIDUAL';
   startDate: string;
   endDate: string;
-  participants: number;
-  maxParticipants: number;
-  format: string;
-  difficulty: 'beginner' | 'advanced' | 'expert';
-  categories: string[];
-  prize: string;
-  registered: boolean;
-  minMembers: number;
-  maxMembers: number;
+  registrationDeadline: string;
+  maxTeamSize: number;
+  isPublic: boolean;
+  showLeaderboard: boolean;
+  showFirstBlood: boolean;
+  timezone: string;
+  createdAt: string;
+  _count?: {
+    teams: number;
+    challenges: number;
+  };
 }
 
 interface CompetitionCardProps {
@@ -44,8 +47,18 @@ export function CompetitionCard({ competition }: CompetitionCardProps) {
   }, []);
   
   const statusInfo = useMemo(() => {
-    return getCompetitionStatus(competition);
-  }, [competition, currentTime]);
+    return {
+      status: competition.status.toLowerCase(),
+      isUpcoming: competition.status === 'UPCOMING',
+      isRunning: competition.status === "RUNNING",
+      isEnded: competition.status === 'ENDED'
+    };
+  }, [competition]);
+
+  // Badge 표기를 위한 상태 매핑 (RUNNING -> live)
+  const badgeVariant = useMemo(() => (
+    competition.status === 'RUNNING' ? 'live' : competition.status.toLowerCase()
+  ), [competition.status]);
 
   const { registerModalOpen, setRegisterModalOpen, formatDate, handleRegister } = useCompetitionCard();
   
@@ -54,7 +67,9 @@ export function CompetitionCard({ competition }: CompetitionCardProps) {
       className="h-[600px] border border-neutral-700 hover:border-primary/50 transition-all duration-300 cursor-pointer p-8 relative overflow-hidden"
       onClick={() => setRegisterModalOpen(true)}
       style={{
-        backgroundImage: `url(${competition.backgroundImg})`,
+        // 수정 필요 더미
+        // backgroundImage: `url(${competition?.backgroundImg})`,
+        backgroundImage: `url(${ChallengeBg1})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat'
@@ -74,13 +89,16 @@ export function CompetitionCard({ competition }: CompetitionCardProps) {
 
       <section className='flex flex-col gap-4'>
         <div className="flex gap-2">
-          <Badge variant={statusInfo.status as BadgeVariant} />
-          <Badge variant={competition.difficulty as BadgeVariant} />
+          <Badge variant={badgeVariant as BadgeVariant} />
+          {/* <Badge variant={competition.difficulty as BadgeVariant} /> */}
+          {/* 수정 필요 더미 */}
+          <Badge variant='advanced' />
         </div>
         <div className='flex gap-2'>
-        {competition.categories.map((category) => (
+          {/* 수정 필요 : 카테고리 주석 해제 */}
+        {/* {competition.categories.map((category) => (
           <Badge variant='greyTag' key={category}>{category}</Badge>
-        ))}
+        ))} */}
         </div>
       </section>
 
@@ -92,11 +110,12 @@ export function CompetitionCard({ competition }: CompetitionCardProps) {
               <span className='text-primary-300'>Participants</span>
             </div>
             <span className="text-neutral-200">
-              {competition.participants.toLocaleString()} / {competition.maxParticipants.toLocaleString()}
+              {/* 수정 필요 더미 */}
+              {competition._count?.participants?.toLocaleString() || 0} / {competition.maxParticipants?.toLocaleString() || 9999}
             </span>
           </div>
           <Progress 
-            value={(competition.participants / competition.maxParticipants) * 100} 
+            value={(competition.participants / competition.maxParticipants) * 100}
             className="h-2"
           />
         </div>
@@ -115,24 +134,26 @@ export function CompetitionCard({ competition }: CompetitionCardProps) {
           </div>
           <div className='flex items-center gap-1'>
             <IcoTrophyLined className='size-4' />
-            <span>Format: {competition.format}</span>
+            <span>Format: {competition.competitionType}</span>
           </div>
           <div className='flex items-center gap-1'>
             <IcoTeamLined className='size-4' />
-            <span>{competition.minMembers} - {competition.maxMembers} members</span>
+            <span>1 - {competition.maxTeamSize} members</span>
           </div>
         </div>
-        <div className='flex flex-col items-end'>
-          <span className="typo-body-large-bold text-primary">{competition.prize}</span>
+        {/* <div className='flex flex-col items-end'>
+          <span className="typo-body-large-bold text-primary">TBD</span>
           <span className="typo-body-xsmall text-neutral-200">Prize Pool</span>
-        </div>
+        </div> */}
       </section>
 
       {/* Action Button */}
       <div className="w-full">
         {statusInfo.status === "upcoming" && (
           <div className="">
-            {competition.registered ? (
+            {/* 수정 필요 : registered 구현 후 */}
+            {/* {competition.registered ? ( */}
+            { false ? (
               <Button className="w-full" variant="secondary" disabled>
                 Registered
               </Button>
@@ -151,9 +172,11 @@ export function CompetitionCard({ competition }: CompetitionCardProps) {
           </div>
         )}
 
-        {statusInfo.status === "live" && (
+        {statusInfo.status === "running" && (
           <div className="w-full">
-            {competition.registered ? (
+            {/* 수정 필요 : registered 구현 후 */}
+            {/* {competition.registered ? ( */}
+            { true ? (
               <div className="flex gap-2 w-full">
                 <Button
                   className="flex-[2]"

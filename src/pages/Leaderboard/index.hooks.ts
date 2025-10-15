@@ -1,16 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import { 
   fetchLeaderboardData, 
-  transformApiDataToTeamEntry, 
   TeamEntry 
 } from '@/leaderboard/utils';
-import { type ControlsSectionRef } from '@/leaderboard/layout';
+import { type ControlsSectionRef } from '@/leaderboard/layout/ControlsSection/index.hooks';
+import { useParams } from 'react-router-dom';
 
 export const useLeaderboardPage = () => {
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [leaderboardData, setLeaderboardData] = useState<TeamEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { competitionId } = useParams();
   
   // ControlsSection의 ref
   const controlsSectionRef = useRef<ControlsSectionRef>(null);
@@ -20,12 +21,9 @@ export const useLeaderboardPage = () => {
     try {
       setLoading(true);
       setError(null);
-      const apiResponse = await fetchLeaderboardData();
+      const apiResponse = await fetchLeaderboardData(competitionId || '');
       
-      const transformedData = transformApiDataToTeamEntry(apiResponse.data);
-      
-      setLeaderboardData(transformedData);
-      
+      setLeaderboardData(apiResponse.data.data);
       // ControlsSection에 마지막 업데이트 시간 전달
       const now = new Date();
       controlsSectionRef.current?.updateLastUpdated(now);
