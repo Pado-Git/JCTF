@@ -1,5 +1,5 @@
 import { Button } from '@/+shared/components/form/button';
-import { IcoArrowLeftLined, IcoLoginLined, IcoLogoutLined, Logo } from '@/+shared/assets';
+import { AcdcLogo, IcoArrowLeftLined, IcoLoginLined, IcoLogoutLined, Logo } from '@/+shared/assets';
 import { useHeaderLogic } from './index.hooks';
 import { MaxWidthContainer } from '@/+shared/components';
 
@@ -23,9 +23,10 @@ export function Header({ className }: HeaderProps) {
     if (currentPath === '/' && !isAuthenticated) {
       return (
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
+          {/* <div className="flex items-center space-x-2">
             <span className="text-2xl font-bold text-primary">JCTF</span>
-          </div>
+          </div> */}
+          <AcdcLogo className="w-72" />
           <div className="flex items-center space-x-4">
             <Button 
               variant="secondary" 
@@ -34,25 +35,26 @@ export function Header({ className }: HeaderProps) {
               <IcoLoginLined />
               Login
             </Button>
-            <Button 
+            {/* <Button 
               variant="primary"
               onClick={() => handleNavigation('/register')}
             >
               Register
-            </Button>
+            </Button> */}
           </div>
         </div>
       );
     }
 
     // 대시보드 페이지
-    if (currentPath === '/dashboard') {
+    // if (currentPath === '/dashboard') {
       return (
         <MaxWidthContainer className="flex items-center justify-between" innerProps={{ className: "flex items-center justify-between" }}>
           <div className="w-full flex items-center justify-between">
-            <div className="flex items-center cursor-pointer" onClick={() => handleNavigation('/dashboard')}>
+            {/* <div className="flex items-center cursor-pointer" onClick={() => handleNavigation('/dashboard')}>
               <Logo />
-            </div>
+            </div> */}
+            <AcdcLogo className="w-72" />
             <div className="flex items-center gap-10">
               <Button 
                 variant="text"
@@ -92,44 +94,48 @@ export function Header({ className }: HeaderProps) {
           </div>
         </MaxWidthContainer>
       );
-    }
+    // }
 
     // 기타 페이지들 (프로필, 팀, 리더보드 등)
-    return (
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="text"
-            size="small"
-            onClick={() => handleBack()}
-            className='text-neutral-100'
-          >
-            <IcoArrowLeftLined />
-            Back
-          </Button>
-          <div>
-            <h1 className="typo-heading-small text-primary-200">{headerConfig.title}</h1>
-            {headerConfig.subtitle && <p className="typo-body-xsmall text-neutral-200">{headerConfig.subtitle}</p>}
-          </div>
-        </div>
-        <div className="flex items-center gap-4">
-          {user && (
-            <div className="text-right">
-              <p className="typo-body-small text-neutral-200">Welcome back</p>
-              <p className="font-medium text-neutral-200">{user.nickname || user.email}</p>
-            </div>
-          )}
-        </div>
-      </div>
-    );
+    // return (
+    //   <div className="flex items-center justify-between">
+    //     <div className="flex items-center gap-4">
+    //       <Button
+    //         variant="text"
+    //         size="small"
+    //         onClick={() => handleBack()}
+    //         className='text-neutral-100'
+    //       >
+    //         <IcoArrowLeftLined />
+    //         Back
+    //       </Button>
+    //       <div>
+    //         <h1 className="typo-heading-small text-primary-200">{headerConfig.title}</h1>
+    //         {headerConfig.subtitle && <p className="typo-body-xsmall text-neutral-200">{headerConfig.subtitle}</p>}
+    //       </div>
+    //     </div>
+    //     <div className="flex items-center gap-4">
+    //       {user && (
+    //         <div className="text-right">
+    //           <p className="typo-body-small text-neutral-200">Welcome back</p>
+    //           <p className="font-medium text-neutral-200">{user.nickname || user.email}</p>
+    //         </div>
+    //       )}
+    //     </div>
+    //   </div>
+    // );
   };
 
   return (
-    <nav className={`bg-black/60 top-0 z-50 ${className || ''}`}>
-      <div className="container mx-auto px-6 py-4">
-        {renderHeaderContent()}
-      </div>
-    </nav>
+    <>
+    {currentPath !== '/login' && (
+      <nav className={`bg-black/60 top-0 z-50 ${className || ''}`}>
+        <div className="container mx-auto px-6 py-4">
+          {renderHeaderContent()}
+        </div>
+      </nav>
+    )}
+    </>
   );
 }
 
