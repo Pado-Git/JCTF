@@ -8,6 +8,7 @@ export const LINK_KEYS = [
   'competitions',
   'teams',
   'leaderboard',
+  'notices',
 ] as const;
 
 export type LinkKey = (typeof LINK_KEYS)[number];
@@ -33,6 +34,7 @@ export const LINKS: Record<LinkKey, string> = (() => {
     competitions: `/competitions`,
     teams: `/teams/:competitionId`,
     leaderboard: `/leaderboard/:competitionId`,
+    notices: `/notices`,
   };
   
   if (import.meta.env.MODE === 'development') {

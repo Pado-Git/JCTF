@@ -3,7 +3,7 @@ import {
   createRoutesFromElements,
   Route,
 } from 'react-router-dom';
-import { HomePage, LoginPage, RegisterPage, ProfilePage, ChallengesPage, DashboardPage, Competitions, LeaderboardPage, TeamsPage } from '@/pages';
+import { HomePage, LoginPage, RegisterPage, ProfilePage, ChallengesPage, DashboardPage, Competitions, LeaderboardPage, TeamsPage, NoticesPage } from '@/pages';
 import { RootLayout } from '@/+shared/components';
 import { LINKS } from '@/+shared/constants';
 
@@ -20,6 +20,7 @@ const router = createBrowserRouter(
       <Route path={LINKS.competitions} element={<Competitions />} />
       <Route path={LINKS.teams} element={<TeamsPage />} />
       <Route path={LINKS.leaderboard} element={<LeaderboardPage />} />
+      <Route path={LINKS.notices} element={<NoticesPage />} />
     </Route>
   ),
   { 
