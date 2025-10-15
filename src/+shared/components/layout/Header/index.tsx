@@ -27,7 +27,7 @@ export function Header({ className }: HeaderProps) {
           {/* <div className="flex items-center space-x-2">
             <span className="text-2xl font-bold text-primary">JCTF</span>
           </div> */}
-          <AcdcLogo className="w-72" />
+          <AcdcLogo className='w-50' />
           <div className="flex items-center space-x-4">
             <Button 
               variant="secondary" 
@@ -55,7 +55,7 @@ export function Header({ className }: HeaderProps) {
             {/* <div className="flex items-center cursor-pointer" onClick={() => handleNavigation('/dashboard')}>
               <Logo />
             </div> */}
-            <AcdcLogo className="w-72" />
+            <AcdcLogo className='w-50' />
             <div className="flex items-center gap-10">
               <Button 
                 variant="text"
