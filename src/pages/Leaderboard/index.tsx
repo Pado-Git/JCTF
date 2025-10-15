@@ -58,7 +58,7 @@ export function LeaderboardPage() {
       <LeaderboardSection leaderboardData={leaderboardData} />
 
       {/* First Blood Section */}
-      <FirstBloodSection />
+      {/* <FirstBloodSection /> */}
     </div>
   );
 }
