@@ -7,6 +7,7 @@ import {
 } from '@/challenge/utils';
 import { fetcher } from '@/+shared/libs';
 import { useUserStore } from '@/+shared/stores';
+import { LINKS } from '@/+shared/constants';
 
 export function useChallenges() {
   const navigate = useNavigate();
@@ -77,7 +78,7 @@ export function useChallenges() {
   }, [challengesList]);
 
   const handleLeaderboardClick = () => {
-    navigate('leaderboard');
+    navigate(LINKS.leaderboard.replace(':competitionId', competitionId || ''));
   };
 
   const handleChallengeClick = (challenge: any) => {
