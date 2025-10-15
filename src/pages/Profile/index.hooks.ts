@@ -1,4 +1,7 @@
-import { useState } from 'react';
+import { useAuthStore, useUserStore } from '@/+shared';
+import { fetcher } from '@/+shared/libs';
+import { competitions } from '@/competition/data';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -167,10 +170,10 @@ export function useProfilePage() {
   // CategoryFilter를 위한 데이터 - 표시할 이름을 id로 사용
   const profileTabs = [
     { id: 'overview', name: 'Overview' },
-    { id: 'achievements', name: 'Achievements' },
+    // { id: 'achievements', name: 'Achievements' },
     { id: 'activity', name: 'Activity' },
-    { id: 'edit', name: 'Edit Profile' },
-    { id: 'invitations', name: 'Team Invitations' },
+    // { id: 'edit', name: 'Edit Profile' },
+    // { id: 'invitations', name: 'Team Invitations' },
   ];
 
   return {
@@ -181,7 +184,7 @@ export function useProfilePage() {
     isLoading,
     selectedTab,
     profileTabs,
-    
+
     // Actions
     setIsEditing,
     setSelectedTab,

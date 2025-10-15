@@ -28,9 +28,10 @@ export function Overview({ profile, onNavigate }: OverviewProps) {
   const skillLevel = 78; // Figma에서 78%로 표시
 
   return (
-    <div className="flex flex-col lg:flex-row gap-10">
+    // <div className="flex flex-col lg:flex-row gap-10">
+    <div>
       {/* Competition Statistics */}
-      <div className="flex-1 flex flex-col gap-10">
+      {/* <div className="flex-1 flex flex-col gap-10">
         <TitleWIcon 
           title="Competition Statistics"
           icon={<IcoChartIncreaseLined />}
@@ -45,14 +46,14 @@ export function Overview({ profile, onNavigate }: OverviewProps) {
             {
               label: 'Average Rank',
               value: profile.stats.averageRank
-            },
+          },
             {
               label: 'Success Rate',
               value: `${successRate}%`
             }
           ]}
         >
-          {/* Skill Level Progress */}
+          이거 주석 Skill Level Progress
           <div className="flex-1 flex flex-col justify-end gap-4">
             <div className="flex justify-between items-end">
               <div className="flex items-center gap-4">
@@ -64,7 +65,7 @@ export function Overview({ profile, onNavigate }: OverviewProps) {
             <Progress value={skillLevel} className="h-3" />
           </div>
         </StatsCard>
-      </div>
+      </div> */}
 
       {/* Current Team */}
       {profile.currentTeam && (
