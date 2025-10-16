@@ -23,7 +23,11 @@ export function useChallenges() {
 
   useEffect(() => {
     const fetchChallenges = async () => {
-      if (!competitionId) return;
+      if (!competitionId) {
+        setChallengesList([]);
+        setIsLoading(false);
+        return;
+      }
       
       try {
         setIsLoading(true);
@@ -55,7 +59,10 @@ export function useChallenges() {
 
   useEffect(() => {
     const fetchMyTeam = async () => {
-      if (!competitionId) return;
+      if (!competitionId) {
+        setMyTeam([]);
+        return;
+      }
       
       try {
         setIsLoading(true);
@@ -70,7 +77,7 @@ export function useChallenges() {
         });
 
         if (response.resultCode === 200 && response.result?.success) {
-          setMyTeam(response.result.data || []);
+          setMyTeam(response.result.data);
         } else {
           setError('Failed to fetch my team');
         }
@@ -83,7 +90,7 @@ export function useChallenges() {
     };
 
     fetchMyTeam();
-  }, []);
+  }, [competitionId]);
 
   const filteredChallenges = useMemo(() => {
     return challengesList

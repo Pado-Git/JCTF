@@ -31,8 +31,8 @@ export function ChallengesPage() {
     handleCloseModal,
   } = useChallenges();
 
-  // 로딩 상태
-  if (isLoading) {
+  // 로딩 상태 - challengesList가 비어있고 로딩 중일 때만 전체 로딩 표시
+  if (isLoading && challengesList.length === 0) {
     return (
       <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
         <div className="text-center py-12">
@@ -79,7 +79,7 @@ export function ChallengesPage() {
         >
           <div className='flex flex-col gap-2'>
             <h1 className="text-primary-50 typo-heading-large">
-              {myTeam?.competition.name} <span className="text-primary">Challenges</span>
+              {myTeam?.competition?.name} <span className="text-primary">Challenges</span>
           </h1>
             <p className="typo-body-small text-primary-300">
               Team
@@ -139,7 +139,7 @@ export function ChallengesPage() {
           data={challengesList}
           selected={selectedCategory}
           onSelect={setSelectedCategory}
-          getItemCategory={(challenge: any) => challenge.category.name}
+          getItemCategory={(challenge: any) => challenge.category?.name}
         />
 
         {/* Challenges Grid */}
