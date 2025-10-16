@@ -79,7 +79,7 @@ export function ChallengesPage() {
         >
           <div className='flex flex-col gap-2'>
             <h1 className="text-primary-50 typo-heading-large">
-              {myTeam.competition.name} <span className="text-primary">Challenges</span>
+              {myTeam?.competition.name} <span className="text-primary">Challenges</span>
           </h1>
             <p className="typo-body-small text-primary-300">
               Team
@@ -149,8 +149,8 @@ export function ChallengesPage() {
               key={challenge.id}
               challenge={challenge}
               onClick={() => handleChallengeClick(challenge)}
-              isLocked={challenge.tags.includes('locked')}
-              lockProgress={challenge.tags.includes('locked') ? '2/3' : undefined}
+              isLocked={challenge.tags?.includes('locked')}
+              lockProgress={challenge.tags?.includes('locked') ? '2/3' : undefined}
             />
           ))}
         </div>
