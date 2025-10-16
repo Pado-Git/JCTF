@@ -1,5 +1,6 @@
 import { IcoChatQuoteFilled } from '@/+shared/assets';
 import { MaxWidthContainer } from '@/+shared/components';
+import { getInitials } from '@/+shared/utils';
 // import { dashboardMocks } from '@/dashboard/data/mockData';
 
 export function ProfileHeader({ title, coloredTitle, description }: { title: string, coloredTitle: string, description: string }) {
@@ -15,7 +16,7 @@ export function ProfileHeader({ title, coloredTitle, description }: { title: str
         <div className="flex items-start gap-6">
           {/* Avatar */}
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-900 border border-indigo-500 flex items-center justify-center flex-shrink-0">
-            <span className="text-2xl font-bold text-indigo-50">CY</span>
+            <span className="text-2xl font-bold text-indigo-50">{getInitials(coloredTitle)}</span>
           </div>
           
           {/* Profile Details */}

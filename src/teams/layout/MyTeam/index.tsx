@@ -1,5 +1,6 @@
 import { Button } from '@/+shared/components/form/button';
 import { Textarea } from '@/+shared/components/form/textarea';
+import { getInitials } from '@/+shared/utils';
 import { useMyTeam } from './index.hooks';
 import { Divider } from '@/+shared/components';
 import { IcoEditFilled, IcoTeamLined, IcoCheckFilled, IcoCloseFilled } from '@/+shared/assets';
@@ -24,11 +25,11 @@ export function MyTeam({ team, className }: MyTeamProps) {
   return (
     <div className={`flex flex-col gap-12 ${className || ''}`}>
       <div className="flex items-start gap-6">
-        <div className="w-18 h-18 rounded-full gradient-2 flex items-center justify-center">
-          <span className="typo-heading-medium text-primary-50">
-            {team.name.slice(0, 2)}
-          </span>
-        </div>
+            <div className="w-18 h-18 rounded-full gradient-2 flex items-center justify-center">
+              <span className="typo-heading-medium text-primary-50">
+                {getInitials(team.name)}
+              </span>
+            </div>
         
         <div className="flex-1 flex flex-col gap-4">
           <div className="flex items-center justify-between">

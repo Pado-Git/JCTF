@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { getInitials } from '@/+shared/utils';
 
 export function useTeamMember() {
   const [members, setMembers] = useState<any[]>([]);
@@ -16,7 +17,7 @@ export function useTeamMember() {
   };
 
   const getMemberInitials = (nickname: string) => {
-    return nickname.slice(0, 2);
+    return getInitials(nickname);
   };
 
   return {
