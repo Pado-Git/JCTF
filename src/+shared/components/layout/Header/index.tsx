@@ -22,35 +22,36 @@ export function Header({ className }: HeaderProps) {
   const renderHeaderContent = () => {
     // 홈페이지 (인증되지 않은 상태)
     if (currentPath === '/' && !isAuthenticated) {
-      return (
-        <div className="flex items-center justify-between">
-          {/* <div className="flex items-center space-x-2">
-            <span className="text-2xl font-bold text-primary">JCTF</span>
-          </div> */}
-          <AcdcLogo className='w-50' />
-          <div className="flex items-center space-x-4">
-            <Button 
-              variant="secondary" 
-              onClick={() => handleNavigation('/login')}
-            >
-              <IcoLoginLined />
-              Login
-            </Button>
-            {/* <Button 
-              variant="primary"
-              onClick={() => handleNavigation('/register')}
-            >
-              Register
-            </Button> */}
-          </div>
-        </div>
-      );
+      return null;
+      // return (
+      //   <div className="flex items-center justify-between">
+      //     <div className="flex items-center space-x-2">
+      //       <span className="text-2xl font-bold text-primary">JCTF</span>
+      //     </div>
+      //     <AcdcLogo className='w-50' />
+      //     <div className="flex items-center space-x-4">
+      //       <Button 
+      //         variant="secondary" 
+      //         onClick={() => handleNavigation('/login')}
+      //       >
+      //         <IcoLoginLined />
+      //         Login
+      //       </Button>
+      //       <Button 
+      //         variant="primary"
+      //         onClick={() => handleNavigation('/register')}
+      //       >
+      //         Register
+      //       </Button>
+      //     </div>
+      //   </div>
+      // );
     }
 
     // 대시보드 페이지
     // if (currentPath === '/dashboard') {
       return (
-        <MaxWidthContainer className="flex items-center justify-between" innerProps={{ className: "flex items-center justify-between" }}>
+        <MaxWidthContainer className="flex items-center justify-between py-6" innerProps={{ className: "flex items-center justify-between" }}>
           <div className="w-full flex items-center justify-between">
             {/* <div className="flex items-center cursor-pointer" onClick={() => handleNavigation('/dashboard')}>
               <Logo />
@@ -139,7 +140,7 @@ export function Header({ className }: HeaderProps) {
     <>
     {currentPath !== '/login' && (
       <nav className={`bg-black/60 top-0 z-50 ${className || ''}`}>
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-6">
           {renderHeaderContent()}
         </div>
       </nav>

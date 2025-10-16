@@ -18,7 +18,7 @@ export function RootLayout({
   }, [location.pathname]);
   
   // 로그인/회원가입 페이지에서는 Footer 숨기기
-  const shouldShowFooter = !['/login', '/register'].includes(location.pathname);
+  const shouldShowFooter = !['/login', '/register', '/'].includes(location.pathname);
 
   return (
     <div className={`min-h-screen bg-background ${className || ''}`}>
