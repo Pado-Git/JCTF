@@ -1,5 +1,6 @@
 import { Button, Card, MaxWidthContainer, Divider } from '@/+shared/components';
 import { IcoChart } from '@/+shared/assets/icons';
+import { getInitials } from '@/+shared/utils';
 import { TeamEntry, formatLastSolvedTime, getCardHeight, getGapSize, getIconSize } from '@/leaderboard/utils';
 import { useLeaderboardSection } from './index.hooks';
 
@@ -7,7 +8,7 @@ export interface LeaderboardSectionProps {
   leaderboardData: TeamEntry[];
 }
 
-export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps) {
+export function LeaderboardSection({ leaderboardData, myGroupName }: LeaderboardSectionProps) {
   const { 
     top3Teams, 
     otherTeams, 
@@ -21,7 +22,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
       <MaxWidthContainer>
         <div className="flex items-center gap-4 mb-14">
           <IcoChart className="w-6 h-6 text-primary" />
-          <h2 className="typo-heading-medium text-primary-200">Leaderboard</h2>
+          <h2 className="typo-heading-medium text-primary-200">Leaderboard - {myGroupName}</h2>
         </div>
 
         {/* Top 3 Teams */}
@@ -39,8 +40,8 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
               </div>
 
               {/* 팀 로고 */}
-              <div className={`${getIconSize(team.rank)} bg-primary rounded-radius-rounded mx-auto`}>
-                {/* <img src={team.team?.logo} alt={team.team?.name} className="w-full h-full object-cover rounded-radius-rounded" /> */}
+              <div className={`${getIconSize(team.rank)} gradient-2 border boder-primary-400 rounded-radius-rounded mx-auto flex items-center justify-center typo-heading-medium text-primary-50`}>
+                {getInitials(team.name)}
               </div>
 
               <div className="flex flex-col gap-2 items-center flex-1">
@@ -49,7 +50,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
                 <span className="bg-primary-900 text-primary-200 typo-body-small-bold rounded-radius-sm px-4 py-1">
                   {team.solvedChallenges} challenges
                 </span>
-                <p className="typo-body-xsmall text-neutral-200">Last solved: {formatLastSolvedTime(team.lastSolveAt)}</p>
+                <p className="typo-body-xsmall text-neutral-200">Last solved: {formatLastSolvedTime(team?.lastSolveAt || '')}</p>
               </div>
 
               {/* Team Members Section - 맨 아래 고정 */}
@@ -138,7 +139,7 @@ export function LeaderboardSection({ leaderboardData }: LeaderboardSectionProps)
                     <div className="flex items-center gap-2 typo-body-xsmall text-primary-300">
                       <span>{team.timeline.length} challenges</span>
                       <div className="w-1 h-1 bg-primary-500 rounded-full"></div>
-                      <span>Last solved: {formatLastSolvedTime(team.lastSolveAt)}</span>
+                      <span>Last solved: {formatLastSolvedTime(team.lastSolveAt || '')}</span>
                     </div>
                   </div>
                 </div>

@@ -55,7 +55,7 @@ export function LeaderboardPage() {
       />
 
       {/* Leaderboard Section - Top 3 + Other Teams */}
-      <LeaderboardSection leaderboardData={leaderboardData} />
+      <LeaderboardSection myGroupName={myTeam?.group?.name} leaderboardData={leaderboardData} />
 
       {/* First Blood Section */}
       {/* <FirstBloodSection /> */}
