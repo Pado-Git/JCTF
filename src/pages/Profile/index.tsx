@@ -62,8 +62,6 @@ export function ProfilePage() {
     }
   };
 
-  console.log(user);
-
   return (
     <>
       <ProfileHeader
@@ -72,7 +70,7 @@ export function ProfilePage() {
         description={myTeam?.description}
       />
 
-      <MaxWidthContainer innerProps={{ className: 'flex flex-col gap-16 mt-14' }}>
+      <MaxWidthContainer innerProps={{ className: 'flex flex-col gap-16 my-14' }}>
         {/* CategoryFilter for tabs */}
         <CategoryFilter
           categories={profileTabs.map((tab) => tab.name)}
