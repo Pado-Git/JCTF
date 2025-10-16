@@ -38,12 +38,14 @@ export function HeroSection() {
           textShadow: '0px 0px 24px rgba(30, 27, 75, 1)',
           lineHeight: '1.3em'
         }}>
-          Capture The Flag!
+          {/* Capture The Flag! */}
+          2025 ACDC
         </h2>
         <p className="text-[24px] font-bold text-primary-50 mb-8 max-w-2xl mx-auto" style={{
           lineHeight: '1.5em'
         }}>
-          Test Your Hacking Skills<br />in the Ultimate Cybersecurity Challenge
+          {/* Test Your Hacking Skills<br />in the Ultimate Cybersecurity Challenge */}
+          AI Cyber Defense Contest
         </p>
       </div>
       
