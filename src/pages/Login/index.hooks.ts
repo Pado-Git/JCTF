@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/+shared/stores/useAuthStore';
 import { fetcher } from '@/+shared/libs/fetch';
-import { User, useUserStore } from '@/auth/apis/auth';
+import { useUserStore } from '@/+shared/stores/useUserStore';
 import { LINKS } from '@/+shared';
 
 // API 응답 타입
@@ -51,14 +51,13 @@ export function useLogin() {
 
         // 사용자 정보와 competitions 가져오기
         try {
-          const userData = await fetcher<User>({
+          const userData = await fetcher<any>({
             url: '/auth/me',
             method: 'get',
           });
 
           if (userData.resultCode === 200 && userData.result) {
-            const user = userData.result;
-            setUser(user);
+            setUser(userData.result);
           }
 
           // competitions 가져와서 첫 번째 competitionId 사용
