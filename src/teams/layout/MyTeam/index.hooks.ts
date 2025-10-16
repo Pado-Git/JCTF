@@ -17,24 +17,6 @@ export function useMyTeam(team?: any) {
   const [isLoading, setIsLoading] = useState(false);
 
   const currentTeam = team || myTeam;
-  
-  // Profile Overview와 동일한 로직 사용
-  const isTeamLeader = (() => {
-    const userEmail = userData?.email;
-    
-    if (!userEmail || !currentTeam?.members) {
-      return false;
-    }
-    
-    const matchingMember = currentTeam.members.find((member: any) => {
-      return member.participant?.user?.email === userEmail;
-    });
-    
-    const isLeader = matchingMember?.role === 'LEADER';
-    
-    return isLeader;
-  })();
-
 
   // 통계 데이터를 훅에서 생성
   // const teamStats: StatItem[] = useMemo(() => {
@@ -107,6 +89,25 @@ export function useMyTeam(team?: any) {
       setIsLoading(false);
     }
   };
+
+  // Profile Overview와 동일한 로직 사용
+  const isTeamLeader = (() => {
+    const userEmail = userData?.email;
+    
+    if (!userEmail || !currentTeam?.members) {
+      return false;
+    }
+    
+    const matchingMember = currentTeam.members.find((member: any) => {
+      return member.participant?.user?.email === userEmail;
+    });
+    
+    const isLeader = matchingMember?.role === 'LEADER';
+    
+    return isLeader;
+  })();
+
+  console.log(isTeamLeader);
 
   const handleCancelEdit = () => {
     setIsEditing(false);
