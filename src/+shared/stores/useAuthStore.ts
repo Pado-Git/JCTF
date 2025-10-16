@@ -29,6 +29,7 @@ export const useAuthStore = create<AuthState>()(
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('competitionId');
         set({accessToken: null, isLoggedIn: false, competitionId: null});
+        localStorage.removeItem('user-storage');
       },
     }),
     {
