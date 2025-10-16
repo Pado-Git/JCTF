@@ -16,6 +16,7 @@ export function ProfilePage() {
     isEditing,
     profile,
     editedProfile,
+    isLoading,
     selectedTab,
     profileTabs,
     myTeam,
@@ -28,7 +29,7 @@ export function ProfilePage() {
   const renderContent = () => {
     switch (selectedTab) {
       case 'Overview':
-        return <Overview myTeam={myTeam} onNavigate={navigate} />;
+        return <Overview myTeam={myTeam} isLoading={isLoading} onNavigate={navigate} />;
       case 'Edit Profile':
         return (
           <div className="flex flex-col gap-20">
@@ -57,9 +58,11 @@ export function ProfilePage() {
           />
         );
       default:
-        return <Overview profile={profile} onNavigate={navigate} />;
+        return <Overview myTeam={myTeam} isLoading={isLoading} onNavigate={navigate} />;
     }
   };
+
+  console.log(user);
 
   return (
     <>

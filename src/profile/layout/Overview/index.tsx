@@ -5,26 +5,12 @@ import { LINKS } from '@/+shared/constants';
 import { useUserStore } from '@/+shared';
 
 interface OverviewProps {
-  profile: {
-    stats: {
-      totalCompetitions: number;
-      totalSolved: number;
-      totalPoints: number;
-      averageRank: number;
-      firstBloods: number;
-      bestRank: number;
-    };
-    currentTeam?: {
-      id: string;
-      name: string;
-      role: 'leader' | 'member';
-      members: number;
-    };
-  };
+  myTeam?: any;
+  isLoading?: boolean;
   onNavigate?: (path: string) => void;
 }
 
-export function Overview({ myTeam, onNavigate }: OverviewProps) {
+export function Overview({ myTeam, isLoading, onNavigate }: OverviewProps) {
   // const successRate = Math.round((profile.stats.totalSolved / (profile.stats.totalCompetitions * 20)) * 100);
   const skillLevel = 78; // Figma에서 78%로 표시
 
@@ -86,10 +72,16 @@ export function Overview({ myTeam, onNavigate }: OverviewProps) {
               {
                 label: 'Your Role',
                 value: (() => {
+                  // 로딩 중일 때
+                  if (isLoading) {
+                    return 'Loading...';
+                  }
+                  
                   const userEmail = user?.email;
                   
-                  if (!userEmail || !myTeam.members) {
-                    return 'Unknown';
+                  // 데이터가 아직 로드되지 않았을 때
+                  if (!userEmail || !myTeam?.members || myTeam.members.length === 0) {
+                    return 'Loading...';
                   }
                   
                   const matchingMember = myTeam.members.find((member: any) => {
@@ -100,7 +92,9 @@ export function Overview({ myTeam, onNavigate }: OverviewProps) {
                     const role = matchingMember.role;
                     return role.charAt(0) + role.slice(1).toLowerCase();
                   }
-                  return 'Unknown';
+                  
+                  // 매칭되는 멤버가 없을 때
+                  return 'Not Found';
                 })()
               },
               {

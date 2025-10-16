@@ -152,6 +152,12 @@ export function useProfilePage() {
   // 프로필 정보 가져오기
   useEffect(() => {
     const fetchProfile = async () => {
+      if (!competitionId) {
+        setMyTeam(null);
+        setIsLoading(false);
+        return;
+      }
+
       try {
         setIsLoading(true);
         setError(null);
@@ -178,7 +184,7 @@ export function useProfilePage() {
     };
 
     fetchProfile();
-  }, []);
+  }, [competitionId]);
 
   const handleSave = async () => {
     setIsLoading(true);
