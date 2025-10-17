@@ -33,7 +33,7 @@ export default defineConfig({
       port: 8081,
       protocol: 'ws'
     },
-    allowedHosts: ['all', '*.ngrok-free.app', "b1142e9db29b.ngrok-free.app", "unhydrated-sarah-heatlike.ngrok-free.dev"], // 모든 호스트 허용
+    allowedHosts: ['all', '*.ngrok-free.app', "unhydrated-sarah-heatlike.ngrok-free.dev", "acdc-ctf.ngrok.io", "acdc-demo.vercel.app"], // 모든 호스트 허용
   },
   preview: {
     host: '127.0.0.1',   // 미리보기도 같은 정책
