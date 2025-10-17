@@ -1,6 +1,6 @@
-import { Badge, IcoPinFilled, MaxWidthContainer } from "@/+shared";
+import { Badge, IcoPinFilled, MaxWidthContainer, Modal } from "@/+shared";
 import { IcoCalendarLined } from '@/+shared/assets';
-import { IcoIndividualLined, IcoCloseFilled, IcoExitFilled } from '@/+shared/assets/icons';
+import { IcoIndividualLined, IcoExitFilled } from '@/+shared/assets/icons';
 import { useNoticesPage } from "./index.hooks";
 
 export function NoticesPage() {
@@ -74,17 +74,27 @@ export function NoticesPage() {
         </section>
       </MaxWidthContainer>
 
+
       {/* 공지사항 상세 모달 */}
-      {isModalOpen && selectedNotice && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-neutral-800 border-2 border-neutral-500 rounded-radius-md max-w-2xl w-full max-h-[80vh] overflow-hidden p-10">
+      <Modal
+        show={isModalOpen}
+        onClose={closeModal}
+        size="full"
+        className="p-4"
+        innerClassName="max-h-[90vh] overflow-hidden flex flex-col"
+        showHeader={false}
+      >
+        {selectedNotice && (
+          <>
             {/* 모달 헤더 */}
             <div className="flex items-start justify-between">
               <div className="flex flex-col gap-4">
+                {selectedNotice.category && (
+                  <Badge variant="tag">
+                    {selectedNotice.category}
+                  </Badge>
+                )}
                 <div className="flex items-center gap-3">
-                  {selectedNotice.isPinned && (
-                    <IcoPinFilled className="w-5 h-5 text-primary" />
-                  )}
                   <h2 className="typo-heading-medium break-all">{selectedNotice.title}</h2>
                 </div>
                 <div className="flex flex-col gap-2 mb-4 text-neutral-100 typo-body-small">
@@ -98,26 +108,26 @@ export function NoticesPage() {
                   </div>
                 </div>
               </div>
-
               <button
                 onClick={closeModal}
-                className="p-2 hover:bg-neutral-800 rounded-radius-sm transition-colors"
+                className="flex-shrink-0 text-neutral-100 hover:text-neutral-400 transition-colors"
+                aria-label="Close modal"
               >
-                <IcoExitFilled className="w-5 h-5 text-neutral-100" />
+                <IcoExitFilled className="w-6 h-6" />
               </button>
             </div>
 
             {/* 모달 내용 */}
-            <div className="overflow-y-auto max-h-[60vh] bg-neutral-700 rounded-radius-md p-6">
+            <div className="flex-1 min-h-0 max-h-[50vh] overflow-y-auto bg-neutral-700 rounded-radius-md p-6">
               <div className="prose prose-invert max-w-none">
                 <p className="typo-body-medium whitespace-pre-wrap leading-relaxed">
                   {selectedNotice.content}
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </>
+        )}
+      </Modal>
     </>
   )
 }
