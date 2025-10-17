@@ -137,7 +137,8 @@ export function LeaderboardSection({ leaderboardData, myGroupName }: Leaderboard
                   <div>
                     <h3 className="typo-heading-small">{team.name}</h3>
                     <div className="flex items-center gap-2 typo-body-xsmall text-primary-300">
-                      <span>{team.timeline.length} challenges</span>
+                      {/* 수정 한 것 <span>{team.timeline?.length || "-"} challenges</span> */}
+                      <span>{team.solvedChallenges || "-"} challenges</span>
                       <div className="w-1 h-1 bg-primary-500 rounded-full"></div>
                       <span>Last solved: {formatLastSolvedTime(team.lastSolveAt || '')}</span>
                     </div>
