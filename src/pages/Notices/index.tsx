@@ -1,4 +1,4 @@
-import { IcoPinFilled, MaxWidthContainer } from "@/+shared";
+import { Badge, IcoPinFilled, MaxWidthContainer } from "@/+shared";
 import { IcoCalendarLined } from '@/+shared/assets';
 import { IcoIndividualLined, IcoCloseFilled, IcoExitFilled } from '@/+shared/assets/icons';
 import { useNoticesPage } from "./index.hooks";
@@ -49,6 +49,11 @@ export function NoticesPage() {
                 <div className="flex items-center gap-4">
                   {notice.isPinned && (
                     <IcoPinFilled className="w-5 h-5 text-primary" />
+                  )}
+                  {notice.category && (
+                    <Badge variant="tag">
+                      {notice.category}
+                    </Badge>
                   )}
                   <div className="flex items-center gap-1 text-neutral-100 typo-body-xsmall">
                     <IcoCalendarLined className="w-4 h-4" />
