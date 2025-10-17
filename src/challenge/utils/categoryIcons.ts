@@ -7,7 +7,7 @@ export const getCategoryIcon = (categoryName: string) => {
     'Web': IcoGlobalLined,
     'Crypto': IcoCryptoLined,
     'Pwn': IcoShield,
-    'Reverse': IcoCodeLined,
+    'Reversing': IcoCodeLined,
     'Forensics': IcoSearchLined,
     'Misc': Puzzle,
     // 기본값 (알 수 없는 카테고리)
