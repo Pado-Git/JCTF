@@ -107,7 +107,7 @@ export function Modal({
           {/* Content */}
           <div className={cn(
             "flex flex-col gap-8",
-            !showHeader && "pt-10"
+            !showHeader && ""
           )}>
             {finalChildren}
           </div>
