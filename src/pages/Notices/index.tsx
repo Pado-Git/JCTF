@@ -94,7 +94,7 @@ export function NoticesPage() {
             <div className="flex items-start justify-between">
               <div className="flex flex-col gap-4">
                 {selectedNotice.category && (
-                  <Badge variant="tag">
+                  <Badge variant="blue">
                     {selectedNotice.category}
                   </Badge>
                 )}
