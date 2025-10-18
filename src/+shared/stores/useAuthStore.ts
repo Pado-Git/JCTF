@@ -16,9 +16,10 @@ export const useAuthStore = create<AuthState>()(
       isLoggedIn: false,
       accessToken: null,
       competitionId: null,
+      isAuthenticated: false,
       login: (token: string) => {
         localStorage.setItem('accessToken', token);
-        set({accessToken: token, isLoggedIn: true});
+        set({accessToken: token, isLoggedIn: true, isAuthenticated: true});
       },
       setCompetitionId: (id: string) => {
         localStorage.setItem('competitionId', id);
@@ -28,7 +29,7 @@ export const useAuthStore = create<AuthState>()(
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         localStorage.removeItem('competitionId');
-        set({accessToken: null, isLoggedIn: false, competitionId: null});
+        set({accessToken: null, isLoggedIn: false, competitionId: null, isAuthenticated: false});
         localStorage.removeItem('user-storage');
         localStorage.removeItem('auth-storage');
       },
