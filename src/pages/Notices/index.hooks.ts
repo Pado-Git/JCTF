@@ -22,7 +22,7 @@ export function useNoticesPage() {
         });
         
         if (response.resultCode === 200) {
-          const noticesData = response.result?.data || [];
+          const noticesData = (response.result as any)?.data || [];
           // isPinned 정렬
           const sortedNotices = noticesData.sort((a: any, b: any) => {
             if (a.isPinned && !b.isPinned) return -1;
