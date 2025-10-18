@@ -61,7 +61,7 @@ export function NoticesPage() {
                   </div>
                   <div className="ml-auto">
                     {notice.category && (
-                      <Badge variant="medium">
+                      <Badge variant="blue">
                         {notice.category}
                       </Badge>
                     )}
