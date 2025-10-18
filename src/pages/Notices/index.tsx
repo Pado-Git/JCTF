@@ -50,11 +50,7 @@ export function NoticesPage() {
                   {notice.isPinned && (
                     <IcoPinFilled className="w-5 h-5 text-primary" />
                   )}
-                  {notice.category && (
-                    <Badge variant="tag">
-                      {notice.category}
-                    </Badge>
-                  )}
+                  
                   <div className="flex items-center gap-1 text-neutral-100 typo-body-xsmall">
                     <IcoCalendarLined className="w-4 h-4" />
                     <span>{new Date(notice.createdAt).toLocaleDateString()}</span>
@@ -63,6 +59,13 @@ export function NoticesPage() {
                     <IcoIndividualLined className="w-4 h-4" />
                     <span>{notice.admin.name}</span>
                   </div>
+                  <div className="ml-auto">
+                    {notice.category && (
+                      <Badge variant="medium">
+                        {notice.category}
+                      </Badge>
+                    )}
+                  </div>
                 </div>
                 <div className="flex flex-col gap-2">
                   <h2 className="typo-heading-small">{notice.title}</h2>
@@ -70,6 +73,7 @@ export function NoticesPage() {
                 </div>
               </div>
             ))
+            
           )}
         </section>
       </MaxWidthContainer>
