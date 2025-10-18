@@ -61,9 +61,15 @@ export function NoticesPage() {
                   </div>
                   <div className="ml-auto">
                     {notice.category && (
-                      <Badge variant="blue">
-                        {notice.category}
-                      </Badge>
+                      notice.category === 'OPERATE' ? (
+                        <Badge variant="blue">
+                          {notice.category}
+                        </Badge>
+                      ) : (
+                        <Badge variant="tag" className="typo-body-xsmall-bold">
+                          {notice.category}
+                        </Badge>
+                      )
                     )}
                   </div>
                 </div>
@@ -93,11 +99,17 @@ export function NoticesPage() {
             {/* 모달 헤더 */}
             <div className="flex items-start justify-between">
               <div className="flex flex-col gap-4">
-                {selectedNotice.category && (
-                  <Badge variant="blue">
-                    {selectedNotice.category}
-                  </Badge>
-                )}
+              {selectedNotice.category && (
+                      selectedNotice.category === 'OPERATE' ? (
+                        <Badge variant="blue">
+                          {selectedNotice.category}
+                        </Badge>
+                      ) : (
+                        <Badge variant="tag" className="typo-body-xsmall-bold">
+                          {selectedNotice.category}
+                        </Badge>
+                      )
+                    )}
                 <div className="flex items-center gap-3">
                   <h2 className="typo-heading-medium break-all">{selectedNotice.title}</h2>
                 </div>

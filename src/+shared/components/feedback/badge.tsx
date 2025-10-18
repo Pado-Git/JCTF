@@ -74,7 +74,7 @@ const BADGE_STYLES = {
   // Etc
   blue: {
     backgroundColor: '#1E3A8A',
-    color: '#BFDBFE'
+    color: '#93C5FD'
   }
 } as const;
 
