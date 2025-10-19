@@ -3,6 +3,7 @@ import {persist} from 'zustand/middleware';
 
 export type AuthState = {
   isLoggedIn: boolean;
+  isAuthenticated: boolean;
   accessToken: string | null;
   competitionId: string | null;
   login: (token: string) => void;
