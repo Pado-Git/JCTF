@@ -7,6 +7,7 @@ import {useAuthStore} from '@/+shared/stores';
 
 import {apiURL} from './constants';
 import {DataResponse, isDataResponse} from '@/+shared/types';
+import { LINKS } from '@/+shared/constants';
 
 // [beforeRequest] =============================================================
 export function createAuthorizationHeaderHook(request: KyRequest) {
@@ -47,9 +48,8 @@ export async function createAfterResponseHook(
   response: KyResponse,
 ) {
   function handleLogout() {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    useAuthStore.setState({accessToken: null, isLoggedIn: false});
+    useAuthStore.getState().logout();
+    window.location.href = LINKS.login;
   }
   async function handleUnauthorized(request: KyRequest, options: KyOptions, response: KyResponse) {
     const refreshToken = localStorage.getItem('refreshToken');
@@ -88,5 +88,6 @@ export async function createAfterResponseHook(
   if (response.status === HttpStatusCodes.UNAUTHORIZED) {
     return handleUnauthorized(request, options, response);
   }
+  
   return wrapDataResponse(response);
 }
