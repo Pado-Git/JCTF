@@ -21,6 +21,7 @@ export function ProfilePage() {
     profileTabs,
     myTeam,
     user,
+    activity,
     setSelectedTab,
     handleSave,
     navigate
@@ -43,7 +44,7 @@ export function ProfilePage() {
       case 'Achievements':
         return <Achievements achievements={profile.achievements} />;
       case 'Activity':
-        return <RecentActivity activities={profile.recentActivity} />;
+        return <RecentActivity activities={activity} />;
       case 'Team Invitations':
         return (
           <TeamInvitation 

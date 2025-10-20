@@ -1,8 +1,7 @@
-import { useAuthStore, useUserStore } from '@/+shared';
+import { showToast, useAuthStore, useUserStore } from '@/+shared';
 import { fetcher } from '@/+shared/libs';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
 
 export interface UserProfile {
   email: string;
@@ -47,113 +46,25 @@ export interface UserProfile {
   };
 }
 
-const mockProfile: UserProfile = {
-  email: 'user@example.com',
-  nickname: 'CyberNinja',
-  firstName: 'Alex',
-  lastName: 'Smith',
-  bio: 'Passionate cybersecurity enthusiast with a focus on web exploitation and reverse engineering. Love solving complex puzzles and learning new attack vectors.',
-  country: 'South Korea',
-  university: 'KAIST',
-  joinDate: '2023-03-15',
-  stats: {
-    totalCompetitions: 15,
-    totalSolved: 127,
-    totalPoints: 18650,
-    averageRank: 8.3,
-    firstBloods: 12,
-    bestRank: 2
-  },
-  achievements: [
-    {
-      id: 'ach-001',
-      title: 'First Blood Hunter',
-      description: 'Achieved 10+ first bloods',
-      icon: '🏆',
-      color: 'text-first-blood',
-      earnedDate: '2024-01-10'
-    },
-    {
-      id: 'ach-002',
-      title: 'Web Master',
-      description: 'Solved 50+ web challenges',
-      icon: '🕸️',
-      color: 'text-accent',
-      earnedDate: '2023-12-20'
-    },
-    {
-      id: 'ach-003',
-      title: 'Top Performer',
-      description: 'Finished in top 5 in a major CTF',
-      icon: '⭐',
-      color: 'text-warning',
-      earnedDate: '2023-11-15'
-    },
-    {
-      id: 'ach-004',
-      title: 'Team Player',
-      description: 'Participated in 10+ team competitions',
-      icon: '👥',
-      color: 'text-primary',
-      earnedDate: '2023-10-30'
-    }
-  ],
-  recentActivity: [
-    {
-      id: 'act-001',
-      type: 'solve',
-      challengeName: 'SQL Injection Master',
-      competitionName: 'Winter CTF 2024',
-      timestamp: "2025-09-23T09:21:14+00:00",
-      points: 450,
-      isFirstBlood: true
-    },
-    {
-      id: 'act-002',
-      type: 'rank_up',
-      competitionName: 'Winter CTF 2024',
-      timestamp: "2025-09-23T07:32:05+00:00"
-    },
-    {
-      id: 'act-003',
-      type: 'solve',
-      challengeName: 'Buffer Overflow Basics',
-      competitionName: 'Winter CTF 2024',
-      timestamp: "2025-09-23T09:21:14+00:00",
-      points: 200
-    },
-    {
-      id: 'act-004',
-      type: 'join',
-      competitionName: 'Advanced Pwning Tournament',
-      timestamp: "2025-09-23T09:21:14+00:00"
-    }
-  ],
-  currentTeam: {
-    id: 'team-001',
-    name: 'CyberNinjas',
-    role: 'leader',
-    members: 4
-  }
-};
-
 export function useProfilePage() {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState<UserProfile>(mockProfile);
-  const [editedProfile, setEditedProfile] = useState<UserProfile>(mockProfile);
+  const [profile, setProfile] = useState<UserProfile>({} as UserProfile);
+  const [editedProfile, setEditedProfile] = useState<UserProfile>({} as UserProfile);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTab, setSelectedTab] = useState('Overview');
   const [error, setError] = useState<string | null>(null);
   const [myTeam, setMyTeam] = useState<any>(null);
+  const [activity, setActivity] = useState<any[]>([]);
 
   const competitionId = useAuthStore(state => state.competitionId);
 
   // 프로필 정보 가져오기
   useEffect(() => {
-    const fetchProfile = async () => {
+    const fetchData = async () => {
       if (!competitionId) {
         setMyTeam(null);
+        setActivity([]);
         setIsLoading(false);
         return;
       }
@@ -162,28 +73,44 @@ export function useProfilePage() {
         setIsLoading(true);
         setError(null);
 
-        const response = await fetcher<any>({
-          url: `/participant/teams/${competitionId}/my-team`,
-          method: 'get',
-          query: {
-            competitionId: competitionId
-          }
-        });
+        // 두 API를 동시에 호출
+        const [profileResponse, activityResponse] = await Promise.all([
+          fetcher<any>({
+            url: `/participant/teams/${competitionId}/my-team`,
+            method: 'get',
+            query: { competitionId: competitionId }
+          }),
+          fetcher<any>({
+            url: '/participant/submissions/my',
+            method: 'get',
+            query: { competitionId: competitionId }
+          })
+        ]);
 
-        if (response.resultCode === 200 && response.result?.data) {
-          setMyTeam(response.result.data);
+        // 프로필 데이터 처리
+        if (profileResponse.resultCode === 200 && profileResponse.result?.data) {
+          setMyTeam(profileResponse.result.data);
         } else {
-          setError('Failed to fetch my team');
+          console.warn('Failed to fetch my team:', profileResponse);
         }
+
+        // 액티비티 데이터 처리
+        if (activityResponse.resultCode === 200 && activityResponse.result?.data) {
+          setActivity(activityResponse.result.data);
+        } else {
+          console.warn('Failed to fetch activity:', activityResponse);
+          setActivity([]); // 빈 배열로 초기화
+        }
+
       } catch (err) {
-        setError('Failed to fetch my team');
+        setError('Failed to fetch profile data');
         console.error('API Error:', err);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchProfile();
+    fetchData();
   }, [competitionId]);
 
   const handleSave = async () => {
@@ -195,7 +122,7 @@ export function useProfilePage() {
     setProfile(editedProfile);
     setIsEditing(false);
     setIsLoading(false);
-    toast.success('Profile updated successfully!');
+    showToast('Profile updated successfully!', 'active');
   };
 
   const handleCancel = () => {
@@ -228,6 +155,7 @@ export function useProfilePage() {
     profileTabs,
     myTeam,
     user,
+    activity,
 
     // Actions
     setIsEditing,
