@@ -23,7 +23,7 @@ export function HeaderSection({ myTeam, myRank }: HeaderSectionProps) {
         </div>
         <div className='flex items-center justify-between'>
           <div className='flex gap-4 items-center'>
-            <span className='bg-primary rounded-radius-sm typo-heading-medium text-primary-100 w-10 h-10 flex items-center justify-center'>
+            <span className='bg-primary rounded-radius-sm typo-heading-medium text-primary-100 min-w-10 w-fit px-2 h-10 flex items-center justify-center'>
               {myRank?.rank || '?'}
             </span>
             <div>
