@@ -156,6 +156,7 @@ export function useProfilePage() {
     myTeam,
     user,
     activity,
+    error,
 
     // Actions
     setIsEditing,

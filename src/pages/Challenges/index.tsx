@@ -1,11 +1,9 @@
 import { Button, MaxWidthContainer, SearchInput, Progress } from '@/+shared/components';
-import { 
-  Target,
-} from 'lucide-react';
+
 import { bannerBg } from '@/challenge/assets';
 import { ChallengeModal, ChallengeCard } from '@/challenge/components';
 import { CategoryFilter } from '@/+shared/components';
-import { IcoCheckboxCircleLined, IcoStarLined, IcoTrophyFilled, IcoChart } from '@/+shared/assets';
+import { IcoCheckboxCircleLined, IcoStarLined, IcoTrophyFilled, IcoChart, IcoChallengeFilled } from '@/+shared/assets';
 import { useChallenges } from './index.hooks';
 
 export function ChallengesPage() {
@@ -44,14 +42,38 @@ export function ChallengesPage() {
   }
 
   // 에러 상태
-  if (error) {
+  if (error && challengesList.length === 0) {
     return (
       <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
-        <div className="text-center py-12">
-          <h3 className="text-lg font-medium text-destructive mb-2">Failed to load challenges</h3>
-          <p className="text-muted-foreground">
-            Please try refreshing the page or contact support if the problem persists.
-          </p>
+        <div className="flex flex-col items-center justify-center py-20 gap-4">
+          <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center">
+            <IcoChallengeFilled className="w-8 h-8 text-neutral-500" />
+          </div>
+          <div className="text-center">
+            <h3 className="typo-heading-small text-neutral-300 mb-2">Challenges Unavailable</h3>
+            <p className="typo-body-medium text-neutral-500">
+              Unable to load challenges. Please try again later.
+            </p>
+          </div>
+        </div>
+      </MaxWidthContainer>
+    );
+  }
+
+  // 데이터가 없을 때
+  if (!isLoading && !error && challengesList.length === 0) {
+    return (
+      <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
+        <div className="flex flex-col items-center justify-center py-20 gap-4">
+          <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center">
+            <IcoChallengeFilled className="w-8 h-8 text-neutral-500" />
+          </div>
+          <div className="text-center">
+            <h3 className="typo-heading-small text-neutral-300 mb-2">No Challenges Available</h3>
+            <p className="typo-body-medium text-neutral-500">
+              There are no challenges available at the moment.
+            </p>
+          </div>
         </div>
       </MaxWidthContainer>
     );
@@ -151,17 +173,22 @@ export function ChallengesPage() {
               onClick={() => handleChallengeClick(challenge)}
               isLocked={challenge.tags?.includes('locked')}
               lockProgress={challenge.tags?.includes('locked') ? '2/3' : undefined}
+              allCategories={categories}
             />
           ))}
         </div>
 
         {filteredChallenges.length === 0 && (
-          <div className="text-center py-12">
-            <Target className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-foreground mb-2">No challenges found</h3>
-            <p className="text-muted-foreground">
-              Try adjusting your search or filter criteria
-            </p>
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center">
+              <IcoChallengeFilled className="w-8 h-8 text-neutral-500" />
+            </div>
+            <div className="text-center">
+              <h3 className="typo-heading-small text-neutral-300 mb-2">No Challenges Found</h3>
+              <p className="typo-body-medium text-neutral-500">
+                Try adjusting your search or filter criteria
+              </p>
+            </div>
           </div>
         )}
       </MaxWidthContainer>
@@ -172,6 +199,7 @@ export function ChallengesPage() {
           challenge={selectedChallenge}
           isOpen={!!selectedChallenge}
           onClose={handleCloseModal}
+          allCategories={categories}
         />
       )}
     </>
