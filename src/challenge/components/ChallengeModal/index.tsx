@@ -168,7 +168,7 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
                       onClick={() => handleFileDownload(challenge.fileUrl)}
                     >
                       <IcoDownloadLined className='size-4' />
-                      <span className='truncate'>{challenge.fileUrl}</span>
+                      <span className='truncate'>DOWNLOAD</span>
                     </Button>
                   )}
                 </div>
@@ -248,7 +248,7 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
                   <Input
                     id="flag"
                     type="text"
-                    placeholder="JCTF {...}"
+                    placeholder="ACDC{...}"
                     value={flag}
                     onChange={(e) => setFlag(e.target.value)}
                     disabled={timeLeft > 0 || isSubmitting}
