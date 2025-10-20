@@ -7,9 +7,10 @@ interface ChallengeModalProps {
   challenge: any;
   isOpen: boolean;
   onClose: () => void;
+  allCategories?: string[]; // 카테고리 목록
 }
 
-export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }: ChallengeModalProps) {
+export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose, allCategories = [] }: ChallengeModalProps) {
   const {
     flag,
     setFlag,
@@ -77,7 +78,7 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
               <div className="flex gap-4">
             <div className='w-10 h-10 rounded-radius-sm flex items-center justify-center bg-primary'>
               {(() => {
-                const IconComponent = getCategoryIcon(challenge.category.name);
+                const IconComponent = getCategoryIcon(challenge.category.name, allCategories);
                 return <IconComponent className="size-6 text-neutral-0" />;
               })()}
             </div>

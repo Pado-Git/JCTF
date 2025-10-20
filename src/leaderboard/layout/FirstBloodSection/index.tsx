@@ -38,7 +38,7 @@ export function FirstBloodSection() {
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-radius-sm bg-primary flex items-center justify-center">
                     {(() => {
-                      const IconComponent = getCategoryIcon(firstBlood.category);
+                      const IconComponent = getCategoryIcon(firstBlood.category, []);
                       return <IconComponent className="w-6 h-6" />;
                     })()}
                   </div>
