@@ -2,7 +2,7 @@ import {Slide, ToastContainerProps} from 'react-toastify';
 
 export const toastConfig: ToastContainerProps = {
   position: 'bottom-center',
-  autoClose: false,
+  autoClose: 3000,
   hideProgressBar: true,
   newestOnTop: true,
   closeOnClick: true,
