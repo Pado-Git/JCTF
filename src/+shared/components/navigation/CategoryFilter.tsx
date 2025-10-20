@@ -60,7 +60,7 @@ export function CategoryFilter<T>({
             {isCountExist &&
               <div
                 className={`
-                  w-6 h-6 rounded-radius-sm flex items-center justify-center typo-body-small
+                  min-w-6 w-fit h-6 px-1 rounded-radius-sm flex items-center justify-center typo-body-small
                   ${
                     isActive
                       ? 'bg-primary-800 border border-primary-500 text-primary-100'
