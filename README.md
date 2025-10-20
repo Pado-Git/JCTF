@@ -12,7 +12,7 @@ JCTF(Jeopardy-style CTF) 참가자를 위한 웹 플랫폼입니다. 사이버�
 
 1. **저장소 클론**
 ```bash
-git clone https://github.com/your-username/jctf-participant-dev.git
+git clone https://github.com/Pado-Git/JCTF.git
 cd jctf-participant-dev
 ```
 
