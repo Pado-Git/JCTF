@@ -244,8 +244,8 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose, a
                 {/* <p className="typo-body-xsmall text-neutral-100">Solved in 15m</p> */}
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex gap-4 items-end">
-                <div className='flex flex-col gap-2 w-full'>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4 items-end">
+                <div className='flex gap-2 w-full'>
                   <Input
                     id="flag"
                     type="text"
@@ -254,31 +254,30 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose, a
                     onChange={(e) => setFlag(e.target.value)}
                     disabled={timeLeft > 0 || isSubmitting}
                   />
-                  {timeLeft > 0 && (
-                    <p className="text-sm text-red-400 mt-1">
-                      Rate limited: {timeLeft}s remaining
-                    </p>
-                  )}
+                  <Button
+                    type="submit"
+                    disabled={!flag.trim() || timeLeft > 0 || isSubmitting}
+                    variant="primary"
+                    size='medium'
+                  >
+                    {isSubmitting ? (
+                      <div className="flex items-center">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Submitting...
+                      </div>
+                    ) : (
+                      <>
+                        Submit Flag
+                        <IcoSubmitFilled className='size-6' />
+                      </>
+                    )}
+                  </Button>
                 </div>
-                
-                <Button
-                  type="submit"
-                  disabled={!flag.trim() || timeLeft > 0 || isSubmitting}
-                  variant="primary"
-                  size='medium'
-                >
-                  {isSubmitting ? (
-                    <div className="flex items-center">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Submitting...
-                    </div>
-                  ) : (
-                    <>
-                      Submit Flag
-                      <IcoSubmitFilled className='size-6' />
-                    </>
-                  )}
-                </Button>
+                {timeLeft > 0 && (
+                  <p className="text-sm text-error mt-1 self-start">
+                    Rate limited: {timeLeft}s remaining
+                  </p>
+                )}
               </form>
             )}
           </div>
