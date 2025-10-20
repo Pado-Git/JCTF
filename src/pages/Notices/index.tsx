@@ -75,7 +75,7 @@ export function NoticesPage() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-2">
-                  <h2 className="typo-heading-small">{notice.title}</h2>
+                  <h2 className="typo-heading-small notice-title">{notice.title}</h2>
                   <span className="text-neutral-100 typo-body-small line-clamp-3">{notice.content}</span>
                 </div>
               </div>
@@ -137,7 +137,7 @@ export function NoticesPage() {
             {/* 모달 내용 */}
             <div className="flex-1 min-h-0 max-h-[50vh] overflow-y-auto bg-neutral-700 rounded-radius-md p-6">
               <div className="prose prose-invert max-w-none">
-                <p className="typo-body-medium whitespace-pre-wrap leading-relaxed">
+                <p className="typo-body-medium whitespace-pre-wrap leading-relaxed break-words overflow-wrap-anywhere">
                   {selectedNotice.content}
                 </p>
               </div>
