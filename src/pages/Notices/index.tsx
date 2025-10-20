@@ -40,7 +40,8 @@ export function NoticesPage() {
             </div>
           ) : (
             // 공지사항 목록
-            notices.map((notice, index) => (
+            <div className="flex flex-col gap-4 pt-10 pb-20">
+            {notices.map((notice, index) => (
               <div
                 key={index}
                 className="flex flex-col gap-4 p-8 bg-neutral-800 border hover:bg-neutral-700 border-neutral-500 rounded-radius-md cursor-pointer hover:bg-neutral-750 hover:border-neutral-400 transition-all duration-200"
@@ -78,8 +79,8 @@ export function NoticesPage() {
                   <span className="text-neutral-100 typo-body-small line-clamp-3">{notice.content}</span>
                 </div>
               </div>
-            ))
-            
+            ))}
+            </div>
           )}
         </section>
       </MaxWidthContainer>
