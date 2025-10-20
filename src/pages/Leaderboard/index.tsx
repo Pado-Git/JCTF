@@ -37,9 +37,9 @@ export function LeaderboardPage() {
             <IcoTrophyFilled className="w-8 h-8 text-neutral-500" />
           </div>
           <div className="text-center">
-            <h3 className="typo-heading-small text-neutral-300 mb-2">Leaderboard Not Available</h3>
+            <h3 className="typo-heading-small text-neutral-300 mb-2">Leaderboard Unavailable</h3>
             <p className="typo-body-medium text-neutral-500">
-              The leaderboard will be available during the competition period.
+              The leaderboard will be displayed once the competition progresses or when it is made public by the organizers.
             </p>
           </div>
         </div>
