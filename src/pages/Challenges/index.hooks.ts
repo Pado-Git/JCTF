@@ -107,7 +107,7 @@ export function useChallenges() {
 
   const solvedCount = getSolvedCount(filteredChallenges);
   const totalPoints = calculateScore(filteredChallenges);
-  const progressPercentage = getProgressPercentage(solvedCount, challengesList.length);
+  const progressPercentage = getProgressPercentage(solvedCount, filteredChallenges.length);
 
   const categories = useMemo(() => {
     const uniqueCategories = challengesList.map(challenge => challenge.category.name)
