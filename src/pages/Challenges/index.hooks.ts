@@ -102,7 +102,12 @@ export function useChallenges() {
                              challenge.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
         return matchesCategory && matchesSearch;
       })
-      .sort((a, b) => a.name.localeCompare(b.name)); // ABC 순서로 정렬
+      .sort((a, b) => {
+        if (a.order !== b.order) {
+          return a.order - b.order;
+        }
+        return a.name.localeCompare(b.name);
+      });
   }, [challengesList, selectedCategory, searchQuery]);
 
   const solvedCount = getSolvedCount(filteredChallenges);
