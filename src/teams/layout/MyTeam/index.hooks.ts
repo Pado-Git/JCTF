@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useAuthStore } from '@/+shared/stores/useAuthStore';
 import { showToast, useUserStore } from '@/+shared';
 import { fetcher } from '@/+shared/libs';
 
@@ -9,14 +8,14 @@ import { fetcher } from '@/+shared/libs';
 // }
 
 export function useMyTeam(team?: any) {
-  const { user } = useAuthStore();
-  const userData = useUserStore(state => state.user?.data);
   const [myTeam, setMyTeam] = useState<any | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editedDescription, setEditedDescription] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const currentTeam = team || myTeam;
+
+  const user = useUserStore(state => state.user?.data);
 
   // 통계 데이터를 훅에서 생성
   // const teamStats: StatItem[] = useMemo(() => {
@@ -92,23 +91,20 @@ export function useMyTeam(team?: any) {
 
   // Profile Overview와 동일한 로직 사용
   const isTeamLeader = (() => {
-    const userEmail = userData?.email;
+    const userId = user?.id;
     
-    if (!userEmail || !currentTeam?.members) {
+    if (!userId || !currentTeam?.members) {
       return false;
     }
     
     const matchingMember = currentTeam.members.find((member: any) => {
-      return member.participant?.user?.email === userEmail;
+      return member.participant?.id === userId;
     });
     
     const isLeader = matchingMember?.role === 'LEADER';
     
     return isLeader;
   })();
-
-  console.log(isTeamLeader);
-
   const handleCancelEdit = () => {
     setIsEditing(false);
     setEditedDescription('');

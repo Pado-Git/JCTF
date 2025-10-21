@@ -12,7 +12,7 @@ interface OverviewProps {
 
 export function Overview({ myTeam, isLoading, onNavigate }: OverviewProps) {
   // const successRate = Math.round((profile.stats.totalSolved / (profile.stats.totalCompetitions * 20)) * 100);
-  const skillLevel = 78; // Figma에서 78%로 표시
+  // const skillLevel = 78;
 
   const user = useUserStore(state => state.user?.data);
 
@@ -77,15 +77,15 @@ export function Overview({ myTeam, isLoading, onNavigate }: OverviewProps) {
                     return 'Loading...';
                   }
                   
-                  const userEmail = user?.email;
+                  const userId = user?.id;
                   
                   // 데이터가 아직 로드되지 않았을 때
-                  if (!userEmail || !myTeam?.members || myTeam.members.length === 0) {
+                  if (!userId || !myTeam?.members || myTeam.members.length === 0) {
                     return 'Loading...';
                   }
                   
                   const matchingMember = myTeam.members.find((member: any) => {
-                    return member.participant?.user?.email === userEmail;
+                    return member.participant?.id === userId;
                   });
                                     
                   if (matchingMember) {
