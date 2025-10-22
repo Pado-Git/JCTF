@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetcher } from '@/+shared/libs';
-import { useParams } from 'react-router-dom';
+// import { useParams } from 'react-router-dom';
 import showToast from '@/+shared/functions/showToast';
+import { useAuthStore } from '@/+shared';
+import { toast } from 'react-toastify';
 
 export function useChallengeModal(initialChallenge: any, onClose: () => void) {
   const [flag, setFlag] = useState('');
@@ -9,19 +11,38 @@ export function useChallengeModal(initialChallenge: any, onClose: () => void) {
   const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
   const [timeLeft, setTimeLeft] = useState(0);
   const [showHintModal, setShowHintModal] = useState(false);
-  const [userPoints, setUserPoints] = useState(1000); // Mock user points
+  const [userPoints, setUserPoints] = useState(1000);
+  const rateToastIdRef = useRef<string | number | null>(null);
   
   // 챌린지 상세 정보 상태
   const [challenge, setChallenge] = useState<any>(initialChallenge);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const [detailError, setDetailError] = useState<string | null>(null);
   
-  const { competitionId } = useParams<{ competitionId: string }>();
+  // const { competitionId } = useParams<{ competitionId: string }>();
+
+  const competitionId = useAuthStore((state) => state.competitionId);
 
   useEffect(() => {
     if (timeLeft > 0) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      const timer = setTimeout(() => {
+        setTimeLeft((prev) => prev - 1);
+      }, 1000);
+
+      // 진행 중인 토스트가 있으면 내용 업데이트
+      if (rateToastIdRef.current) {
+        toast.update(rateToastIdRef.current, {
+          render: `Too fast! Wait ${timeLeft}s`,
+        });
+      }
+
       return () => clearTimeout(timer);
+    } else {
+      // 카운트다운 종료 시 토스트 닫기
+      if (rateToastIdRef.current) {
+        toast.dismiss(rateToastIdRef.current);
+        rateToastIdRef.current = null;
+      }
     }
   }, [timeLeft]);
 
@@ -149,7 +170,18 @@ export function useChallengeModal(initialChallenge: any, onClose: () => void) {
     if (now - lastSubmitTime < 5000) {
       const remaining = Math.ceil((5000 - (now - lastSubmitTime)) / 1000);
       setTimeLeft(remaining);
-      showToast(`Too fast! Wait ${remaining} more seconds`, 'error');
+      if (!rateToastIdRef.current) {
+        rateToastIdRef.current = toast.error(`Too fast! Wait ${remaining}s`, {
+          autoClose: false,
+          style: {
+            backgroundColor: '#570000',
+          },
+        });
+      } else {
+        toast.update(rateToastIdRef.current, {
+          render: `Too fast! Wait ${remaining}s`,
+        });
+      }
       return;
     }
 
@@ -191,6 +223,18 @@ export function useChallengeModal(initialChallenge: any, onClose: () => void) {
         // Handle rate limiting
         if (response.resultCode === 429) {
           setTimeLeft(10); // 10초 대기
+          if (!rateToastIdRef.current) {
+            rateToastIdRef.current = toast.error('Too many requests. Wait 10s', {
+              autoClose: false,
+              style: {
+                backgroundColor: '#570000', // showToast와 동일한 색상
+              },
+            });
+          } else {
+            toast.update(rateToastIdRef.current, {
+              render: 'Too many requests. Wait 10s',
+            });
+          }
         }
       }
     } catch (err) {

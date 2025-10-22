@@ -4,14 +4,18 @@ import {
   TeamEntry 
 } from '@/leaderboard/utils';
 import { type ControlsSectionRef } from '@/leaderboard/layout/ControlsSection/index.hooks';
-import { useParams } from 'react-router-dom';
+import { useAuthStore } from '@/+shared';
+import { fetcher } from '@/+shared/libs';
 
 export const useLeaderboardPage = () => {
   const [autoRefresh, setAutoRefresh] = useState(true);
-  const [leaderboardData, setLeaderboardData] = useState<TeamEntry[]>([]);
+  const [leaderboardData, setLeaderboardData] = useState<any[]>([]);
+  const [myTeam, setMyTeam] = useState<any>(null);
+  const [myRank, setMyRank] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { competitionId } = useParams();
+
+  const competitionId = useAuthStore(state => state.competitionId);
   
   // ControlsSection의 ref
   const controlsSectionRef = useRef<ControlsSectionRef>(null);
@@ -21,9 +25,27 @@ export const useLeaderboardPage = () => {
     try {
       setLoading(true);
       setError(null);
-      const apiResponse = await fetchLeaderboardData(competitionId || '');
       
+      // 리더보드 데이터 가져오기
+      const apiResponse = await fetchLeaderboardData(competitionId || '');
       setLeaderboardData(apiResponse.data.data);
+      
+      // 내 팀 정보 가져오기
+      const fetchMyTeam = await fetcher({
+        url: `/participant/teams/${competitionId}/my-team`,
+        method: 'get',
+        query: { competitionId: competitionId }
+      });
+      setMyTeam(fetchMyTeam.result.data);
+
+      // 내 순위 정보 가져오기
+      const fetchMyRank = await fetcher({
+        url: `/leaderboard/${competitionId}/my-rank`,
+        method: 'get',
+        query: { competitionId: competitionId }
+      });
+      setMyRank(fetchMyRank.result.data);
+      
       // ControlsSection에 마지막 업데이트 시간 전달
       const now = new Date();
       controlsSectionRef.current?.updateLastUpdated(now);
@@ -59,6 +81,8 @@ export const useLeaderboardPage = () => {
     autoRefresh,
     setAutoRefresh,
     leaderboardData,
+    myTeam,
+    myRank,
     loading,
     error,
     handleRefresh,

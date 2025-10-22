@@ -1,6 +1,7 @@
 import { IcoChatQuoteFilled } from '@/+shared/assets';
 import { MaxWidthContainer } from '@/+shared/components';
-import { dashboardMocks } from '@/dashboard/data/mockData';
+import { getInitials } from '@/+shared/utils';
+// import { dashboardMocks } from '@/dashboard/data/mockData';
 
 export function ProfileHeader({ title, coloredTitle, description }: { title: string, coloredTitle: string, description: string }) {
   
@@ -15,7 +16,7 @@ export function ProfileHeader({ title, coloredTitle, description }: { title: str
         <div className="flex items-start gap-6">
           {/* Avatar */}
           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-indigo-600 to-indigo-900 border border-indigo-500 flex items-center justify-center flex-shrink-0">
-            <span className="text-2xl font-bold text-indigo-50">CY</span>
+            <span className="text-2xl font-bold text-indigo-50">{getInitials(coloredTitle)}</span>
           </div>
           
           {/* Profile Details */}
@@ -43,7 +44,7 @@ export function ProfileHeader({ title, coloredTitle, description }: { title: str
         </div>
         
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {dashboardMocks.map((stat) => (
             <div key={stat.id} className="bg-neutral-900 rounded-radius-lg px-4 py-6 flex flex-col items-center justify-center">
               <div className="typo-heading-large text-primary mb-2">
@@ -54,7 +55,7 @@ export function ProfileHeader({ title, coloredTitle, description }: { title: str
               </div>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </MaxWidthContainer>
   );

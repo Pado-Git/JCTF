@@ -46,7 +46,7 @@ export const ControlsSection = forwardRef<ControlsSectionRef, ControlsSectionPro
             disabled={loading}
           >
             <IcoReset className='w-4 h-4' />
-            {loading ? '새로고침 중...' : '새로고침'}
+            {loading ? 'Refreshing...' : 'Refresh'}
           </Button>
         </div>
       </div>

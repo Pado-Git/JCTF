@@ -45,12 +45,12 @@ export const validateFlag = (inputFlag: string, challengeName: string) => {
 
 export const calculateScore = (challenges: any[]) => {
   return challenges
-    .filter(c => c.solved)
-    .reduce((sum, c) => sum + c.score, 0);
+    .filter(c => c.isSolved || c.solved)
+    .reduce((sum, c) => sum + (c.points || c.score || 0), 0);
 };
 
 export const getSolvedCount = (challenges: any[]) => {
-  return challenges.filter(c => c.solved).length;
+  return challenges.filter(c => c.isSolved || c.solved).length;
 };
 
 export const getProgressPercentage = (solvedCount: number, totalCount: number) => {

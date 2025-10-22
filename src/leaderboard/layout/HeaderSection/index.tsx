@@ -1,11 +1,12 @@
 import { AnimatedBackgroundHeader, Divider } from '@/+shared/components';
-import { useHeaderSection } from './index.hooks';
 import { formatLastSolvedTime } from '@/leaderboard/utils';
 
-export interface HeaderSectionProps {}
+interface HeaderSectionProps {
+  myTeam?: any;
+  myRank?: any;
+}
 
-export function HeaderSection({}: HeaderSectionProps) {
-  const { myTeam, myRank } = useHeaderSection();
+export function HeaderSection({ myTeam, myRank }: HeaderSectionProps) {
 
   return (
     <AnimatedBackgroundHeader 
@@ -14,10 +15,15 @@ export function HeaderSection({}: HeaderSectionProps) {
       description="Live rankings updated every 30 seconds."
     >
       <>
-        <span className='typo-heading-xsmall text-primary-200'>Your Team</span>
+        <div className='flex items-center gap-4 mb-3'>
+          <span className='typo-heading-xsmall text-primary-200'>Your Team</span>
+          {myTeam?.group?.name && (
+            <span className='bg-primary-400 text-primary-900 typo-body-xsmall-bold items-center justify-center rounded-radius-sm px-2 py-1'>{myTeam?.group?.name}</span>
+          )}
+        </div>
         <div className='flex items-center justify-between'>
           <div className='flex gap-4 items-center'>
-            <span className='bg-primary rounded-radius-sm typo-heading-medium text-primary-100 w-10 h-10 flex items-center justify-center'>
+            <span className='bg-primary rounded-radius-sm typo-heading-medium text-primary-100 min-w-10 w-fit px-2 h-10 flex items-center justify-center'>
               {myRank?.rank || '?'}
             </span>
             <div>

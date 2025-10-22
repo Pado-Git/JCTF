@@ -11,7 +11,7 @@ export default defineConfig({
     tailwindcss(),
     svgr()
   ],
-  base: import.meta.env.VITE_BASE_URL || '/',
+  base: '/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -33,7 +33,7 @@ export default defineConfig({
       port: 8081,
       protocol: 'ws'
     },
-    allowedHosts: ['*.ngrok-free.app', '*.ngrok.io', 'localhost', '127.0.0.1']
+    allowedHosts: ['all', '*.ngrok-free.app', "unhydrated-sarah-heatlike.ngrok-free.dev", "acdc-ctf.ngrok.io", "acdc-demo.vercel.app"], // 모든 호스트 허용
   },
   preview: {
     host: '127.0.0.1',   // 미리보기도 같은 정책

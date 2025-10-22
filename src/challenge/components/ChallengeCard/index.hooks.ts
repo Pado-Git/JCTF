@@ -9,7 +9,7 @@ interface ChallengeCardProps {
 
 export function useChallengeCard({ challenge, onClick, isLocked = false, lockProgress }: ChallengeCardProps) {
   const getCardStatus = () => {
-    if (challenge.solved) return 'solved';
+    if (challenge.isSolved) return 'solved';
     if (isLocked) return 'locked';
     return 'unlocked';
   };

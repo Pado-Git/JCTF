@@ -8,6 +8,7 @@ export const LINK_KEYS = [
   'competitions',
   'teams',
   'leaderboard',
+  'notices',
 ] as const;
 
 export type LinkKey = (typeof LINK_KEYS)[number];
@@ -28,11 +29,15 @@ export const LINKS: Record<LinkKey, string> = (() => {
 
     // [USER - 로그인 후 메인 페이지들]
     profile: `/profile`,
-    challenges: `/competition/:competitionId`,
+    // challenges: `/competition/:competitionId`,
+    challenges: `/challenges`,
     dashboard: `/dashboard`,
     competitions: `/competitions`,
-    teams: `/teams/:competitionId`,
-    leaderboard: `/leaderboard/:competitionId`,
+    // teams: `/teams/:competitionId`,
+    teams: `/teams`,
+    // leaderboard: `/leaderboard/:competitionId`,
+    leaderboard: `/leaderboard`,
+    notices: `/notices`,
   };
   
   if (import.meta.env.MODE === 'development') {

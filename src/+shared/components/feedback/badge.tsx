@@ -69,6 +69,12 @@ const BADGE_STYLES = {
   primary: { 
     backgroundColor: 'var(--color-primary)', 
     color: 'var(--color-neutral-0)' 
+  },
+
+  // Etc
+  blue: {
+    backgroundColor: '#1E3A8A',
+    color: '#93C5FD'
   }
 } as const;
 

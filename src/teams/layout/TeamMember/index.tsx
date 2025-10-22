@@ -1,10 +1,9 @@
 import { TitleWIcon } from '@/+shared/components';
 import { useTeamMember } from './index.hooks';
-import { type Team } from '@/teams/data';
 import { TeamMemberBox } from '@/teams/components';
 
 interface TeamMemberProps {
-  team: Team;
+  team: any;
 }
 
 export function TeamMember({ team }: TeamMemberProps) {
@@ -15,7 +14,7 @@ export function TeamMember({ team }: TeamMemberProps) {
       <TitleWIcon title="Team Members" description="Current team roster and member statistics" />
       
       <div className="flex flex-col gap-4">
-        {team.members.map((member) => (
+        {team.members.map((member: any) => (
           <TeamMemberBox
             key={member.id}
             member={member}

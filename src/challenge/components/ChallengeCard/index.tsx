@@ -9,9 +9,10 @@ interface ChallengeCardProps {
   onClick: () => void;
   isLocked?: boolean;
   lockProgress?: string; // e.g., "2/3"
+  allCategories?: string[]; // 카테고리 목록
 }
 
-export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgress }: ChallengeCardProps) {
+export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgress, allCategories = [] }: ChallengeCardProps) {
   const { status, getCardStyles, getButtonContent } = useChallengeCard({
     challenge,
     onClick,
@@ -30,12 +31,12 @@ export function ChallengeCard({ challenge, onClick, isLocked = false, lockProgre
       <div className="flex items-center justify-between">
         <div className="w-10 h-10 rounded-radius-sm flex items-center justify-center bg-primary locked:bg-neutral-700">
           {(() => {
-            const IconComponent = getCategoryIcon(challenge.category.name);
+            const IconComponent = getCategoryIcon(challenge.category.name, allCategories);
             return <IconComponent className="size-6 text-neutral-0 locked:text-neutral-600" />;
           })()}
         </div>
         <div className="typo-body-large-bold text-primary locked:text-neutral-600">
-          +{challenge.baseScore}
+          +{challenge.currentScore}
           <span className="typo-body-small text-primary-400 locked:text-neutral-600"> pts</span>
         </div>
       </div>

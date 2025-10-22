@@ -514,6 +514,47 @@ html {
   color: var(--color-neutral-600);
 }
 
-.hover\:bg-image-none:hover {
-  background-image: none !important;
-}
+  .hover\:bg-image-none:hover {
+    background-image: none !important;
+  }
+
+  /* Toast 메시지 길이 처리 */
+  .Toastify__toast {
+    max-width: 400px !important;
+    word-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    overflow-wrap: break-word !important;
+  }
+
+  .Toastify__toast-body {
+    word-wrap: break-word !important;
+    white-space: pre-wrap !important;
+    overflow-wrap: break-word !important;
+    line-height: 1.4 !important;
+  }
+
+  /* 모바일에서 토스트 크기 조정 */
+  @media (max-width: 480px) {
+    .Toastify__toast {
+      max-width: calc(100vw - 32px) !important;
+      margin: 0 16px !important;
+    }
+  }
+
+  /* 긴 텍스트 줄바꿈 처리 */
+  .break-words {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+    word-break: break-word !important;
+  }
+
+  .overflow-wrap-anywhere {
+    overflow-wrap: anywhere !important;
+  }
+
+  /* 공지사항 제목 ellipsis 처리 */
+  .notice-title {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }

@@ -7,9 +7,10 @@ interface ChallengeModalProps {
   challenge: any;
   isOpen: boolean;
   onClose: () => void;
+  allCategories?: string[]; // 카테고리 목록
 }
 
-export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }: ChallengeModalProps) {
+export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose, allCategories = [] }: ChallengeModalProps) {
   const {
     flag,
     setFlag,
@@ -77,7 +78,7 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
               <div className="flex gap-4">
             <div className='w-10 h-10 rounded-radius-sm flex items-center justify-center bg-primary'>
               {(() => {
-                const IconComponent = getCategoryIcon(challenge.category.name);
+                const IconComponent = getCategoryIcon(challenge.category.name, allCategories);
                 return <IconComponent className="size-6 text-neutral-0" />;
               })()}
             </div>
@@ -102,7 +103,7 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
                   )} */}
                 </div>
                 <div className="text-primary typo-body-large-bold">
-                  +{challenge.baseScore}
+                  +{challenge.currentScore}
                   <span className='typo-body-small text-neutral-400'> pts</span>
                 </div>
               </div>
@@ -168,7 +169,7 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
                       onClick={() => handleFileDownload(challenge.fileUrl)}
                     >
                       <IcoDownloadLined className='size-4' />
-                      <span className='truncate'>{challenge.fileUrl}</span>
+                      <span className='truncate'>DOWNLOAD</span>
                     </Button>
                   )}
                 </div>
@@ -181,12 +182,13 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
                 <IcoServerFilled className='size-4 text-primary' />
                 <span className='typo-body-xsmall-bold'>Server</span>
               </div>
-              <div 
-                className="bg-neutral-600 p-4 rounded-radius-sm typo-body-small text-primary-300 cursor-pointer hover:bg-neutral-500 transition-colors"
+              <Button
+                size='small'
+                className="text-left justify-start bg-neutral-600 p-4 rounded-radius-sm typo-body-small text-primary-300 cursor-pointer hover:bg-neutral-500 transition-colors"
                 onClick={() => window.open(challenge.serverUrl, '_blank', 'noopener,noreferrer')}
               >
                 {challenge.serverUrl}
-              </div>
+              </Button>
             </div>
             )}
 
@@ -239,44 +241,43 @@ export function ChallengeModal({ challenge: initialChallenge, isOpen, onClose }:
               <div className="h-14 gradient-3-deg border border-gradient-2 p-4 rounded-radius-sm flex items-center gap-2">
                 <IcoCheckboxCircleLined className='text-primary size-6' />
                 <h4 className="typo-body-medium-bold text-primary">Challenge Solved!</h4>
-                <p className="typo-body-xsmall text-neutral-100">Solved in 15m</p>
+                {/* <p className="typo-body-xsmall text-neutral-100">Solved in 15m</p> */}
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="flex gap-4 items-end">
-                <div className='flex flex-col gap-2 w-full'>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4 items-end">
+                <div className='flex gap-2 w-full'>
                   <Input
                     id="flag"
                     type="text"
-                    placeholder="JCTF {...}"
+                    placeholder="ACDC{...}"
                     value={flag}
                     onChange={(e) => setFlag(e.target.value)}
                     disabled={timeLeft > 0 || isSubmitting}
                   />
-                  {timeLeft > 0 && (
-                    <p className="text-sm text-red-400 mt-1">
-                      Rate limited: {timeLeft}s remaining
-                    </p>
-                  )}
+                  <Button
+                    type="submit"
+                    disabled={!flag.trim() || timeLeft > 0 || isSubmitting}
+                    variant="primary"
+                    size='medium'
+                  >
+                    {isSubmitting ? (
+                      <div className="flex items-center">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Submitting...
+                      </div>
+                    ) : (
+                      <>
+                        Submit Flag
+                        <IcoSubmitFilled className='size-6' />
+                      </>
+                    )}
+                  </Button>
                 </div>
-                
-                <Button
-                  type="submit"
-                  disabled={!flag.trim() || timeLeft > 0 || isSubmitting}
-                  variant="primary"
-                  size='medium'
-                >
-                  {isSubmitting ? (
-                    <div className="flex items-center">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                      Submitting...
-                    </div>
-                  ) : (
-                    <>
-                      Submit Flag
-                      <IcoSubmitFilled className='size-6' />
-                    </>
-                  )}
-                </Button>
+                {timeLeft > 0 && (
+                  <p className="text-sm text-error mt-1 self-start">
+                    Rate limited: {timeLeft}s remaining
+                  </p>
+                )}
               </form>
             )}
           </div>

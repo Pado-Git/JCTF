@@ -2,7 +2,7 @@ import { MaxWidthContainer, Button } from '@/+shared/components';
 import { useAuthStore } from '@/+shared/stores/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import {Galaxy} from '@/home/components';
-import { IcoTrophyFilled } from '@/+shared/assets';
+import { AcdcLogo, IcoLoginLined, IcoTrophyFilled } from '@/+shared/assets';
 import { LINKS } from '@/+shared/constants';
 
 export function HeroSection() {
@@ -29,7 +29,7 @@ export function HeroSection() {
       />
     </div>
     <MaxWidthContainer className="relative z-20 text-center">
-      <div className="mb-8">
+      {/* <div className="mb-8">
         <h2 className="text-[80px] font-bold mb-4" style={{
           background: 'linear-gradient(180deg, #6366F1 2%, #1E1B4B 100%)',
           WebkitBackgroundClip: 'text',
@@ -38,16 +38,29 @@ export function HeroSection() {
           textShadow: '0px 0px 24px rgba(30, 27, 75, 1)',
           lineHeight: '1.3em'
         }}>
-          Capture The Flag!
+          이거 주석 Capture The Flag!
+          2025 ACDC
         </h2>
         <p className="text-[24px] font-bold text-primary-50 mb-8 max-w-2xl mx-auto" style={{
           lineHeight: '1.5em'
         }}>
-          Test Your Hacking Skills<br />in the Ultimate Cybersecurity Challenge
+          이거 주석 Test Your Hacking Skills<br />in the Ultimate Cybersecurity Challenge
+          AI Cyber Defense Contest
         </p>
-      </div>
+      </div> */}
+
+      <AcdcLogo className='w-full max-w-3xl mx-auto mb-16'/>
+
+      <Button 
+        variant="secondary" 
+        onClick={() => navigate(LINKS.login)}
+        className='w-full max-w-xl mx-auto'
+      >
+        <IcoLoginLined />
+        Login
+      </Button>
       
-      <div className="flex flex-col md:flex-row gap-6 justify-center items-center mb-12">
+      {/* <div className="flex flex-col md:flex-row gap-6 justify-center items-center mb-12">
         <Button 
           size="medium" 
           onClick={() => navigate(isAuthenticated ? LINKS.dashboard : LINKS.login)}
@@ -59,7 +72,7 @@ export function HeroSection() {
           <IcoTrophyFilled />
           {user ? 'My Competitions' : 'Join Competition'}
         </Button>
-      </div>
+      </div> */}
     </MaxWidthContainer>
     </section>
   )

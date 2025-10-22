@@ -1,12 +1,12 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   calculateScore,
   getSolvedCount,
   getProgressPercentage
 } from '@/challenge/utils';
 import { fetcher } from '@/+shared/libs';
-import { useUserStore } from '@/+shared/stores';
+import { useAuthStore, useUserStore } from '@/+shared/stores';
 import { LINKS } from '@/+shared/constants';
 
 export function useChallenges() {
@@ -17,12 +17,17 @@ export function useChallenges() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [challengesList, setChallengesList] = useState<any[]>([]);
-  const { competitionId } = useParams<{ competitionId: string }>();
+  const competitionId = useAuthStore(state => state.competitionId);
   const [competitionName, setCompetitionName] = useState('');
+  const [myTeam, setMyTeam] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchChallenges = async () => {
-      if (!competitionId) return;
+      if (!competitionId) {
+        setChallengesList([]);
+        setIsLoading(false);
+        return;
+      }
       
       try {
         setIsLoading(true);
@@ -32,14 +37,12 @@ export function useChallenges() {
           url: `/participant/competitions/${competitionId}/challenges`,
           method: 'get',
           query: {
-            categoryId: ''
+            competitionId: competitionId
           }
         });
 
         if (response.resultCode === 200 && response.result?.success) {
           setChallengesList(response.result.data || []);
-          // api 수정 후 확인 필요
-          setCompetitionName(response.result.data.name);
         } else {
           setError('Failed to fetch challenges');
         }
@@ -54,6 +57,41 @@ export function useChallenges() {
     fetchChallenges();
   }, [competitionId]);
 
+  useEffect(() => {
+    const fetchMyTeam = async () => {
+      if (!competitionId) {
+        setMyTeam([]);
+        return;
+      }
+      
+      try {
+        setIsLoading(true);
+        setError(null);
+
+        const response = await fetcher<any>({
+          url: `/participant/teams/${competitionId}/my-team`,
+          method: 'get',
+          query: {
+            competitionId: competitionId
+          }
+        });
+
+        if (response.resultCode === 200 && response.result?.success) {
+          setMyTeam(response.result.data);
+        } else {
+          setError('Failed to fetch my team');
+        }
+      } catch (err) {
+        setError('Failed to fetch my team');
+        console.error('API Error:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchMyTeam();
+  }, [competitionId]);
+
   const filteredChallenges = useMemo(() => {
     return challengesList
       .filter(challenge => {
@@ -64,12 +102,17 @@ export function useChallenges() {
                              challenge.tags.some((tag: string) => tag.toLowerCase().includes(searchQuery.toLowerCase()));
         return matchesCategory && matchesSearch;
       })
-      .sort((a, b) => a.name.localeCompare(b.name)); // ABC 순서로 정렬
+      .sort((a, b) => {
+        if (a.order !== b.order) {
+          return a.order - b.order;
+        }
+        return a.name.localeCompare(b.name);
+      });
   }, [challengesList, selectedCategory, searchQuery]);
 
   const solvedCount = getSolvedCount(filteredChallenges);
   const totalPoints = calculateScore(filteredChallenges);
-  const progressPercentage = getProgressPercentage(solvedCount, challengesList.length);
+  const progressPercentage = getProgressPercentage(solvedCount, filteredChallenges.length);
 
   const categories = useMemo(() => {
     const uniqueCategories = challengesList.map(challenge => challenge.category.name)
@@ -78,7 +121,8 @@ export function useChallenges() {
   }, [challengesList]);
 
   const handleLeaderboardClick = () => {
-    navigate(LINKS.leaderboard.replace(':competitionId', competitionId || ''));
+    // navigate(LINKS.leaderboard.replace(':competitionId', competitionId || ''));
+    navigate(LINKS.leaderboard);
   };
 
   const handleChallengeClick = (challenge: any) => {
@@ -102,6 +146,7 @@ export function useChallenges() {
     
     // Data
     competitionName,
+    myTeam,
     filteredChallenges,
     categories,
     

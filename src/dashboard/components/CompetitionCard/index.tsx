@@ -131,7 +131,8 @@ export function CompetitionCard({ competition: comp }: CompetitionCardProps) {
                 <Button
                   variant="primary"
                   size="small"
-                  onClick={() => navigate(LINKS.challenges.replace(':competitionId', comp.id))}
+                  // onClick={() => navigate(LINKS.challenges.replace(':competitionId', comp.id))}
+                  onClick={() => navigate(LINKS.challenges)}
                 >
                   <IcoTrophyLined />
                   Continue
@@ -142,7 +143,8 @@ export function CompetitionCard({ competition: comp }: CompetitionCardProps) {
                 <Button
                   variant="secondary"
                   size="small"
-                  onClick={() => navigate(LINKS.leaderboard.replace(':competitionId', comp.id))}
+                  // onClick={() => navigate(LINKS.leaderboard.replace(':competitionId', comp.id))}
+                  onClick={() => navigate(LINKS.leaderboard)}
                 >
                   <IcoChart />
                   {status === 'ended' ? 'View Results' : 'Leaderboard'}

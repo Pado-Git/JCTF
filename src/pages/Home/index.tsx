@@ -4,9 +4,9 @@ export function HomePage() {
   return (
     <>
       <HeroSection />
-      <CurrentCompetitions />
+      {/* <CurrentCompetitions />
       <Statics />
-      <HowItWorks />
+      <HowItWorks /> */}
     </>
   );
 }

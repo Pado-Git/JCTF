@@ -44,7 +44,7 @@ export interface TeamEntry {
 // API 데이터를 가져오는 함수
 export const fetchLeaderboardData = async (competitionId: string): Promise<ApiLeaderboardResponse> => {
   const response = await fetcher<ApiLeaderboardResponse>({
-    url: `/leaderboard/${competitionId}`,
+    url: `/leaderboard/${competitionId}/my-group`,
     method: 'get',
     query: {
       competitionId: competitionId

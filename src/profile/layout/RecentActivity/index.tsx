@@ -2,15 +2,25 @@ import { IcoTimerLined1 } from '@/+shared/assets';
 import { Card, TitleWIcon } from '@/+shared/components';
 import { ActivityCard } from '@/profile/components';
 
-// ActivityCard와 동일한 인터페이스 사용
 interface Activity {
   id: string;
-  type: 'solve' | 'join' | 'rank_up';
-  challengeName?: string;
-  competitionName: string;
-  timestamp: string;
-  points?: number;
-  isFirstBlood?: boolean;
+  challenge: {
+    name: string;
+    competitionId: string;
+    isOpen: boolean;
+    category: {
+      name: string;
+    };
+    challengeId: string;
+  };
+  competition: {
+    name: string;
+    competitionId: string;
+  };
+  competitionId: string;
+  isCorrect: boolean;
+  score: number;
+  submittedAt: string;
 }
 
 interface RecentActivityProps {
@@ -18,7 +28,6 @@ interface RecentActivityProps {
 }
 
 export function RecentActivity({ activities }: RecentActivityProps) {
-
   return (
     <div className='flex flex-col gap-10'>
       <TitleWIcon 
@@ -27,14 +36,28 @@ export function RecentActivity({ activities }: RecentActivityProps) {
         description='Your latest actions and achievements'
       />
       <Card className="border-neutral-600 bg-neutral-900">
-        <div className="grid grid-cols-1 gap-4 p-4">
-          {activities.map((activity) => (
-            <ActivityCard 
-              key={activity.id} 
-              activity={activity} 
-            />
-          ))}
-        </div>
+        {activities && activities.length > 0 ? (
+          <div className="grid grid-cols-1 gap-4 p-4">
+            {activities.map((activity) => (
+              <ActivityCard 
+                key={activity.id} 
+                activity={activity} 
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center">
+              <IcoTimerLined1 className="w-8 h-8 text-neutral-500" />
+            </div>
+            <div className="text-center">
+              <h3 className="typo-heading-small text-neutral-300 mb-2">No Recent Activity</h3>
+              <p className="typo-body-medium text-neutral-500">
+                You haven't completed any activities yet. Start solving challenges to see your activity here!
+              </p>
+            </div>
+          </div>
+        )}
       </Card>
     </div>
   );

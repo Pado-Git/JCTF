@@ -1,6 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { MaxWidthContainer, CategoryFilter } from '@/+shared/components';
+import { IcoIndividualLined } from '@/+shared/assets';
 import { toast } from 'sonner';
 import { 
   ProfileHeader, 
@@ -11,200 +10,93 @@ import {
   RecentActivity,
   TeamInvitation
 } from '@/profile/layout';
-
-// Props interface removed - using React Router now
-
-interface UserProfile {
-  email: string;
-  nickname: string;
-  firstName: string;
-  lastName: string;
-  bio: string;
-  country: string;
-  university?: string;
-  joinDate: string;
-  avatar?: string;
-  stats: {
-    totalCompetitions: number;
-    totalSolved: number;
-    totalPoints: number;
-    averageRank: number;
-    firstBloods: number;
-    bestRank: number;
-  };
-  achievements: Array<{
-    id: string;
-    title: string;
-    description: string;
-    icon: string;
-    color: string;
-    earnedDate: string;
-  }>;
-  recentActivity: Array<{
-    id: string;
-    type: 'solve' | 'join' | 'rank_up';
-    challengeName?: string;
-    competitionName: string;
-    timestamp: string;
-    points?: number;
-    isFirstBlood?: boolean;
-  }>;
-  currentTeam?: {
-    id: string;
-    name: string;
-    role: 'leader' | 'member';
-    members: number;
-  };
-}
-
-const mockProfile: UserProfile = {
-  email: 'user@example.com',
-  nickname: 'CyberNinja',
-  firstName: 'Alex',
-  lastName: 'Smith',
-  bio: 'Passionate cybersecurity enthusiast with a focus on web exploitation and reverse engineering. Love solving complex puzzles and learning new attack vectors.',
-  country: 'South Korea',
-  university: 'KAIST',
-  joinDate: '2023-03-15',
-  stats: {
-    totalCompetitions: 15,
-    totalSolved: 127,
-    totalPoints: 18650,
-    averageRank: 8.3,
-    firstBloods: 12,
-    bestRank: 2
-  },
-  achievements: [
-    {
-      id: 'ach-001',
-      title: 'First Blood Hunter',
-      description: 'Achieved 10+ first bloods',
-      icon: '🏆',
-      color: 'text-first-blood',
-      earnedDate: '2024-01-10'
-    },
-    {
-      id: 'ach-002',
-      title: 'Web Master',
-      description: 'Solved 50+ web challenges',
-      icon: '🕸️',
-      color: 'text-accent',
-      earnedDate: '2023-12-20'
-    },
-    {
-      id: 'ach-003',
-      title: 'Top Performer',
-      description: 'Finished in top 5 in a major CTF',
-      icon: '⭐',
-      color: 'text-warning',
-      earnedDate: '2023-11-15'
-    },
-    {
-      id: 'ach-004',
-      title: 'Team Player',
-      description: 'Participated in 10+ team competitions',
-      icon: '👥',
-      color: 'text-primary',
-      earnedDate: '2023-10-30'
-    }
-  ],
-  recentActivity: [
-    {
-      id: 'act-001',
-      type: 'solve',
-      challengeName: 'SQL Injection Master',
-      competitionName: 'Winter CTF 2024',
-      timestamp: "2025-09-23T09:21:14+00:00",
-      points: 450,
-      isFirstBlood: true
-    },
-    {
-      id: 'act-002',
-      type: 'rank_up',
-      competitionName: 'Winter CTF 2024',
-      timestamp: "2025-09-23T07:32:05+00:00"
-    },
-    {
-      id: 'act-003',
-      type: 'solve',
-      challengeName: 'Buffer Overflow Basics',
-      competitionName: 'Winter CTF 2024',
-      timestamp: "2025-09-23T09:21:14+00:00",
-      points: 200
-    },
-    {
-      id: 'act-004',
-      type: 'join',
-      competitionName: 'Advanced Pwning Tournament',
-      timestamp: "2025-09-23T09:21:14+00:00"
-    }
-  ],
-  currentTeam: {
-    id: 'team-001',
-    name: 'CyberNinjas',
-    role: 'leader',
-    members: 4
-  }
-};
+import { useProfilePage } from './index.hooks';
 
 export function ProfilePage() {
-  const navigate = useNavigate();
-  const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState<UserProfile>(mockProfile);
-  const [editedProfile, setEditedProfile] = useState<UserProfile>(mockProfile);
-  const [_isLoading, setIsLoading] = useState(false);
-  const [selectedTab, setSelectedTab] = useState('Overview');
+  const {
+    isEditing,
+    profile,
+    editedProfile,
+    isLoading,
+    selectedTab,
+    profileTabs,
+    myTeam,
+    user,
+    activity,
+    error,
+    setSelectedTab,
+    handleSave,
+    navigate
+  } = useProfilePage();
 
-  const handleSave = async () => {
-    setIsLoading(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setProfile(editedProfile);
-    setIsEditing(false);
-    setIsLoading(false);
-    toast.success('Profile updated successfully!');
-  };
+  // 로딩 상태
+  if (isLoading && !myTeam) {
+    return (
+      <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
+        <div className="text-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading profile...</p>
+        </div>
+      </MaxWidthContainer>
+    );
+  }
 
-  const handleCancel = () => {
-    setEditedProfile(profile);
-    setIsEditing(false);
-  };
+  // 에러 상태
+  if (error && !myTeam) {
+    return (
+      <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
+        <div className="flex flex-col items-center justify-center py-20 gap-4">
+          <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center">
+            <IcoIndividualLined className="w-8 h-8 text-neutral-500" />
+          </div>
+          <div className="text-center">
+            <h3 className="typo-heading-small text-neutral-300 mb-2">Profile Unavailable</h3>
+            <p className="typo-body-medium text-neutral-500">
+              Unable to load profile information. Please try again later.
+            </p>
+          </div>
+        </div>
+      </MaxWidthContainer>
+    );
+  }
 
-  const handleProfileChange = (field: string, value: string) => {
-    setEditedProfile({...editedProfile, [field]: value});
-  };
-
-  // CategoryFilter를 위한 데이터 - 표시할 이름을 id로 사용
-  const profileTabs = [
-    { id: 'overview', name: 'Overview' },
-    { id: 'achievements', name: 'Achievements' },
-    { id: 'activity', name: 'Activity' },
-    { id: 'edit', name: 'Edit Profile' },
-    { id: 'invitations', name: 'Team Invitations' },
-  ];
+  // 데이터가 없을 때
+  if (!isLoading && !error && !myTeam) {
+    return (
+      <MaxWidthContainer className="py-20" innerProps={{ className: "gap-8" }}>
+        <div className="flex flex-col items-center justify-center py-20 gap-4">
+          <div className="w-16 h-16 rounded-full bg-neutral-800 flex items-center justify-center">
+            <IcoIndividualLined className="w-8 h-8 text-neutral-500" />
+          </div>
+          <div className="text-center">
+            <h3 className="typo-heading-small text-neutral-300 mb-2">No Profile Data</h3>
+            <p className="typo-body-medium text-neutral-500">
+              No team information available. Please join a team to view your profile.
+            </p>
+          </div>
+        </div>
+      </MaxWidthContainer>
+    );
+  }
 
   const renderContent = () => {
     switch (selectedTab) {
       case 'Overview':
-        return <Overview profile={profile} onNavigate={navigate} />;
+        return <Overview myTeam={myTeam} isLoading={isLoading} onNavigate={navigate} />;
       case 'Edit Profile':
         return (
           <div className="flex flex-col gap-20">
             <EditProfile 
               profile={isEditing ? editedProfile : profile} 
-              isEditing={isEditing}
-              onProfileChange={handleProfileChange}
               onSave={handleSave}
             />
-            <AccountSettings onNavigate={navigate} />
+            <AccountSettings />
           </div>
         );
       case 'Achievements':
         return <Achievements achievements={profile.achievements} />;
       case 'Activity':
-        return <RecentActivity activities={profile.recentActivity} />;
+        return <RecentActivity activities={activity} />;
       case 'Team Invitations':
         return (
           <TeamInvitation 
@@ -219,19 +111,19 @@ export function ProfilePage() {
           />
         );
       default:
-        return <Overview profile={profile} onNavigate={navigate} />;
+        return <Overview myTeam={myTeam} isLoading={isLoading} onNavigate={navigate} />;
     }
   };
 
   return (
     <>
       <ProfileHeader
-        title={profile.nickname}
-        coloredTitle={profile.nickname}
-        description={profile.bio}
+        title={myTeam?.name}
+        coloredTitle={user?.data?.nickname}
+        description={myTeam?.description}
       />
 
-      <MaxWidthContainer innerProps={{ className: 'gap-16 mt-14' }}>
+      <MaxWidthContainer innerProps={{ className: 'flex flex-col gap-16 my-14' }}>
         {/* CategoryFilter for tabs */}
         <CategoryFilter
           categories={profileTabs.map((tab) => tab.name)}

@@ -182,7 +182,8 @@ export function CompetitionCard({ competition }: CompetitionCardProps) {
                   className="flex-[2]"
                   onClick={(e) => {
                     e.stopPropagation();
-                    navigate?.(LINKS.challenges.replace(':competitionId', competition.id));
+                    // navigate?.(LINKS.challenges.replace(':competitionId', competition.id));
+                    navigate?.(LINKS.challenges);
                   }}
                 >
                   <IcoTrophyLined />

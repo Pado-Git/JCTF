@@ -1,15 +1,18 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuthStore } from '@/+shared/stores/useAuthStore';
+import { useUserStore } from '@/+shared/stores/useUserStore';
 
 export const useHeaderLogic = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout, isAuthenticated } = useAuthStore();
+  const { clearUser } = useUserStore();
 
   const currentPath = location.pathname;
 
   const handleLogout = () => {
     logout();
+    clearUser();
     navigate('/');
   };
 
